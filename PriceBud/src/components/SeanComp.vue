@@ -1,0 +1,1 @@
+<h1>Sean component</h1>
