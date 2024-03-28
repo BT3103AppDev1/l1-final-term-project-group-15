@@ -1,9 +1,9 @@
 <template>
     <div class="product-card">
         <!-- Your template code here -->
-        <h3 class="poppins-regular">{{ product.name }}</h3>
-        <img class="product-image" :src="product.image" alt="product image">
-        <h1 class="poppins-semibold">{{ product.price }}</h1>
+        <h3 class="poppins-regular">{{ props.product.name }}</h3>
+        <img class="product-image" :src="props.product.image" alt="product image">
+        <h1 class="poppins-semibold">{{ props.product.price }}</h1>
         <div class="pricechange-container">
             <svg-icon 
                 class="icon"
@@ -12,7 +12,7 @@
                 color="green">
             </svg-icon> 
             <p class="poppins-regular">
-                <span class="font-green">${{  product.pricechange }}</span> 
+                <span class="font-green">${{  props.product.pricechange }}</span> 
                 since wishlisting
             </p>
 
@@ -30,18 +30,11 @@ import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiArrowDown } from '@mdi/js'
 
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
-
-    // placeholder product info
-    default: () => ({
-      name: 'Apple iPhone 14',
-      image: `https://imagedelivery.net/JAV112JY973Crznn4xb8Sg/41816e80-a4b4-47bb-de71-cc19edbfb400/mobile`,
-      price: '$799',
-      pricechange: 50.0
-    }),
-  },
+    required: true
+  }
 })
 // Other options here
 </script>
