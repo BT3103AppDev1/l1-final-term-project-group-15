@@ -1,9 +1,20 @@
-<script setup>
-import ProductDashboard from './components/ProductDashboard.vue'
+<script>
+import SearchResults from '@/components/SearchResults.vue';
+import TestFlex from '@/components/TestFlex.vue';
+
+export default {
+  components: {
+    SearchResults,
+    TestFlex
+  }
+};
 </script>
 
 <template>
-
-  <ProductDashboard/>
-
+<SearchResults />
+<TestFlex />
 </template>
+
+<script>
+
+</script>
