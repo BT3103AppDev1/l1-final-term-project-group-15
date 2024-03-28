@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="search">
       <v-autocomplete
         rounded
         auto-select-first
@@ -19,4 +19,7 @@
 </script>
 
 <style>
+  .search {
+    background-color: blanchedalmond;
+  }
 </style>

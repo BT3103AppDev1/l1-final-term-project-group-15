@@ -1,6 +1,8 @@
 <template>
-  <SearchBar />
-  <SearchResults />
+  <v-app>
+    <SearchBar />
+    <SearchResults />
+  </v-app>
 </template>
 
 <script>

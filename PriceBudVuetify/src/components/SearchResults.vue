@@ -11,8 +11,20 @@
     </v-container>
 
     <v-container class = "filters">
-      <v-expansion-panels>
+      <v-expansion-panels class = "con-panel-con">
         <div class="panel-container">
+          <h3 style="text-align: center;">Filters</h3>
+
+          <v-expansion-panel class="panel">
+            <v-expansion-panel-title> Brands </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-chip-group column multiple>
+                <v-chip variant="outlined" filter v-for="brand in brands" :key="brand">{{ brand }}</v-chip>
+              </v-chip-group>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+
+          <!-- Original Brands Panel
           <v-expansion-panel class="panel">
             <v-expansion-panel-title> Brands </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -26,7 +38,18 @@
               </v-chip-group>
             </v-expansion-panel-text>
           </v-expansion-panel>
+          -->
 
+          <v-expansion-panel class="panel">
+            <v-expansion-panel-title> Categories </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-chip-group column multiple>
+                <v-chip variant="outlined" filter v-for="category in categories" :key="category"> {{category}} </v-chip>
+              </v-chip-group>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+
+          <!--
           <v-expansion-panel class="panel">
             <v-expansion-panel-title> Categories </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -39,7 +62,18 @@
               </v-chip-group>
             </v-expansion-panel-text>
           </v-expansion-panel>
+          -->
 
+          <v-expansion-panel class="panel">
+            <v-expansion-panel-title> Price Range </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-chip-group column multiple>
+                <v-chip variant="outlined" filter v-for="range in ranges" :key="range"> {{range}} </v-chip>
+              </v-chip-group>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+
+          <!--
           <v-expansion-panel class="panel">
             <v-expansion-panel-title> Price Range </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -52,6 +86,7 @@
               </v-chip-group>
             </v-expansion-panel-text>
           </v-expansion-panel>
+          -->
 
         </div>
       </v-expansion-panels>
@@ -77,7 +112,35 @@
             brand: "Brand B",
             details: "Details of Product 2",
             image: "path/to/product2-image.jpg"
+          },
+          {
+            name: "Product 3",
+            brand: "Brand C",
+            details: "Details of Product 3",
+            image: "path/to/product-image.jpg"
           }
+        ],
+        brands: [
+          "Apple",
+          "Samsung",
+          "Sony",
+          "Dell",
+          "Asus",
+          "Lenovo"
+        ],
+        categories: [
+          "Headphones",
+          "Mobile Phones",
+          "Laptops",
+          "Desktops",
+          "Speakers"
+        ],
+        ranges: [
+          "$0 - $500",
+          "$500 - $1000",
+          "$1000 - $2000",
+          "$2000 - $3000",
+          ">$3000"
         ]
       }
     }
@@ -91,14 +154,15 @@
   }
   .filters {
     flex: 30;
-    display: flex;
-    flex-wrap: wrap;
 
     /*Just for visualisation*/
-    background-color: red;
+    background-color: beige;
+  }
+  .panel-container {
+    width: 100%;
   }
   .panel {
-    width: 300px;
+    margin: 5px;
   }
   .results {
     flex: 70;
