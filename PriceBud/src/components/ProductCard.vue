@@ -3,15 +3,22 @@
         <!-- Your template code here -->
         <h3 class="poppins-regular">{{ product.name }}</h3>
         <img class="product-image" :src="product.image" alt="product image">
-        <div class="price-container">
+        <h1 class="poppins-semibold">{{ product.price }}</h1>
+        <div class="pricechange-container">
             <svg-icon 
                 class="icon"
                 type="mdi" 
                 :path="mdiArrowDown"
-                color="red">
+                color="green">
             </svg-icon> 
-            <h1 class="poppins-semibold">{{ product.price }}</h1>
+            <p class="poppins-regular">
+                <span class="font-green">${{  product.pricechange }}</span> 
+                since wishlisting
+            </p>
+
+
         </div>
+        
     </div>
 </template>
 
@@ -32,6 +39,7 @@ defineProps({
       name: 'Apple iPhone 14',
       image: `https://imagedelivery.net/JAV112JY973Crznn4xb8Sg/41816e80-a4b4-47bb-de71-cc19edbfb400/mobile`,
       price: '$799',
+      pricechange: 50.0
     }),
   },
 })
@@ -47,7 +55,7 @@ defineProps({
     align-items: center;
     justify-content: center;
 }
-.price-container {
+.pricechange-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,6 +65,9 @@ defineProps({
     width: 70%;
 }
 
+.font-green {
+  color: green;
+}
 
 
 </style>

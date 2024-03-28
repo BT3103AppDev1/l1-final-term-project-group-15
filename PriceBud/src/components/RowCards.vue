@@ -1,8 +1,8 @@
 <template>
     <div class="content-container">
         <v-sheet color="FFFFFF" elevation="4">
-            <h1 class="title">{{ title }}</h1>
-            <h3 class="desc">{{ description }}</h3>
+            <h1 class="title poppins-semibold">{{ title }}</h1>
+            <h3 class="desc poppins-regular">{{ description }}</h3>
             
             <!-- Product Cards -->
            <product-card />
@@ -26,19 +26,7 @@ defineProps({
 
 
 <style scoped>
-.title {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700; /* Semi-Bold */
-    font-style: normal;
-}
 
-.desc {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400; /* Regular */
-    font-style: normal;
-    color: #7C8DB5;
-
-}
 
 .v-sheet {
     padding: 2%;
