@@ -1,12 +1,20 @@
 <template>
-    <div>This is the home page</div>
-    <!-- <SideBar /> -->
-    <Header />
-    <SearchBar />
-    <RowCards v-for="product in products" :key="product.id" :products="product" 
-              title="Your Wishlist at a glance"
-              description="descripition"/>
-  
+  <router-link to="/SearchResults">Search</router-link>
+  <div class="page-container">
+
+    <div class="sidebar">
+      <SideBar />
+    </div>
+
+    <div class = "container">
+      <HeaderComponent />
+      <SearchBar />
+      <RowCards v-for="product in products" :key="product.id" :products="product" 
+                title="Your Wishlist at a glance"
+                description="descripition"/>
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -15,7 +23,7 @@ import SearchBar from '../components/SearchBar.vue'
 import RowCards from '../components/RowCards.vue'
 import ProductCard from '../components/ProductCard.vue'
 import SideBar from '../components/SideBar.vue'
-import Header from '../components/Header.vue'
+import HeaderComponent from '../components/HeaderComponent.vue'
 
 
 
@@ -25,7 +33,7 @@ export default {
     RowCards,
     ProductCard,
     // SideBar,
-    Header
+    HeaderComponent
   },
   data() {
     return {
@@ -70,6 +78,20 @@ export default {
 
 .main-content {
   flex-grow: 1;
+}
+
+.container {
+  flex: 8;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  display: flex;
+}
+
+.sidebar {
+  flex: 2;
 }
 
 </style>

@@ -1,4 +1,6 @@
 <template>
+    <v-container>
+
     <div class="content-container">
         <v-sheet color="FFFFFF" elevation="4">
             <h1 class="title poppins-semibold">{{ title }}</h1>
@@ -21,6 +23,7 @@
         </v-sheet>
     </div>
 
+    </v-container>
 </template>
 
 
@@ -43,8 +46,8 @@ defineProps({
 }
 
 .content-container {
-    width: 70vw;
-    height: 20vh;
+    /* width: 70vw; */
+    /* height: 20vh; */
 }
 
 .test {

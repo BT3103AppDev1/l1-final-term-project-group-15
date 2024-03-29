@@ -154,9 +154,6 @@
   }
   .filters {
     flex: 30;
-
-    /*Just for visualisation*/
-    background-color: beige;
   }
   .panel-container {
     width: 100%;
@@ -166,9 +163,6 @@
   }
   .results {
     flex: 70;
-
-    /*Just for visualisation*/
-    background-color: blue;
   }
   .product-card {
     margin: 10px; 

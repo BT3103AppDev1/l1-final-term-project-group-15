@@ -20,6 +20,5 @@
 
 <style>
   .search {
-    background-color: blanchedalmond;
   }
 </style>

@@ -1,4 +1,6 @@
 <template>
+    <v-container>
+
     <v-toolbar density="compact" class="custom-toolbar">
       <v-card-title>Welcome Back, {{ username }}
         <p>{{ content }}</p>
@@ -21,6 +23,8 @@
         </v-list>
       </v-menu>
     </v-toolbar>
+
+    </v-container>
   </template>
   
   <script>
@@ -43,15 +47,18 @@
   .custom-toolbar {
     font-family: 'poppins'; 
     font-weight: bold;
-}
+    background-color: white;
+  }
   .custom-toolbar p {
     font-family: 'poppins';
     font-size: 11px; 
     font-weight: bold;
+    
   }
 
   .v-card-title {
     font-weight: bold;
+    
   }
 
 
