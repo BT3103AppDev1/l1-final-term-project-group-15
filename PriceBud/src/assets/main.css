@@ -141,3 +141,7 @@ a,
   font-weight: 900;
   font-style: italic;
 }
+
+.font-green {
+  color: green;
+}
