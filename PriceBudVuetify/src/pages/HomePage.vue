@@ -32,7 +32,7 @@ export default {
     SearchBar,
     RowCards,
     ProductCard,
-    // SideBar,
+    SideBar,
     HeaderComponent
   },
   data() {
