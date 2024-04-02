@@ -1,13 +1,14 @@
 <template>
+    <!-- Header -->
     <v-container>
-
     <v-toolbar density="compact" class="custom-toolbar">
+      <!-- title and subtitle-->
       <v-card-title>Welcome Back, {{ username }}
         <p>{{ content }}</p>
       </v-card-title>
       <v-spacer></v-spacer>
+      <!-- profile name and setting buutton-->
       <v-icon icon="mdi-trophy" />
-
       <v-card-subtitle>{{ username }} {{ Surname }}</v-card-subtitle>
       <v-menu>
         <template v-slot:activator="{ props }">
