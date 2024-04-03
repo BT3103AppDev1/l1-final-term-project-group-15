@@ -24,6 +24,14 @@
             <v-list-item-title>Wishlist</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link to="/ProductPage2">
+          <v-list-item-icon>
+            <v-icon>mdi-cart</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Product</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item link to="/Profile">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
@@ -98,6 +106,6 @@ export default {
 </script>
  <style scoped>
  .bottom-sidebar-items {
-  margin-top: 150%;
+  margin-top: 50%;
  }
 </style>
