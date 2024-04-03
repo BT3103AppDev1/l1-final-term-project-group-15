@@ -4,6 +4,10 @@
       <v-row>
           <v-img src="https://m.media-amazon.com/images/I/61M7hjWPzvL._AC_UF1000,1000_QL80_.jpg" aspect-ratio="auto"></v-img>
       </v-row>
+
+      <v-row class="rating-row">
+      <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
+      </v-row>
   
       <!-- Alert Box -->
       <v-row class = "alert-row">
@@ -18,17 +22,27 @@
   <script>
   export default {
     // Component logic goes here
+    data() {
+      return {
+        rating:4.5
+      }
+    }
   };
   </script>
   
   <style scoped>
+  .rating-row {
+    display: flex;
+    justify-content: center;
+  }
   .alert-row {
     justify-content: center;
   }
   .alert-box {
-    margin-top: 5%;
+
     border: 1px solid #ccc;
     padding: 20px;
+    margin-bottom: 5%;
     display: flex;
     flex-direction: column;
     font-family: 'poppins';
