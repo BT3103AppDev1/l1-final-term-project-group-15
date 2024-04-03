@@ -10,8 +10,8 @@
       <HeaderComponent />
       <SearchBar />
       <RowCards v-for="product in products" :key="product.id" :products="product" 
-                title="Your Wishlist at a glance"
-                description="descripition"/>
+                title="Your Wishlist, at a glance"
+                description="Have a look at what changed since the last time you were here"/>
     </div>
 
   </div>

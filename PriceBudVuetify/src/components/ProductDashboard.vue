@@ -1,7 +1,7 @@
 <template>
     <!-- Produict dashboadrd-->
     <v-container>
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="space-between">
         <v-col
           v-for="(card, i) in cards"
           :key="i"
@@ -10,7 +10,8 @@
           <v-card
           :variant="card.variant"
           class="mx-auto card"
-          max-width="300"
+          max-width="auto"
+          max-height="auto"
           >
           <!-- different cards for different infomations-->
             <v-card-item>

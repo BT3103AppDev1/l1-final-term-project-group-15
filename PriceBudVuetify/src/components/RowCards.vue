@@ -41,6 +41,16 @@ defineProps({
 
 
 <style scoped>
+.poppins-semibold {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.poppins-regular {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
 .v-sheet {
     padding: 2%;
 }
