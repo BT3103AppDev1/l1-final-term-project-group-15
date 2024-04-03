@@ -4,7 +4,9 @@
     <v-container class = "results">
       <v-card v-for="(product, index) in products" :key="index" class="product-card">
         <v-img :src="product.image" alt="Product Image"></v-img>
-        <v-card-title>{{ product.name }}</v-card-title>
+        <router-link :to = "'ProductPage1'">
+          <v-card-title>{{ product.name }}</v-card-title>
+        </router-link>
         <v-card-subtitle>{{ product.brand }}</v-card-subtitle>
         <v-card-text>{{ product.details }}</v-card-text>
       </v-card>

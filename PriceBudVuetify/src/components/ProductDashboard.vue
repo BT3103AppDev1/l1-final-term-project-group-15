@@ -1,7 +1,7 @@
 <template>
     <!-- Produict dashboadrd-->
     <v-container>
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="center" class="dashboard">
         <v-col
           v-for="(card, i) in cards"
           :key="i"
@@ -9,7 +9,7 @@
         >
           <v-card
           :variant="card.variant"
-          class="mx-auto card"
+          class="mx-auto-card"
           max-width="300"
           >
           <!-- different cards for different infomations-->
@@ -80,11 +80,19 @@
   </script>
   
   <style scoped>
+  .dashboard {
+    display: flex;
+    width: max-width;
+  }
 
   .card-content {
     display: flex;
     flex-direction: column;
 
+  }
+  .mx-auto-card {
+    display: flex;
+    width: auto;
   }
 
   .text-overline {
