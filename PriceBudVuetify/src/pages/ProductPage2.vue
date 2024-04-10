@@ -43,6 +43,13 @@
   </script>
   
   <style>
+
+  * {
+  margin: 0;
+  padding: 0;
+  /*box-sizing: border-box;*/
+  }
+
   .home {
     display: flex;
   }
@@ -63,12 +70,12 @@
   }
   .picture-container {
     display: flex;
-    flex: 3.8;
+    flex: 2.8;
   }
   .list-container {
     display: flex;
-
-    flex: 7.2;
+    flex: 8;
+    justify-content: center;
 
   }
   
