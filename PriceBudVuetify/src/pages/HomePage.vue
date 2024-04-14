@@ -22,9 +22,7 @@
       <HeaderComponent />
       <SearchBar />
       <HomeLoginComp />
-      <RowCards :isWishlist="false"
-                title="Largest price changes this week"
-                description="These products had the biggest price changes this week"/>
+      
     </v-container>
 
   </v-sheet>
@@ -33,26 +31,22 @@
 <script>
 import SearchBar from '../components/SearchBar.vue'
 import RowCards from '../components/RowCards.vue'
-import ProductCard from '../components/ProductCard.vue'
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
+import { mapState } from 'vuex'
 
 
 export default {
   components: {
     SearchBar,
     RowCards,
-    ProductCard,
     SideBar,
     HeaderComponent,
     HomeLoginComp
   },
-  props: {
-    isLoggedIn: {
-      type: Boolean,
-      default: false
-    }
+  computed: {
+    ...mapState(['isLoggedIn']),
   },
   data() {
     return {
@@ -86,6 +80,10 @@ export default {
         ]
       ]
     }
+  },
+  mounted() {
+    console.log('mounted');
+    console.log(this.isLoggedIn);
   }
 }
 </script>

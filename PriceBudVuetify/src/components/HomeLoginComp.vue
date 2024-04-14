@@ -6,12 +6,12 @@
                 <h3 class="desc poppins-regular">Log in to access your wishlist, 
                     or contribute to price updates</h3>
             </v-container>
-            <v-container>
+            <v-container class="d-flex justify-end">
                 <v-btn class="login-btn" color="primary" dark @click="login">LOG IN</v-btn>    
             </v-container>
         </v-container>
 
-        <h1 class="title poppins-bold">-Or-</h1>
+        <h1 class="title poppins-semibold text-center">-OR-</h1>
 
         <v-container class="bottom-row">
             <v-container>
@@ -20,7 +20,7 @@
                     community features and wishlist
                 </h3>
             </v-container>
-            <v-container>
+            <v-container class="d-flex justify-end">
                 <v-btn class="login-btn" color="primary" dark @click="signup">Create Account</v-btn>    
             </v-container>
         </v-container>
@@ -76,7 +76,7 @@ defineExpose({
     .top-row, .bottom-row {
         display: flex;
         flex-direction: row;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
     }
 

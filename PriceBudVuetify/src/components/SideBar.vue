@@ -8,7 +8,7 @@
       </div>
       <!-- Sidebar content -->
       <v-list>
-        <v-list-item link to="/HomePage">
+        <v-list-item to="/HomePage">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
