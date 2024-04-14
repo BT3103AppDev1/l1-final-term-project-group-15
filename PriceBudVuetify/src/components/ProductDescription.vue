@@ -32,7 +32,9 @@
     font-family: 'poppins';
   }
   .title{
-    font-weight: bold;
+    font-display: flex;
+    font-weight: 500;
+    text-align: center;
   }
 
   </style>

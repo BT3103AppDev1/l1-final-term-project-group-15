@@ -15,6 +15,7 @@
           </div>
           <div class ="description-container">
           <ProductDescription />
+          <RetailerList />
           </div>
         </div>
       </div>
@@ -29,8 +30,7 @@
   import ProductTrend from '../components/ProductTrend.vue'
   import ProductPicture from '../components/ProductPicture.vue'
   import ProductDescription from '../components/ProductDescription.vue'
-  
-  
+  import RetailerList from '@/components/RetailerList.vue'  
   export default {
     components: {
       SideBar,
@@ -39,6 +39,7 @@
       ProductPicture,
       ProductTrend,
       ProductDescription,
+      RetailerList
     }
 
   }
@@ -65,11 +66,11 @@
   }
   .picture-container {
     display: flex;
-    flex: 3.8;
+    flex: 2.8;
   }
   .description-container {
     display: flex;
-
+    flex-direction: column;
     flex: 7.2;
 
   }

@@ -1,16 +1,16 @@
 <template>
     <!-- Produict dashboadrd-->
     <v-container>
-      <v-row align="center" justify="space-between">
+      <v-row align="center" justify="center">
         <v-col
           v-for="(card, i) in cards"
           :key="i"
-          cols="auto"
+          cols="3"
         >
           <v-card
           :variant="card.variant"
           class="mx-auto card"
-          max-width="auto"
+          max-width="100%"
           max-height="auto"
           >
           <!-- different cards for different infomations-->
@@ -101,7 +101,7 @@
 
   .title-icon {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
   
