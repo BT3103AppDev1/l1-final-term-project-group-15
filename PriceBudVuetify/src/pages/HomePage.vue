@@ -22,6 +22,9 @@
       <HeaderComponent />
       <SearchBar />
       <HomeLoginComp />
+      <RowCards :isWishlist="false"
+                title="Largest price changes this week"
+                description="These products had the biggest price changes this week"/>
       
     </v-container>
 
