@@ -27,8 +27,8 @@
                 description="These products had the biggest price changes this week"/>
       
     </v-container>
-
   </v-sheet>
+
 </template>
 
 <script>
@@ -38,7 +38,6 @@ import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
 import { mapState } from 'vuex'
-
 
 export default {
   components: {
