@@ -13,6 +13,7 @@
           <ProductPicture />
           </div>
           <div class ="list-container">
+          <ProductTrend />
           <RetailerList />
           </div>
         </div>
@@ -27,6 +28,7 @@
   import ProductDashboard from '../components/ProductDashboard.vue'
   import ProductPicture from '../components/ProductPicture.vue'
   import RetailerList from '../components/RetailerList.vue'
+  import ProductTrend from '@/components/ProductTrend.vue'
   
   
   
@@ -37,6 +39,7 @@
       ProductDashboard,
       ProductPicture,
       RetailerList,
+      ProductTrend,
     }
 
   }
