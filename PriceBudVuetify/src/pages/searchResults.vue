@@ -15,7 +15,7 @@
 </template>
 
 <script>
-// import Sidebar from './Sidebar.vue'
+//import Sidebar from './Sidebar.vue'
 import SearchBar from '../components/SearchBar.vue'
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'

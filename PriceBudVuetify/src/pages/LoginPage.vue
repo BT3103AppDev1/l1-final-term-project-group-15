@@ -19,7 +19,7 @@ const login = () => {
   store.commit('setLoggedIn', true);
 
   // And redirect to the home page
-  router.push('/HomePage');
+  router.push('/');
   console.log('login');
 };
 </script>
