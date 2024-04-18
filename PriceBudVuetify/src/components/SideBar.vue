@@ -16,20 +16,12 @@
             <v-list-item-title>Home Page</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/WishList">
+        <v-list-item link to="/WishListPage">
           <v-list-item-icon>
             <v-icon>mdi-heart</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Wishlist</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="/ProductPage2">
-          <v-list-item-icon>
-            <v-icon>mdi-cart</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Product</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link to="/Profile">
