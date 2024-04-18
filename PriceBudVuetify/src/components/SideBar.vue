@@ -8,7 +8,7 @@
       </div>
       <!-- Sidebar content -->
       <v-list>
-        <v-list-item to="/HomePage">
+        <v-list-item to="/">
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -98,7 +98,7 @@
 
   const logout = () => {
     store.commit('setLoggedIn', false);
-    router.push('/HomePage');
+    router.push('/');
   };
 </script>
 
