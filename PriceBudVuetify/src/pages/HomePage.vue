@@ -41,21 +41,8 @@ import { mapState } from 'vuex'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 
-export default {
-  components: {
-    SearchBar,
-    RowCards,
-    SideBar,
-    HeaderComponent,
-    HomeLoginComp
-  },
-  computed: {
-    ...mapState(['isLoggedIn']),
-  },
-  data() {
-    return {
-      products: [
-        // your products data here...
+  const products = ref([
+          // your products data here...
         [
           {
               "name": "Samsung Galaxy S24",
@@ -82,11 +69,10 @@ export default {
               "pricechange": "150.0"
           }
         ]
-      ],
-      isLoggedIn: false,
-      auth: null
-    }
-  },
+      ])
+      
+  let isLoggedIn = ref(false)
+  let auth = getAuth()
 
   mounted() {
     console.log('mounted');
@@ -98,7 +84,7 @@ export default {
 
     this.auth = getAuth()
 
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         this.isLoggedIn = true
         const isFirstTimeLogin = isNewUser(user);
@@ -128,7 +114,7 @@ export default {
           console.log("Returning user");
         }
       } else {
-        this.isLoggedIn = false
+        isLoggedIn.value = false
       }
 
       console.log(user)
