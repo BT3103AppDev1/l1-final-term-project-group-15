@@ -37,7 +37,6 @@ import RowCards from '../components/RowCards.vue'
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
-import { mapState } from 'vuex'
 
 
 export default {
@@ -47,9 +46,6 @@ export default {
     SideBar,
     HeaderComponent,
     HomeLoginComp
-  },
-  computed: {
-    ...mapState(['isLoggedIn']),
   },
   data() {
     return {

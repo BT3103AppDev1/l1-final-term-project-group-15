@@ -6,7 +6,7 @@
 import { getAuth, onAuthStateChanged, signOut} from "firebase/auth";
 
 export default {
-    name:'Logout',
+    name:'LogOut',
 
     data() {
         return {
@@ -26,7 +26,7 @@ export default {
             const auth = getAuth();
             const user = auth.currentUser;
             signOut(auth,user)
-            this.$router.push({name:'Login'})
+            this.$router.push({name:'HomePageLogOut'})
         }
     }
 }

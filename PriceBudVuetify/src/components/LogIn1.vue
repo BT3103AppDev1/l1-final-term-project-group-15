@@ -1,6 +1,6 @@
 <template>
 
-    <h1>this is the login page</h1>
+    <h1 id = "mainHead"> this is the login page</h1>
     <div id="firebaseui-auth-container"></div>
 
 </template>
@@ -12,7 +12,7 @@ import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 
 export default {
-    name:"Login1",
+    name:"LogIn",
 
     mounted() {
         var ui = firebaseui.auth.AuthUI.getInstance();
@@ -21,7 +21,7 @@ export default {
         }
 
         var uiConfig = {
-            signInSuccessUrl: '/home',
+            signInSuccessUrl: '/HomePageLogIn',
             signInOptions: [
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -47,16 +47,6 @@ export default {
 #mainHead{
     text-align: center;
     text-shadow: 2px 2px grey;
-}
-#bg{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
-}
-h5{
-    text-align:center;
-    background-color: grey;
 }
 
 </style>
