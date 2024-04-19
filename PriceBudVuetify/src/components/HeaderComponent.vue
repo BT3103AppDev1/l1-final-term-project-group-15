@@ -35,14 +35,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const router = useRouter();
-
-const store = useStore();
-const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 const username = 'Marci'; // Replace this with the actual username from your Vuex store or API
 const surname = 'Doe'; // Replace this with the actual surname from your Vuex store or API
@@ -51,6 +48,21 @@ function redirectProfile() {
   router.push('/ProfilePage');
 }
 
+  let isLoggedIn = ref(false)
+  let auth = getAuth()
+
+  onMounted(() => {
+    console.log('mounted')
+    console.log(isLoggedIn.value)
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        isLoggedIn.value = true
+      } else {
+        isLoggedIn.value = false
+      }
+    })
+  })
 </script>
 
 <style scoped>
