@@ -31,30 +31,17 @@
   </v-sheet>
 </template>
 
-<script>
-import SearchBar from '../components/SearchBar.vue'
-import RowCards from '../components/RowCards.vue'
-import SideBar from '../components/SideBar.vue'
-import HeaderComponent from '../components/HeaderComponent.vue'
-import HomeLoginComp from '../components/HomeLoginComp.vue'
-import { mapState } from 'vuex'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+<script setup>
+  import { ref, onMounted } from 'vue'
+  import SearchBar from '../components/SearchBar.vue'
+  import RowCards from '../components/RowCards.vue'
+  import SideBar from '../components/SideBar.vue'
+  import HeaderComponent from '../components/HeaderComponent.vue'
+  import HomeLoginComp from '../components/HomeLoginComp.vue'
+  import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-export default {
-  components: {
-    SearchBar,
-    RowCards,
-    SideBar,
-    HeaderComponent,
-    HomeLoginComp
-  },
-  computed: {
-    ...mapState(['isLoggedIn']),
-  },
-  data() {
-    return {
-      products: [
-        // your products data here...
+  const products = ref([
+          // your products data here...
         [
           {
               "name": "Samsung Galaxy S24",
@@ -81,27 +68,23 @@ export default {
               "pricechange": "150.0"
           }
         ]
-      ],
-      isLoggedIn: false,
-      auth: null
-    }
-  },
+      ])
+      
+  let isLoggedIn = ref(false)
+  let auth = getAuth()
 
-  mounted() {
-    console.log('mounted');
-    console.log(this.isLoggedIn);
+  onMounted(() => {
+    console.log('mounted')
+    console.log(isLoggedIn.value)
 
-    this.auth = getAuth()
-
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        this.isLoggedIn = true
+        isLoggedIn.value = true
       } else {
-        this.isLoggedIn = false
+        isLoggedIn.value = false
       }
     })
-  }
-}
+  })
 </script>
 
 <style scoped>
