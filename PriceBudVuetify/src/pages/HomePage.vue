@@ -31,60 +31,110 @@
   </v-sheet>
 </template>
 
-<script setup>
-  import { ref, onMounted } from 'vue'
-  import SearchBar from '../components/SearchBar.vue'
-  import RowCards from '../components/RowCards.vue'
-  import SideBar from '../components/SideBar.vue'
-  import HeaderComponent from '../components/HeaderComponent.vue'
-  import HomeLoginComp from '../components/HomeLoginComp.vue'
-  import { getAuth, onAuthStateChanged } from 'firebase/auth'
+<script>
+import SearchBar from '../components/SearchBar.vue'
+import RowCards from '../components/RowCards.vue'
+import SideBar from '../components/SideBar.vue'
+import HeaderComponent from '../components/HeaderComponent.vue'
+import HomeLoginComp from '../components/HomeLoginComp.vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore'
+import { ref, onMounted } from 'vue'
 
-  const products = ref([
-          // your products data here...
-        [
-          {
-              "name": "Samsung Galaxy S24",
-              "image": "https://images.samsung.com/is/image/samsung/p6pim/sg/2401/gallery/sg-galaxy-s24-plus-sm-s926bzvcxsp-thumb-539308136?$GNB_CARD_FULL_M_PNG_PNG$",
-              "price": "$699",
-              "pricechange": "100.0"
-          },
-          {
-              "name": "iPhone 14",
-              "image": `https://imagedelivery.net/JAV112JY973Crznn4xb8Sg/41816e80-a4b4-47bb-de71-cc19edbfb400/mobile`,
-              "price": "$999",
-              "pricechange": "150.0"
-          },
-          {
-              "name": "Samsung Galaxy S24",
-              "image": "https://images.samsung.com/is/image/samsung/p6pim/sg/2401/gallery/sg-galaxy-s24-plus-sm-s926bzvcxsp-thumb-539308136?$GNB_CARD_FULL_M_PNG_PNG$",
-              "price": "$699",
-              "pricechange": "100.0"
-          },
-          {
-              "name": "iPhone 14",
-              "image": `https://imagedelivery.net/JAV112JY973Crznn4xb8Sg/41816e80-a4b4-47bb-de71-cc19edbfb400/mobile`,
-              "price": "$999",
-              "pricechange": "150.0"
-          }
-        ]
-      ])
-      
-  let isLoggedIn = ref(false)
-  let auth = getAuth()
+export default {
+  components: {
+    SearchBar,
+    RowCards,
+    SideBar,
+    HeaderComponent,
+    HomeLoginComp
+  },
+  setup() {
+    const products = ref([
+      // your products data here...
+      [
+        {
+          name: "Samsung Galaxy S24",
+          image: "https://images.samsung.com/is/image/samsung/p6pim/sg/2401/gallery/sg-galaxy-s24-plus-sm-s926bzvcxsp-thumb-539308136?$GNB_CARD_FULL_M_PNG_PNG$",
+          price: "$699",
+          pricechange: "100.0"
+        },
+        {
+          name: "iPhone 14",
+          image: `https://imagedelivery.net/JAV112JY973Crznn4xb8Sg/41816e80-a4b4-47bb-de71-cc19edbfb400/mobile`,
+          price: "$999",
+          pricechange: "150.0"
+        },
+        {
+          name: "Samsung Galaxy S24",
+          image: "https://images.samsung.com/is/image/samsung/p6pim/sg/2401/gallery/sg-galaxy-s24-plus-sm-s926bzvcxsp-thumb-539308136?$GNB_CARD_FULL_M_PNG_PNG$",
+          price: "$699",
+          pricechange: "100.0"
+        },
+        {
+          name: "iPhone 14",
+          image: `https://imagedelivery.net/JAV112JY973Crznn4xb8Sg/41816e80-a4b4-47bb-de71-cc19edbfb400/mobile`,
+          price: "$999",
+          pricechange: "150.0"
+        }
+      ]
+    ])
 
-  onMounted(() => {
-    console.log('mounted')
-    console.log(isLoggedIn.value)
+    const isLoggedIn = ref(false)
+    const auth = getAuth()
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        isLoggedIn.value = true
-      } else {
-        isLoggedIn.value = false
+    onMounted(() => {
+      console.log('mounted');
+
+      function isNewUser(user) {
+        return user.metadata.creationTime === user.metadata.lastSignInTime;
       }
-    })
-  })
+
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          isLoggedIn.value = true
+          const isFirstTimeLogin = isNewUser(user);
+
+          if (isFirstTimeLogin) {
+            console.log("First time login!");
+
+            const db = getFirestore()
+            const userCollection = collection(db, 'Users')
+            const customDocumentId = user.email
+            const userDocumentRef = doc(userCollection, customDocumentId)
+            const userData = {
+              Wishlist: []
+            }
+
+            try {
+              setDoc(userDocumentRef, userData)
+                .then(() => {
+                  console.log('Document written with custom ID: ', customDocumentId)
+                })
+                .catch(error => {
+                  console.error('Error adding user document: ', error)
+                })
+            } catch (error) {
+              console.error('Error adding document: ', error)
+            }
+          } else {
+            console.log("Returning user");
+          }
+        } else {
+          isLoggedIn.value = false
+        }
+
+        console.log(user)
+        console.log(user.email)
+      });
+
+      // Cleanup function
+      return unsubscribe;
+    });
+
+    return { products, isLoggedIn }
+  }
+}
 </script>
 
 <style scoped>
