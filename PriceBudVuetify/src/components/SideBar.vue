@@ -67,7 +67,9 @@
             <v-list-item-title>Contact us</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="logout">
+
+
+        <v-list-item v-if="isLoggedIn" @click="handleSignout">
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -75,6 +77,16 @@
             <v-list-item-title>Log out</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item v-else @click="handleSignin">
+          <v-list-item-icon>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Log In</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <!-- Add more sidebar items as needed -->
       </v-list>
     </v-navigation-drawer>
@@ -89,17 +101,36 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { useStore } from 'vuex';
+  import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+  import { onMounted } from 'vue';
   import { useRouter } from 'vue-router';
 
   const drawer = ref(true);
-  const store = useStore();
+
+  const isLoggedIn = ref(false)
+
+  let auth
+
   const router = useRouter();
 
-  const logout = () => {
-    store.commit('setLoggedIn', false);
-    router.push('/');
-  };
+  onMounted(() => {
+    auth = getAuth() 
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        isLoggedIn.value = true
+      } else {
+        isLoggedIn.value = false
+      }      
+    })
+  })
+
+  function handleSignout() {
+    signOut(auth)
+  }
+
+  function handleSignin() {
+    router.push('/LogIn1')
+  }
 </script>
 
 <style scoped>
