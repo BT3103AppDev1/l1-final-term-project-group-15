@@ -39,6 +39,7 @@ import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
 import { mapState } from 'vuex'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 
 export default {
   components: {
@@ -91,15 +92,49 @@ export default {
     console.log('mounted');
     console.log(this.isLoggedIn);
 
+    function isNewUser(user) {
+      return user.metadata.creationTime === user.metadata.lastSignInTime;
+    }
+
     this.auth = getAuth()
 
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.isLoggedIn = true
+        const isFirstTimeLogin = isNewUser(user);
+
+        if (isFirstTimeLogin) {
+          console.log("First time login!");
+
+          const db = getFirestore()
+          const userCollection = collection(db, 'Users')
+          const customDocumentId = user.email
+          const userDocumentRef = doc(userCollection, customDocumentId)
+          const userData = {
+            Wishlist: []
+          }
+          try {
+            setDoc(userDocumentRef, userData)
+              .then(() => {
+                console.log('Document written with custom ID: ', customDocumentId)
+              })
+              .catch(error => {
+                console.error('Error adding user document: ', error)
+              })
+          } catch (error) {
+            console.error('Error adding document: ', error)
+          }
+        } else {
+          console.log("Returning user");
+        }
       } else {
         this.isLoggedIn = false
       }
+
+      console.log(user)
+      console.log(user.email)
     })
+    
   }
 }
 </script>
