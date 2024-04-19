@@ -37,7 +37,8 @@ import RowCards from '../components/RowCards.vue'
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
-
+import { mapState } from 'vuex'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default {
   components: {
@@ -46,6 +47,9 @@ export default {
     SideBar,
     HeaderComponent,
     HomeLoginComp
+  },
+  computed: {
+    ...mapState(['isLoggedIn']),
   },
   data() {
     return {
@@ -77,12 +81,25 @@ export default {
               "pricechange": "150.0"
           }
         ]
-      ]
+      ],
+      isLoggedIn: false,
+      auth: null
     }
   },
+
   mounted() {
     console.log('mounted');
     console.log(this.isLoggedIn);
+
+    this.auth = getAuth()
+
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.isLoggedIn = true
+      } else {
+        this.isLoggedIn = false
+      }
+    })
   }
 }
 </script>

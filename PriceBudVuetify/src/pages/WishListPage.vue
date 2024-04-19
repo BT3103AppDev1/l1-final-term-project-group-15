@@ -10,8 +10,10 @@
         <WishList />
 
       </div>
-  
     </div>
+
+
+    <h2>{{ item }}</h2>
   </template>
   
   <script>
@@ -20,6 +22,8 @@
   import WishList from '../components/WishList.vue'
 
   export default {
+    props: ['item'],
+
     components: {
       SideBar,
       HeaderComponent,
