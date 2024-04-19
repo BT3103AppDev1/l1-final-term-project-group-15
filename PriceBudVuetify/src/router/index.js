@@ -22,7 +22,7 @@
 // export default router
 
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePageLogOut from '../pages/HomePageLogOut.vue'
+import HomePage from '../pages/HomePage.vue'
 import HomePageLogIn from '../pages/HomePageLogIn.vue'
 import IndexPage from '../pages/index.vue'
 import LogIn1 from '../components/LogIn1.vue'
@@ -38,8 +38,8 @@ import WishListPage from '../pages/WishListPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', redirect: '/HomePageLogOut' },
-    { path: '/HomePageLogOut', component: HomePageLogOut },
+    { path: '/', redirect: '/HomePage' },
+    { path: '/HomePage', component: HomePage },
     { path: '/HomePageLogIn', component: HomePageLogIn },
     { path: '/index', component: IndexPage },
     { path: '/LogIn1', component: LogIn1 },
