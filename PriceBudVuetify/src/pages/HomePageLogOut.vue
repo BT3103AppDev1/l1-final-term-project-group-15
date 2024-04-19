@@ -38,11 +38,7 @@ import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
 import { mapState } from 'vuex'
-import firebaseApp from '../firebase.js'
-import { getFirestore } from "firebase/firestore"
-import { getDoc, doc } from "firebase/firestore"
 
-const db = getFirestore(firebaseApp)
 
 export default {
   components: {
@@ -85,30 +81,12 @@ export default {
               "pricechange": "150.0"
           }
         ]
-      ],
-
-      item_list: []
+      ]
     }
   },
   mounted() {
     console.log('mounted');
     console.log(this.isLoggedIn);
-
-    async function display() {
-      const docRef = doc(db, "Users", "General");
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
-      }
-
-    }
-
-    display()
-
   }
 }
 </script>

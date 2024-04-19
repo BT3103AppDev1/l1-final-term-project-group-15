@@ -37,7 +37,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const login = () => {
-  router.push('/LoginPage');
+  router.push('/LogIn1');
 };
 
 const signup = () => {
