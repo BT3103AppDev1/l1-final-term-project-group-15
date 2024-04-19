@@ -14,7 +14,7 @@
 
       <v-icon icon="mdi-trophy" />
 
-      <v-card-subtitle v-if="isLoggedIn">{{ username }} {{ surname }}</v-card-subtitle>
+      <v-card-subtitle v-if="isLoggedIn">{{ username }}</v-card-subtitle>
 
       <v-menu v-if="isLoggedIn">
         <!-- activates the menu dropdown -->
@@ -35,21 +35,15 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-const router = useRouter();
 
 let username = ref('Marci'); // Replace this with the actual username from your Vuex store or API
-let surname = 'Doe'; // Replace this with the actual surname from your Vuex store or API
 
 const isLoggedIn = ref(false)
 const auth = getAuth()
 
-function redirectProfile() {
-  router.push('/ProfilePage');
-}
 
 onMounted(() => {
   console.log('mounted');
