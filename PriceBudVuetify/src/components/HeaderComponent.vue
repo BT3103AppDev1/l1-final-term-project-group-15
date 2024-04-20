@@ -41,7 +41,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const router = useRouter();
 
-let username = ref('Marci'); // Replace this with the actual username from your Vuex store or API
+let username = ref(); // Replace this with the actual name from firebase
 
 
 const isLoggedIn = ref(false)
