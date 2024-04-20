@@ -2,7 +2,7 @@
     <v-container>
       <!-- Product Picture -->
       <v-row>
-          <v-img src="https://m.media-amazon.com/images/I/61M7hjWPzvL._AC_UF1000,1000_QL80_.jpg" aspect-ratio="auto"></v-img>
+          <v-img :src="productImage" aspect-ratio="auto"></v-img>
       </v-row>
 
       <v-row class="rating-row">
@@ -20,11 +20,42 @@
   </template>
   
   <script>
+  import { doc, getDoc } from 'firebase/firestore';
+  import { getFirestore } from 'firebase/firestore'
   export default {
     // Component logic goes here
     data() {
       return {
-        rating:4.5
+        productImage: "",
+        rating: ""
+
+      }
+    },
+    props: {
+      product: String
+    },
+    watch: {
+      product: {
+        immediate: true,
+        handler: 'fetchProductImage'
+      }
+    },
+    methods: {
+      async fetchProductImage() {
+        if (this.product) {
+          const db = getFirestore();
+          const docRef = doc(db, 'Products', this.product);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            this.productImage = docSnap.data().Image;
+            this.rating = docSnap.data().Rating;
+          } else {
+            console.log('No such document!');
+          }
+        } else {
+          console.log('Product ID is null!');
+        }
       }
     }
   };

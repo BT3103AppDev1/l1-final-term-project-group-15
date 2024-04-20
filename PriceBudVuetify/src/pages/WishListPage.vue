@@ -7,13 +7,13 @@
   
       <div class = "container">
         <HeaderComponent />
-        <WishList />
+        <WishList :product = "product" :key = "product"/>
 
       </div>
     </div>
 
 
-    <h2>{{ item }}</h2>
+
   </template>
   
   <script>
@@ -22,7 +22,14 @@
   import WishList from '../components/WishList.vue'
 
   export default {
-    props: ['item'],
+    data() {
+      return {
+        product: null
+      }
+    },
+    mounted() {
+      this.product = this.$route.params.id
+    },
 
     components: {
       SideBar,
@@ -43,7 +50,7 @@
     flex-grow: 1;
   }
   
-  .container {
+  .container { 
     flex: 8;
     display: flex;
     flex-direction: column;

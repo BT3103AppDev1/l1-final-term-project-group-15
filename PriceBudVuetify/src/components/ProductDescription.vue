@@ -16,14 +16,41 @@
 </template>
 
   <script>
+  import { doc, getDoc } from 'firebase/firestore';
+  import { getFirestore } from 'firebase/firestore'
   export default {
     data() {
       return {
-        productDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        productDescription: "",
       }
     },
+    props: {
+      product: String
+    },
+    watch: {
+      product: {
+        immediate: true,
+        handler: 'fetchProductDescription'
+      }
+    },
+  methods: {
+    async fetchProductDescription() {
+      if (this.product) {
+        const db = getFirestore();
+        const docRef = doc(db, 'Products', this.product);
+        const docSnap = await getDoc(docRef);
 
+        if (docSnap.exists()) {
+          this.productDescription = docSnap.data().Description;
+        } else {
+          console.log('No such document!');
+        }
+      } else {
+        console.log('Product ID is null!');
+      }
+    },
   }
+}
   </script>
   
   <style scoped>

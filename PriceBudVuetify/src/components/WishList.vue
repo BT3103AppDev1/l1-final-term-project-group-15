@@ -1,36 +1,70 @@
 <template>
-    <v-container class="container">
-      <h2>Marci's Wishlist</h2>
+      <h2 class="title">Marci's Wishlist</h2>
       <h5 class="subtitle">Everything you love, in one place</h5>
-      <v-row class ="buttonrow">
-        <v-col cols="auto">
-          <v-btn class = "button1" color ="green" small rounded @click="newProduct">
-            <v-icon left>mdi-plus</v-icon>
-            New Product
-          </v-btn>
-        </v-col>
-        <v-col cols ="auto">
-          <v-btn class= "button2" color = "blue" small rounded @click="sendWishlist">
-            <v-icon left>mdi-send</v-icon>
-            Send Wishlist
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </template>
+      <v-card class = "list">
+        <template v-slot:text>
+          <v-text-field
+            v-model="search"
+            label="Search"
+            prepend-inner-icon="mdi-magnify"
+            variant="outlined"
+            hide-details
+            single-line
+          ></v-text-field>
+        </template>
+       <v-data-table
+        :headers="headers"
+        :items="wishlist"
+        :search="search"
+        ></v-data-table>
+      </v-card>
+</template>
   
-  <script>
+<script>
+  import { doc, getDoc } from 'firebase/firestore';
+  import { getFirestore } from 'firebase/firestore'
   export default {
+    data() {
+      return {
+        wishlist: [],
+        search: "",
+        headers: [
+          { title: "Product Name", value: "Name" },
+          { title: "Unit Price", value: "Price" },
+          { title: "Price Change", value: "PriceChange" },
+          { title: "Retailer", value: "Retailer"},
+          {title: "Price Trend", value: "pricetrend"}
+        ]    
+      };
+    },
+    props: {
+      product: String
+    },
+    watch: {
+      product: {
+        immediate: true,
+        handler: 'fetchProductData'
+      }
+    },
     methods: {
-      newProduct() {
-        // Handle the click event for the "New Product" button
-      },
-      sendWishlist() {
-        // Handle the click event for the "Send Wishlist" button
+      async fetchProductData() {
+        if (this.product) {
+          const db = getFirestore();
+          const docRef = doc(db, 'Products', this.product);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            this.wishlist.push(docSnap.data());
+          } else {
+            console.log('No such document!');
+          }
+        } else {
+          console.log('Product ID is null!');
+        }
       }
     }
   };
-  </script>
+</script>
 
 <style scoped>
 .subtitle {
@@ -38,18 +72,28 @@
   font-family: 'poppins';
   color: grey;
   margin-bottom: 5%;
+  margin-left: 2%;
+}
+.title {
+  font-family: 'poppins';
+  font-weight: bold;
+  margin-left: 2%;
+}
+
+.list {
+  margin-left: 2%;
+  margin-right: 5%;
+  font-family: 'poppins';
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: left;
+
   justify-content: center;
   font-family: 'poppins';
   font-weight: 400;
 }
-.buttonrow {
-  display: flex;
-  justify-content: left;
-}
+
 </style>

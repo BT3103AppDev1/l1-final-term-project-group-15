@@ -20,9 +20,21 @@
 </template>
 
 <script>
+import { doc, getDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore'
 export default {
   data() {
     return {
+      props: {
+      product: String
+      },
+
+      watch: {
+        product: {
+          immediate: true,
+          handler: 'fetchRetailerList'
+        }
+      },
       headers: [
         { title: 'No', align: 'start', value: 'no' },
         { title: 'Price', value: 'price' },
@@ -35,8 +47,26 @@ export default {
         { no: 1, price: '$45.90', retailer: 'B&H Photo', date: '15 Dec 2023', location: 'Tampines St 21 #01-67', inputBy: 'User 1234' },
         // Add additional items as needed
       ]
+
     };
   },
+  methods: {
+    async fetchRetailerList() {
+      if (this.product) {
+        const db = getFirestore();
+        const docRef = doc(db, 'Products', this.product);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          // Fetch retailer list from Firestore
+        } else {
+          console.log('No such document!');
+        }
+      } else {
+        console.log('Product ID is null!');
+      }
+    },
+  }
 };
 </script>
 

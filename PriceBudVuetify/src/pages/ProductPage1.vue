@@ -7,15 +7,16 @@
   
       <div class = "container">
         <HeaderComponent />
-        <ProductDashboard />
-        <ProductTrend />
+        <AddButton :product = "product" :key = "product"/>
+        <ProductDashboard :product = "product"/>
+        <ProductTrend :product = "product"/>
         <div class = "container2">
           <div class ="picture-container">
-          <ProductPicture />
+          <ProductPicture :product = "product" :key = "product"/>
           </div>
           <div class ="description-container">
-          <ProductDescription />
-          <RetailerList />
+          <ProductDescription :product = "product" :key = "product" />
+          <RetailerList :product = "product" :key = "product"/>
           </div>
         </div>
 
@@ -34,10 +35,20 @@
   import ProductPicture from '../components/ProductPicture.vue'
   import ProductDescription from '../components/ProductDescription.vue'
   import RetailerList from '@/components/RetailerList.vue'  
+  import AddButton from '@/components/AddButton.vue'
   export default {
+    data() {
+      return {
+        product: null
+      }
+    },
+    mounted() {
+      this.product = this.$route.params.id
+    },
     components: {
       SideBar,
       HeaderComponent,
+      AddButton,
       ProductDashboard,
       ProductPicture,
       ProductTrend,
