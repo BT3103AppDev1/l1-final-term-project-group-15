@@ -39,7 +39,7 @@ import { ref, onMounted } from 'vue';
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 
-let username = ref('Marci'); // Replace this with the actual username from your Vuex store or API
+let username = ref(); // Replace this with the actual name from firebase
 
 const isLoggedIn = ref(false)
 const auth = getAuth()
@@ -51,7 +51,7 @@ onMounted(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
         isLoggedIn.value = true
-        username.value = user.email
+        username.value = user.displayName
     } else {
       isLoggedIn.value = false
     }
