@@ -3,23 +3,27 @@
       <v-autocomplete
         rounded
         auto-select-first
-        label="Search"
+        :placeholder="selectedProduct ? '' : 'Select a product'"
         :items="products"
         density="comfortable" 
-        clearable
         variant="solo"
+        menu-icon= ""
+        v-model ="selectedProduct"
+        @update:model-value="select"
+        
 
       ></v-autocomplete>
     </v-container>
 </template>
 <script>
 import { getFirestore } from 'firebase/firestore'
-import { collection, getDocs, doc } from 'firebase/firestore'
+import { collection, getDocs  } from 'firebase/firestore'
 
 export default {
   data() {
     return {
       products: [],
+      selectedProduct: null
     };
   },
   async mounted() {
@@ -37,6 +41,14 @@ export default {
       console.error('Error fetching products:', error);
     }
   },
+  methods: {
+    select(selectedProduct) {
+      console.log(selectedProduct)
+      if (selectedProduct) {
+        this.$router.push({ name: 'HomeToProduct', params: { id: this.selectedProduct } })
+      }
+    }
+  }
 };
 </script>
 

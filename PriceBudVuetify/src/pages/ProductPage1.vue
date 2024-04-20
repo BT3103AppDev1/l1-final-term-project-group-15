@@ -18,6 +18,9 @@
           <RetailerList />
           </div>
         </div>
+
+        <!--Testing-->
+        <h1>This is a page for product: {{ $route.params.id }}</h1>
       </div>
   
     </div>

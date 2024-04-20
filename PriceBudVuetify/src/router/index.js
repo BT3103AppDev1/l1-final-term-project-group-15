@@ -51,6 +51,7 @@ const router = createRouter({
     { path: '/searchResults', component: SearchResultsPage },
     { path: '/SignupPage', component: SignupPage },
     { path: '/WishListPage', component: WishListPage },
+    { path: '/HomePage/:id', name: "HomeToProduct", component: ProductPage1 }
   ]
 })
 
