@@ -1,6 +1,12 @@
 <template>
 
-    <h1 id = "mainHead"> this is the login page</h1>
+    <div class="d-flex align-center mt-5">
+        <!-- <img src="/Users/bachnguyen/Downloads/Screenshot_2024-04-03_at_2.43.16_PM-removebg-preview.png" alt="Logo" class="mr-2 ml-4" style="height: 24px;"> Adjust height as needed -->
+        <span class="title"><strong>PriceBud</strong></span>
+    </div>
+
+    <h1 id = "mainHead"> Welcome back! Log in here</h1>
+
     <div id="firebaseui-auth-container"></div>
 
 </template>
@@ -35,9 +41,11 @@ export default {
 <style scoped> 
 
 #firebaseui-auth-container{
-    margin-top: 50px;;
-    margin-bottom: 50px;;
+    margin-top: 50px;
+    margin-bottom: 50px;
+ 
 }
+
 #pagecontent {
     height: 100px;
     font-size: larger;
@@ -46,7 +54,9 @@ export default {
 }
 #mainHead{
     text-align: center;
-    text-shadow: 2px 2px grey;
+    font-family: "poppins";
+    background-color: #347AE2;
+    color: white;
 }
 
 </style>
