@@ -29,7 +29,6 @@ import LogIn1 from '../components/LogIn1.vue'
 //import LoginPage from '../pages/LoginPage.vue'
 import LogOut1 from '../components/LogOut1.vue'
 import ProductPage1 from '../pages/ProductPage1.vue'
-import ProductPage2 from '../pages/ProductPage2.vue'
 import ProfilePage from '../pages/ProfilePage.vue'
 import SearchResultsPage from '../pages/searchResults.vue'
 import SignupPage from '../pages/SignupPage.vue'
@@ -47,7 +46,6 @@ const router = createRouter({
     //{ path: '/LoginPage', component: LoginPage },
     { path: '/LogOut1', component: LogOut1 },
     { path: '/ProductPage1', component: ProductPage1 },
-    { path: '/ProductPage2', component: ProductPage2 },
     { path: '/ProfilePage', component: ProfilePage },
     { path: '/searchResults', component: SearchResultsPage },
     { path: '/SignupPage', component: SignupPage },
