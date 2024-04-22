@@ -5,7 +5,7 @@
   
       <v-container v-if="userEmail" class="right-container">
         <HeaderComponent />
-        <AddButton :product = "product" :key = "product"/>
+        <AddButton :product = "product" :key = "product" :userEmail = "userEmail" />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
         <div class = "container2">
