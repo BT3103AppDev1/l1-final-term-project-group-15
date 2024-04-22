@@ -25,7 +25,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
 import IndexPage from '../pages/index.vue'
 import LogIn1 from '../components/LogIn1.vue'
-//import LoginPage from '../pages/LoginPage.vue'
 import LogOut1 from '../components/LogOut1.vue'
 import ProductPage1 from '../pages/ProductPage1.vue'
 import ProfilePage from '../pages/ProfilePage.vue'
@@ -33,6 +32,7 @@ import SearchResultsPage from '../pages/searchResults.vue'
 import SignupPage from '../pages/SignupPage.vue'
 import WishListPage from '../pages/WishListPage.vue'
 import TestPage from '@/pages/TestPage.vue'
+import SettingPage from '@/pages/SettingPage.vue'
 //import WishList from '@/components/WishList.vue'
 
 const router = createRouter({
@@ -46,6 +46,7 @@ const router = createRouter({
     { path: '/LogOut1', component: LogOut1 },
     { path: '/ProductPage1', component: ProductPage1 },
     { path: '/ProfilePage', component: ProfilePage },
+    { path: '/SettingPage', component: SettingPage },
     { path: '/searchResults', component: SearchResultsPage },
     { path: '/SignupPage', component: SignupPage },
     { path: '/WishListPage', component: WishListPage },

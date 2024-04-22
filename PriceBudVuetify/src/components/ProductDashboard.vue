@@ -23,9 +23,11 @@
                   </div>
 
                 <div class="text-overline mb-1">{{ card.headline }}</div>
+
                 <div class="text-caption">
                   {{ card.content }}
                 </div>
+
               </div>
             </v-card-item>
           </v-card>
@@ -148,17 +150,7 @@
 
   .title-icon {
     display: flex;
-    justify-content: center;
     align-items: left;
   }
-  
-  .arrow.up {
-    color: #4CAF50; /* Green for up */
-  }
-  
-  .arrow.down {
-    color: #F44336; /* Red for down */
-  }
-  
   </style>
   

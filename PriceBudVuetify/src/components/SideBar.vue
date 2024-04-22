@@ -24,7 +24,7 @@
             <v-list-item-title>Wishlist</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Profile">
+        <v-list-item link to="/ProfilePage">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
@@ -40,7 +40,7 @@
             <v-list-item-title>Community</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Setting">
+        <v-list-item link to="/SettingPage">
           <v-list-item-icon>
             <v-icon>mdi-cog</v-icon>
           </v-list-item-icon>
