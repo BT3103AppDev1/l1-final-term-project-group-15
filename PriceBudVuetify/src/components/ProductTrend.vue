@@ -1,83 +1,57 @@
 <template>
-    <v-card
-      class="mx-auto text-center"
-      color="white"
-      max-width="600"
-      dark
-    >
+  <v-card class="mx-auto text-center" color="white">
     <v-card-text class="title">
-        <div class="text-p font-weight-thin">
-            Kodak M35 35mm Film Camera - Price Trend
-        </div>
+      <div class="text-p font-weight-thin">
+        Kodak M35 35mm Film Camera - Price Trend
+      </div>
+      <v-spacer></v-spacer>
+    </v-card-text>
 
-        <v-spacer></v-spacer>
-
-        <div class="text-center">
-            <v-menu
-            open-on-hover
-            >
-            <template v-slot:activator="{ props }">
-                <v-btn
-                color="black`"
-                v-bind="props"
-                >
-                Timeline
-                </v-btn>
-            </template>
-
-            <v-list>
-                <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-            </v-list>
-            </v-menu>
-        </div>
-      </v-card-text>
-
-    
-
-      <v-card-text>
-        <v-sheet color="rgba(0, 0, 0, .12)">
-          <v-sparkline
-            :model-value="value"
-            color="black"
-            height="100"
-            padding="24"
-            stroke-linecap="round"
-            smooth
-          >
-            <template v-slot:label="item">
-              ${{ item.value }}
-            </template>
-          </v-sparkline>
-        </v-sheet>
-      </v-card-text>
-    </v-card>
-  </template>
+    <line-chart :data="chartData" :curve="false">
+    </line-chart>
+  </v-card>
+</template>
 
 <script>
+import firebaseApp from '../firebase.js';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+const db = getFirestore(firebaseApp);
+
 export default {
   data: () => ({
-    value: [
-      75,
-      200,
-      135,
-      120,
-      140,
-      180,
-      150,
-    ],
+    chartData: [],
     items: [
-        { title: 'Day' },
-        { title: 'Month'},
-        { title: 'Year' },
-      ],
+      { title: 'Day' },
+      { title: 'Month' },
+      { title: 'Year' },
+    ],
   }),
+  props: {
+    product: String
+  },
+  watch: {
+      product: {
+        immediate: true,
+        handler: 'fetchData'
+      }
+  },
+  methods: {
+    async fetchData() {
+      const docRef = doc(db, 'Products', this.product);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        // Extracting the priceTrend data from the document
+        this.chartData = docSnap.data().PriceTrend;
+      } else {
+        console.log('No such document!');
+      }
+    },
+  }
 }
 </script>
+
 
 <style scoped>
 .title {

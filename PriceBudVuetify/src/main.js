@@ -14,6 +14,11 @@ import App from './App.vue'
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
 
+//CharKick
+import VueChartkick from 'vue-chartkick'
+import 'chartkick/chart.js'
+
+
 // Create a new store instance
 const store = createStore({
   state () {
@@ -35,4 +40,5 @@ app.use(store)
 
 registerPlugins(app)
 
+app.use(VueChartkick)
 app.mount('#app')
