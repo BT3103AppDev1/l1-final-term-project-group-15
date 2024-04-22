@@ -23,7 +23,6 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
-import HomePageLogIn from '../pages/HomePageLogIn.vue'
 import IndexPage from '../pages/index.vue'
 import LogIn1 from '../components/LogIn1.vue'
 //import LoginPage from '../pages/LoginPage.vue'
@@ -40,7 +39,6 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/HomePage' },
     { path: '/HomePage', component: HomePage },
-    { path: '/HomePageLogIn', component: HomePageLogIn },
     { path: '/index', component: IndexPage },
     { path: '/LogIn1', component: LogIn1 },
     //{ path: '/LoginPage', component: LoginPage },

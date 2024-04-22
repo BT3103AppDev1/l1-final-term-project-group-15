@@ -3,7 +3,7 @@
   
       <SideBar class="sidebar" />
   
-      <v-container v-if="isLoggedIn" class="right-container">
+      <v-container v-if="userEmail" class="right-container">
         <HeaderComponent />
         <AddButton :product = "product" :key = "product"/>
         <ProductDashboard :product = "product"/>
@@ -53,14 +53,27 @@
   import ProductDescription from '../components/ProductDescription.vue'
   import RetailerList from '@/components/RetailerList.vue'  
   import AddButton from '@/components/AddButton.vue'
+  import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
   export default {
     data() {
       return {
-        product: null
+        product: null,
+        auth: null,
+        userEmail: null
       }
     },
     mounted() {
       this.product = this.$route.params.id
+
+      this.auth = getAuth()
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.userEmail = user.email
+          console.log(this.userEmail)
+          console.log('test')
+        } 
+      })
     },
     components: {
       SideBar,
