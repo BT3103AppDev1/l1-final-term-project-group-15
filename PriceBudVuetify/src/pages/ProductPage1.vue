@@ -1,11 +1,9 @@
 <template>
-    <div class="page-container">
+    <v-sheet class="page-container">
   
-      <div class="sidebar">
-        <SideBar />
-      </div>
+      <SideBar class="sidebar" />
   
-      <div class = "container">
+      <v-container v-if="isLoggedIn" class="right-container">
         <HeaderComponent />
         <AddButton :product = "product" :key = "product"/>
         <ProductDashboard :product = "product"/>
@@ -22,9 +20,28 @@
 
         <!--Testing-->
         <h1>This is a page for product: {{ $route.params.id }}</h1>
-      </div>
-  
-    </div>
+      </v-container>
+      
+      <v-container v-else class="right-container">
+        <HeaderComponent />
+        <ProductDashboard :product = "product"/>
+        <ProductTrend :product = "product"/>
+        <div class = "container2">
+          <div class ="picture-container">
+          <ProductPicture :product = "product" :key = "product"/>
+          </div>
+          <div class ="description-container">
+          <ProductDescription :product = "product" :key = "product" />
+          <RetailerList :product = "product" :key = "product"/>
+          </div>
+        </div>
+
+        <!--Testing-->
+        <h1>This is a page for product: {{ $route.params.id }}</h1>
+      </v-container>
+      
+    </v-sheet>
+
   </template>
   
   <script>
