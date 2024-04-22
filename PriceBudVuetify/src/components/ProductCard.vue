@@ -2,9 +2,9 @@
     <v-container  v-if="inWishlistView">
         <!-- wishlist row product card -->
         <div class="product-card">
-            <h3 class="poppins-regular">{{ props.product.name }}</h3>
-            <img class="product-image" :src="props.product.image" alt="product image">
-            <h1 class="poppins-semibold">{{ props.product.price }}</h1>
+            <h3 class="poppins-regular">{{ fullName }}</h3>
+            <img class="product-image" :src="imageurl" alt="product image">
+            <h1 class="poppins-semibold">{{ price }}</h1>
             <div class="pricechange-container">
                 <v-icon icon="mdi-arrow-down" color="green"/>
                 <p class="poppins-regular">
@@ -22,20 +22,46 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, onMounted, onBeforeMount, ref } from 'vue'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
+
+let fullName = ref('')
+let price = ref('')
+let imageurl = ref('')
 
 
 const props = defineProps({
-  product: {
-    type: Object,
-    required: true
-  },
+  productName: String,
   inWishlistView: {
     type: Boolean,
     default: true
   }
+})
+
+onBeforeMount (() => {
+  console.log('created')
+  console.log(props.productName)
+})
+
+onMounted (async () => {
+  const db = getFirestore()
+  const docRef = doc(db, 'Products', props.productName)
+  const docSnap = await getDoc(docRef)
+
+if (docSnap.exists()) {
+    const data = docSnap.data()
+    fullName.value = data.Brand + ' ' + props.productName
+    price.value = '$600' // edit here to make it dynamic
+    imageurl.value = data.Image
+
+
+    console.log(fullName)
+    console.log(price)
+    console.log(imageurl)
+  }
 
 })
+
 // Other options here
 </script>
 
