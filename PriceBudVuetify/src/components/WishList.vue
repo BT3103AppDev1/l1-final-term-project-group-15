@@ -26,6 +26,7 @@
   export default {
     data() {
       return {
+        userEmail: String,
         wishlist: [],
         search: "",
         headers: [
@@ -48,13 +49,13 @@
     },
     methods: {
       async fetchProductData() {
-        if (this.product) {
+        if (this.product && this.userEmail) {
           const db = getFirestore();
-          const docRef = doc(db, 'Products', this.product);
+          const docRef = doc(db, 'Users', this.userEmail);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            this.wishlist.push(docSnap.data());
+            this.wishlist = docSnap.data().Wishlist || [];
           } else {
             console.log('No such document!');
           }
