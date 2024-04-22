@@ -13,7 +13,14 @@
       <v-row class = "alert-row">
           <div class="alert-box">
             <strong>Send me an alert when price drops</strong>
-            <v-btn class = "alert-button" color="red" small rounded>Alert me</v-btn>
+            <v-btn class = "alert-button" color="red" small rounded @click="dialog = true"> Alert me</v-btn>
+
+              <v-dialog v-model="dialog" width="auto">
+                <v-card>
+                  <v-card-title> Alert Confirmed </v-card-title>
+                </v-card>
+              </v-dialog>
+
           </div>
       </v-row>
     </v-container>
@@ -86,6 +93,7 @@
       const username = ref('');
       const isLoggedIn = ref(false);
       const auth = getAuth();
+      const dialog = ref(false);
 
       const redirectLogIn = () => {
         router.push('/LogIn1');
@@ -106,7 +114,7 @@
         return unsubscribe;
       });
 
-      return { username, isLoggedIn, redirectLogIn};
+      return { username, isLoggedIn, redirectLogIn, dialog};
     }
   };
 </script>
