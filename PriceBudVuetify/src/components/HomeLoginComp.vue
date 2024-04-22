@@ -41,7 +41,7 @@ const login = () => {
 };
 
 const signup = () => {
-  router.push('/SignupPage');
+  router.push('/LogIn1');
 };
 
 defineExpose({
