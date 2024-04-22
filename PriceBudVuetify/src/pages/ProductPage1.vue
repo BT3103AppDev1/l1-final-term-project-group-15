@@ -4,7 +4,7 @@
       <SideBar class="sidebar" />
   
       <v-container v-if="userEmail" class="right-container">
-        <HeaderComponent />
+        <HeaderProduct />
         <AddButton :product = "product" :key = "product" :userEmail = "userEmail" />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
@@ -23,7 +23,7 @@
       </v-container>
       
       <v-container v-else class="right-container">
-        <HeaderComponent />
+        <HeaderProduct />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
         <div class = "container2">
@@ -46,7 +46,7 @@
   
   <script>
   import SideBar from '../components/SideBar.vue'
-  import HeaderComponent from '../components/HeaderComponent.vue'
+  import HeaderProduct from '../components/HeaderProduct.vue'
   import ProductDashboard from '../components/ProductDashboard.vue'
   import ProductTrend from '../components/ProductTrend.vue'
   import ProductPicture from '../components/ProductPicture.vue'
@@ -77,7 +77,7 @@
     },
     components: {
       SideBar,
-      HeaderComponent,
+      HeaderProduct,
       AddButton,
       ProductDashboard,
       ProductPicture,
