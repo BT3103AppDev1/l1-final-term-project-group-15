@@ -8,6 +8,8 @@
     <v-container v-if="isLoggedIn" class="right-container">
       <HeaderComponent />
       <SearchBar />
+      <MasterInput v-if="userEmail == 'master@gmail.com'" />
+      <UserPriceInput />
       <RowCards v-for="product in products" :key="product.id" :products="product" 
                 :isWishlist="true"
                 title="Your wishlist, at a glance"
@@ -37,6 +39,8 @@ import RowCards from '../components/RowCards.vue'
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import HomeLoginComp from '../components/HomeLoginComp.vue'
+import MasterInput from '../components/MasterInput.vue'
+import UserPriceInput from '../components/UserPriceInput.vue'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore'
 import { ref, onMounted } from 'vue'
@@ -47,9 +51,13 @@ export default {
     RowCards,
     SideBar,
     HeaderComponent,
-    HomeLoginComp
+    HomeLoginComp,
+    MasterInput,
+    UserPriceInput
   },
   setup() {
+    const userEmail = ref("")
+
     const products = ref([
       // your products data here...
       [
@@ -82,6 +90,7 @@ export default {
 
     const isLoggedIn = ref(false)
     const auth = getAuth()
+    
 
     onMounted(() => {
       console.log('mounted');
@@ -127,13 +136,14 @@ export default {
 
         console.log(user)
         console.log(user.email)
+        userEmail.value = user.email
       });
 
       // Cleanup function
       return unsubscribe;
     });
 
-    return { products, isLoggedIn }
+    return { products, isLoggedIn, userEmail }
   }
 }
 </script>

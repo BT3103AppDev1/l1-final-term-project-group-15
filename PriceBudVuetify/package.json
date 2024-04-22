@@ -13,6 +13,7 @@
     "firebase": "^10.11.0",
     "firebaseui": "^6.1.0",
     "mitt": "^3.0.1",
+    "papaparse": "^5.4.1",
     "roboto-fontface": "*",
     "vue": "^3.4.0",
     "vuetify": "^3.5.0",
