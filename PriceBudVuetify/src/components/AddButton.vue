@@ -7,18 +7,28 @@
 </template>
 
 <script>
+import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
 export default {
     data() {
-        return {
-            props: {
-                product: String
-            },
-        }
+        return {}
+    },
+            
+    props: {
+        product: String,
+        userEmail: String
     },
 
     methods: {
-        addProduct() {
-            this.$router.push({ name: 'ProductToWishList', params: { id: this.product } })
+        async addProduct() {
+        const db = getFirestore();
+        const userRef = doc(db, 'Users', this.userEmail);
+
+        // Atomically add a new product ID to the "wishlist" array field.
+        await updateDoc(userRef, {
+            Wishlist: arrayUnion(this.product)
+         });
+
+        this.$router.push({ name: 'ProductToWishList', params: { id: this.product } });
         }
     }
 }

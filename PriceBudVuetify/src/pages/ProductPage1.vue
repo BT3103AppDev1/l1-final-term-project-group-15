@@ -1,13 +1,11 @@
 <template>
-    <div class="page-container">
+    <v-sheet class="page-container">
   
-      <div class="sidebar">
-        <SideBar />
-      </div>
+      <SideBar class="sidebar" />
   
-      <div class = "container">
+      <v-container v-if="userEmail" class="right-container">
         <HeaderComponent />
-        <AddButton :product = "product" :key = "product"/>
+        <AddButton :product = "product" :key = "product" :userEmail = "userEmail" />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
         <div class = "container2">
@@ -22,9 +20,28 @@
 
         <!--Testing-->
         <h1>This is a page for product: {{ $route.params.id }}</h1>
-      </div>
-  
-    </div>
+      </v-container>
+      
+      <v-container v-else class="right-container">
+        <HeaderComponent />
+        <ProductDashboard :product = "product"/>
+        <ProductTrend :product = "product"/>
+        <div class = "container2">
+          <div class ="picture-container">
+          <ProductPicture :product = "product" :key = "product"/>
+          </div>
+          <div class ="description-container">
+          <ProductDescription :product = "product" :key = "product" />
+          <RetailerList :product = "product" :key = "product"/>
+          </div>
+        </div>
+
+        <!--Testing-->
+        <h1>This is a page for product: {{ $route.params.id }}</h1>
+      </v-container>
+      
+    </v-sheet>
+
   </template>
   
   <script>
@@ -36,14 +53,27 @@
   import ProductDescription from '../components/ProductDescription.vue'
   import RetailerList from '@/components/RetailerList.vue'  
   import AddButton from '@/components/AddButton.vue'
+  import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
   export default {
     data() {
       return {
-        product: null
+        product: null,
+        auth: null,
+        userEmail: null
       }
     },
     mounted() {
       this.product = this.$route.params.id
+
+      this.auth = getAuth()
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.userEmail = user.email
+          console.log(this.userEmail)
+          console.log('test')
+        } 
+      })
     },
     components: {
       SideBar,

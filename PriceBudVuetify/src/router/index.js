@@ -23,7 +23,6 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
-import HomePageLogIn from '../pages/HomePageLogIn.vue'
 import IndexPage from '../pages/index.vue'
 import LogIn1 from '../components/LogIn1.vue'
 //import LoginPage from '../pages/LoginPage.vue'
@@ -33,6 +32,7 @@ import ProfilePage from '../pages/ProfilePage.vue'
 import SearchResultsPage from '../pages/searchResults.vue'
 import SignupPage from '../pages/SignupPage.vue'
 import WishListPage from '../pages/WishListPage.vue'
+import TestPage from '@/pages/TestPage.vue'
 //import WishList from '@/components/WishList.vue'
 
 const router = createRouter({
@@ -40,7 +40,6 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/HomePage' },
     { path: '/HomePage', component: HomePage },
-    { path: '/HomePageLogIn', component: HomePageLogIn },
     { path: '/index', component: IndexPage },
     { path: '/LogIn1', component: LogIn1 },
     //{ path: '/LoginPage', component: LoginPage },
@@ -51,7 +50,8 @@ const router = createRouter({
     { path: '/SignupPage', component: SignupPage },
     { path: '/WishListPage', component: WishListPage },
     { path: '/HomePage/:id', name: "HomeToProduct", component: ProductPage1 },
-    {path: '/ProductPage1/:id', name: "ProductToWishList", component: WishListPage}
+    {path: '/ProductPage1/:id', name: "ProductToWishList", component: WishListPage},
+    { path: '/testing', component: TestPage}
   ]
 })
 
