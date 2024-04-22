@@ -21,11 +21,6 @@ const db = getFirestore(firebaseApp);
 export default {
   data: () => ({
     chartData: [],
-    items: [
-      { title: 'Day' },
-      { title: 'Month' },
-      { title: 'Year' },
-    ],
   }),
   props: {
     product: String
