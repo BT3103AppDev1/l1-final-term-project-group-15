@@ -7,7 +7,7 @@
   
       <div class = "container">
         <HeaderComponent />
-        <WishList :product = "product" :key = "product"/>
+        <WishList :product = "product" :key = "product" :userEmail = "userEmail"/>
 
       </div>
     </div>
@@ -16,29 +16,28 @@
 
   </template>
   
-  <script>
+  <script setup>
   import SideBar from '../components/SideBar.vue'
   import HeaderComponent from '../components/HeaderComponent.vue'
   import WishList from '../components/WishList.vue'
+  import { getAuth, onAuthStateChanged } from 'firebase/auth'
+  import { ref, onMounted } from 'vue'
 
-  export default {
-    data() {
-      return {
-        product: null
+  const userEmail = ref("")
+  const auth = getAuth()
+
+  onMounted (() => {
+    console.log('mounted');
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userEmail.value = user.email
+        console.log(userEmail.value)
+      } else {
+        console.log('No user is signed in.');
       }
-    },
-    mounted() {
-      this.product = this.$route.params.id
-    },
-
-    components: {
-      SideBar,
-      HeaderComponent,
-      WishList,
-
-    }
-
-  }
+    });
+  });
   </script>
   
   <style>
