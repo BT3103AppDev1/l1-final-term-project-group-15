@@ -33,6 +33,7 @@ import SignupPage from '../pages/SignupPage.vue'
 import WishListPage from '../pages/WishListPage.vue'
 import TestPage from '@/pages/TestPage.vue'
 import SettingPage from '@/pages/SettingPage.vue'
+import CommunityPage from '@/pages/CommunityPage.vue'
 //import WishList from '@/components/WishList.vue'
 
 const router = createRouter({
@@ -47,6 +48,7 @@ const router = createRouter({
     { path: '/ProductPage1', component: ProductPage1 },
     { path: '/ProfilePage', component: ProfilePage },
     { path: '/SettingPage', component: SettingPage },
+    { path: '/CommunityPage', component: CommunityPage },
     { path: '/searchResults', component: SearchResultsPage },
     { path: '/SignupPage', component: SignupPage },
     { path: '/WishListPage', component: WishListPage },

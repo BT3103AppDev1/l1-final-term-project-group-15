@@ -32,7 +32,7 @@
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Community">
+        <v-list-item link to="/CommunityPage">
           <v-list-item-icon>
             <v-icon>mdi-account-group</v-icon>
           </v-list-item-icon>
