@@ -1,15 +1,17 @@
 <template>
-  <v-card class="mx-auto text-center" color="white">
-    <v-card-text class="title">
-      <div class="text-p font-weight-thin">
-        <strong> {{product}} - Price Trend </strong>
-      </div>
-      <v-spacer></v-spacer>
-    </v-card-text>
+  <v-container>
+    <v-card class="proTrend" color="white">
+      <v-card-text class="title">
+        <div class="text-p font-weight-thin">
+          <strong> {{product}} - Price Trend </strong>
+        </div>
+        <v-spacer></v-spacer>
+      </v-card-text>
 
-    <line-chart :data="chartData" :curve="false">
-    </line-chart>
-  </v-card>
+      <line-chart :data="chartData" :curve="false">
+      </line-chart>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -49,6 +51,9 @@ export default {
 
 
 <style scoped>
+.proTrend{
+  border-radius: 8px;
+}
 .title {
     display: flex;
 }

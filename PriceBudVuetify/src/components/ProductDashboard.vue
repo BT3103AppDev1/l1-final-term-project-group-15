@@ -9,7 +9,7 @@
         >
           <v-card
           :variant="card.variant"
-          class="mx-auto card"
+          class="mx-auto-card"
           max-width="100%"
           max-height="auto"
           >
@@ -130,6 +130,9 @@
 </script>
 
 <style scoped>
+  .mx-auto-card{
+border-radius: 8px;
+  }
 
   .card-content {
     display: flex;

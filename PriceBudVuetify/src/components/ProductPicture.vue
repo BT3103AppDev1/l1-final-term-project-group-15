@@ -1,47 +1,48 @@
 <template>
     <v-container v-if="isLoggedIn" >
       <!-- Product Picture -->
-      <v-row>
-          <v-img :src="productImage" aspect-ratio="auto"></v-img>
-      </v-row>
+      <v-img :src="productImage" aspect-ratio="auto"></v-img>
 
-      <v-row class="rating-row">
+
+      <!-- Product Rating-->
       <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
-      </v-row>
+    
   
       <!-- Alert Box -->
-      <v-row class = "alert-row">
-          <div class="alert-box">
-            <strong>Send me an alert when price drops</strong>
-            <v-btn class = "alert-button" color="red" small rounded @click="dialog = true"> Alert me</v-btn>
+      <v-card class="alert-box">
+        <v-card-text class="text1">
+          <strong>Send me an alert when price drops</strong>
+        </v-card-text>
+        <v-card-text class="button">
+          <v-btn class = "alert-button" color="red" small rounded @click="dialog = true"> Alert me</v-btn>
+        </v-card-text>
 
-              <v-dialog v-model="dialog" width="auto">
-                <v-card>
-                  <v-card-title> Alert Confirmed </v-card-title>
-                </v-card>
-              </v-dialog>
-
-          </div>
-      </v-row>
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <v-card-title> Alert Confirmed </v-card-title>
+          </v-card>
+         </v-dialog>
+       </v-card>
     </v-container>
 
     <v-container v-else>
       <!-- Product Picture -->
-      <v-row>
-          <v-img :src="productImage" aspect-ratio="auto"></v-img>
-      </v-row>
+      <v-img :src="productImage" aspect-ratio="auto"></v-img>
 
-      <v-row class="rating-row">
+
+      <!-- Product Rating-->
       <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
-      </v-row>
+
   
       <!-- Alert Box -->
-      <v-row class = "alert-row">
-          <div class="alert-box">
+        <v-card class="alert-box">
+          <v-card-text class="text1">
             <strong> Sign up to alert me to price drop </strong>
+          </v-card-text>
+          <v-card-text class="button">
             <v-btn class = "alert-button" color="blue" small rounded @click="redirectLogIn" > Sign up</v-btn>
-          </div>
-      </v-row>
+          </v-card-text>
+        </v-card>
     </v-container>
   </template>
 
@@ -129,15 +130,21 @@
     justify-content: center;
   }
   .alert-box {
-
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 5%;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     font-family: 'poppins';
     font-weight:500;
     justify-content: center;
+  }
+  .button{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 0%;
+  }
+  .text1{
+    text-align: center;
   }
 
   </style>
