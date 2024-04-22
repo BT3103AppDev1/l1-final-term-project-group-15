@@ -16,15 +16,14 @@
           <!-- different cards for different infomations-->
             <v-card-item>
               <div class="card-content">
+
                 <div class="title-icon">
                   <div class="text-h6">{{ card.title }}</div>
                   <v-icon>{{ card.image }}</v-icon>
-                </div>
+                  </div>
+
                 <div class="text-overline mb-1">{{ card.headline }}</div>
                 <div class="text-caption">
-                  <span :class="getArrowClass(card.direction)">
-                    {{ card.arrow }}
-                  </span>
                   {{ card.content }}
                 </div>
               </div>
@@ -45,11 +44,13 @@
     data() {
       return {
         lowestPrice: "",
+        lowestPriceDate: "",
         YTDlowestPrice: "",
+        YTDlowestPriceDate: "",
         highestPrice: "",
-        wishListed: "",
         highestPriceDate: "",
-
+        wishListed: "",
+        wishListedDate: "",
       };
     },
     computed: {
@@ -59,18 +60,14 @@
             variant: 'elevated',
             title: `$${this.lowestPrice}`,
             headline: 'Current Price',
-            content: '3% up since last week',
-            arrow: '↑',
-            direction: 'down',
+            content: 'Since ' + this.lowestPriceDate,
             image: 'mdi-trophy'
           },
           {
             variant: 'elevated',
             title: `$${this.YTDlowestPrice}`,
             headline: 'Lowest Price',
-            content: 'Since 14 Feb 2024',
-            arrow: '',
-            direction: '',
+            content: 'Since ' + this.YTDlowestPriceDate,
             image: 'mdi-star'
           },
           {
@@ -78,17 +75,13 @@
             title: `$${this.highestPrice}`,
             headline: 'Highest Price',
             content: 'Since ' + this.highestPriceDate,
-            arrow: '',
-            direction: '',
             image: 'mdi-flag'
           },
           {
             variant: 'elevated',
             title: `${this.wishListed}`,
             headline: 'Monthly Views',
-            content: '3% up since last week',
-            arrow: '↑',
-            direction: 'up',
+            content: 'Since ' + this.wishListedDate,
             image: 'mdi-heart'
           }
         ];
@@ -104,8 +97,13 @@
       }
     },
     methods: {
-      getArrowClass(direction) {
-        return direction === 'up' ? 'arrow up' : 'arrow down';
+      formatDate(dateStr) {
+        const year = dateStr.substring(0, 4);
+        const month = dateStr.substring(4, 6);
+        const day = dateStr.substring(6, 8);
+        const date = new Date(year, month - 1, day);
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
       },
       async fetchFigure() {
         const docRef = doc(db, 'Products', this.product);
@@ -113,17 +111,14 @@
   
         if (docSnap.exists()) {
           const data = docSnap.data().CalculatedFields;
-          this.lowestPrice = data.LowestPrice;
-          this.YTDlowestPrice = data.YTDLowestPrice;
-          this.highestPrice = data.Highestprice[1];
-          const dateStr = data.Highestprice[0];
-          const year = dateStr.substring(0, 4);
-          const month = dateStr.substring(4, 6);
-          const day = dateStr.substring(6, 8);
-          const date = new Date(year, month - 1, day);
-          const options = { day: '2-digit', month: 'short', year: 'numeric' };
-          this.highestPriceDate = date.toLocaleDateString('en-US', options);
-          this.wishListed = data.WishListed;
+          this.lowestPrice = data.LowestPrice[1];
+          this.lowestPriceDate = this.formatDate(data.LowestPrice[0]);
+          this.YTDlowestPrice = data.YTDLowestPrice[1];
+          this.YTDlowestPriceDate = this.formatDate(data.YTDLowestPrice[0]);
+          this.highestPrice = data.HighestPrice[1];
+          this.highestPriceDate = this.formatDate(data.HighestPrice[0]);
+          this.wishListed = data.WishListed[1];
+          this.wishListedDate =this.formatDate(data.WishListed[0]);
         } else {
           console.log('No such document!');
         }
@@ -154,7 +149,7 @@
   .title-icon {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: left;
   }
   
   .arrow.up {

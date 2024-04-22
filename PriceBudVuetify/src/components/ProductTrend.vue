@@ -2,7 +2,7 @@
   <v-card class="mx-auto text-center" color="white">
     <v-card-text class="title">
       <div class="text-p font-weight-thin">
-        Kodak M35 35mm Film Camera - Price Trend
+        <strong> M35 35mm Film Camera - Price Trend </strong>
       </div>
       <v-spacer></v-spacer>
     </v-card-text>
