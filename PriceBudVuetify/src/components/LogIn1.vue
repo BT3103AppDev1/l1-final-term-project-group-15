@@ -121,6 +121,8 @@ export default {
   height: auto; 
   padding: 20px; 
   background-color: #F5F5F5 ;
+  border-color: transparent;
+  opacity: 0.97;
 }
 
 .registration-form {
