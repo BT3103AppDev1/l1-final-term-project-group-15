@@ -8,7 +8,7 @@
         <v-spacer></v-spacer>
       </v-card-text>
 
-      <line-chart :data="chartData" :curve="false">
+      <line-chart :data="chartData" :curve="true">
       </line-chart>
     </v-card>
   </v-container>
@@ -30,21 +30,84 @@ export default {
   watch: {
       product: {
         immediate: true,
-        handler: 'fetchData'
+        handler: 'fetchDataByDay'
       }
   },
   methods: {
-    async fetchData() {
-      const docRef = doc(db, 'Products', this.product);
-      const docSnap = await getDoc(docRef);
+    async fetchDataByDay() {
+  const docRef = doc(db, 'Products', this.product);
+  const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        // Extracting the priceTrend data from the document
-        this.chartData = docSnap.data().PriceTrend;
-      } else {
-        console.log('No such document!');
-      }
-    },
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const combinedChartData = [];
+
+    // Assuming data.Amazon and data.Lazada are objects with date keys and price values
+    // Convert Amazon data
+    let amazonData = {};
+    Object.keys(data.Amazon).forEach(date => {
+      amazonData[date] = data.Amazon[date];
+    });
+    combinedChartData.push({ name: 'Amazon', data: amazonData });
+
+    // Convert Lazada data
+    let lazadaData = {};
+    Object.keys(data.Lazada).forEach(date => {
+      lazadaData[date] = data.Lazada[date];
+    });
+    combinedChartData.push({ name: 'Lazada', data: lazadaData });
+
+    let shopeeData = {};
+    Object.keys(data.Shopee).forEach(date => {
+      shopeeData[date] = data.Shopee[date];
+    });
+    combinedChartData.push({ name: 'Shopee', data: shopeeData });
+
+    this.chartData = combinedChartData;
+  } else {
+    console.log('No such document!');
+  }
+},
+async fetchDataByMonth() {
+  const docRef = doc(db, 'Products', this.product);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const combinedChartData = [];
+
+    // Helper function to format and aggregate data by month
+    const aggregateByMonth = (data) => {
+      const monthlyData = {};
+      Object.keys(data).forEach(date => {
+        const monthYear = new Date(date).toISOString().substring(0, 7); // 'YYYY-MM'
+        if (!monthlyData[monthYear]) {
+          monthlyData[monthYear] = [];
+        }
+        monthlyData[monthYear].push(data[date]);
+      });
+      
+      // Calculate average for each month (or choose another aggregation method)
+      const result = {};
+      Object.keys(monthlyData).forEach(month => {
+        const sum = monthlyData[month].reduce((a, b) => a + b, 0);
+        const average = sum / monthlyData[month].length;
+        result[month] = average;
+      });
+      return result;
+    };
+
+    combinedChartData.push({ name: 'Amazon', data: aggregateByMonth(data.Amazon) });
+    combinedChartData.push({ name: 'Lazada', data: aggregateByMonth(data.Lazada) });
+    combinedChartData.push({ name: 'Shopee', data: aggregateByMonth(data.Shopee) });
+
+    this.chartData = combinedChartData;
+  } else {
+    console.log('No such document!');
+  }
+},
+
+
   }
 }
 </script>

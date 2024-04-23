@@ -97,7 +97,7 @@
       const dialog = ref(false);
 
       const redirectLogIn = () => {
-        router.push('/LogIn1');
+        router.push('/SignIn');
       };
 
       const onAuthStateChangedHandler = (user) => {
