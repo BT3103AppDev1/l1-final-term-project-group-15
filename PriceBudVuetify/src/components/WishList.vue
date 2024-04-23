@@ -1,5 +1,5 @@
 <template>
-      <h2 class="title">Marci's Wishlist</h2>
+      <h2 class="title">Your Wishlist</h2>
       <h5 class="subtitle">Everything you love, in one place</h5>
       <v-card class = "list">
         <template v-slot:text>

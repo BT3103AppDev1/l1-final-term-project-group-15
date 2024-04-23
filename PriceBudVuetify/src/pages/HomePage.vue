@@ -10,7 +10,7 @@
       <SearchBar />
       <MasterInput v-if="userEmail == 'master@gmail.com'" />
       <UserPriceInput />
-      <RowCards :wishlist = "wishlist"/>
+      <RowCards :wishlist = "wishlist" :isLoggedIn="true" />
                 
     </v-container>
 

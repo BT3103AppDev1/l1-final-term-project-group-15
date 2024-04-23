@@ -41,7 +41,7 @@ const props = defineProps({
 
 function redirectProductPage() {
   console.log('redirecting to product page')
-  router.push({ name: 'CardToProduct', params: { id: props.productName } })
+  router.push({ name: 'HomeToProduct', params: { id: props.productName } })
 }
 
 onBeforeMount (() => {
@@ -56,9 +56,9 @@ onMounted (async () => {
 
 if (docSnap.exists()) {
     const data = docSnap.data()
-    fullName.value = data.Brand + ' ' + props.productName
-    price.value = '$600' // edit here to make it dynamic
-    imageurl.value = data.Image
+    fullName.value = data.brand + ' ' + props.productName // fullName is Brand + productName
+    price.value = '$' + data["Current Price"] // edit here to make it dynamic
+    imageurl.value = data.image_path
 
 
     console.log(fullName)
@@ -81,6 +81,7 @@ if (docSnap.exists()) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 .pricechange-container {
     display: flex;
