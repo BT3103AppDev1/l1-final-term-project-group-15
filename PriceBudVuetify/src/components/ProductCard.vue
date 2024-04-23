@@ -1,17 +1,17 @@
 <template>
-    <v-container  v-if="inWishlistView">
+    <v-container v-if="inWishlistView">
         <!-- wishlist row product card -->
-        <div class="product-card">
+        <div class="product-card" @click="redirectProductPage()">
             <h3 class="poppins-regular">{{ fullName }}</h3>
             <img class="product-image" :src="imageurl" alt="product image">
             <h1 class="poppins-semibold">{{ price }}</h1>
-            <div class="pricechange-container">
+            <!-- <div class="pricechange-container">
                 <v-icon icon="mdi-arrow-down" color="green"/>
                 <p class="poppins-regular">
                     <span class="font-green">${{  props.product.pricechange }}</span> 
                     since wishlisting
                 </p>
-            </div>
+            </div> -->
         </div>
     </v-container>
     <v-container v-else>
@@ -24,12 +24,13 @@
 <script setup>
 import { defineProps, onMounted, onBeforeMount, ref } from 'vue'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import { useRouter } from 'vue-router'
 
 let fullName = ref('')
 let price = ref('')
 let imageurl = ref('')
 
-
+const router = useRouter()
 const props = defineProps({
   productName: String,
   inWishlistView: {
@@ -37,6 +38,11 @@ const props = defineProps({
     default: true
   }
 })
+
+function redirectProductPage() {
+  console.log('redirecting to product page')
+  router.push({ name: 'CardToProduct', params: { id: props.productName } })
+}
 
 onBeforeMount (() => {
   console.log('created')
@@ -68,7 +74,9 @@ if (docSnap.exists()) {
 <style scoped>
 /* Your component styles here */
 .product-card {
-    width: 100%;
+    /* width: 100%;
+    height: 100%; */
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,7 +89,8 @@ if (docSnap.exists()) {
 }
 
 .product-image {
-    width: 70%;
+    height: 180px;
+    width: fit-content;
 }
 
 .font-green {

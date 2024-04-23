@@ -1,131 +1,83 @@
 <template>
     <v-container>
-    <div v-if="userEmail" class="content-container">
-        <v-sheet color="FFFFFF" elevation="4">
 
-        <button @click="print">Print</button>
+    <div v-if="true" class="content-container">
+        <v-sheet color="FFFFFF" elevation="4">
             
-  <v-carousel
-    height="400"
-    show-arrows="hover"
-    cycle
-    hide-delimiter-background
-  >
-    <v-carousel-item
-      v-for="(slide, i) in wishlist"
-      :key="i"
-    >
-      <v-sheet
-        :color="colors[i]"
-        height="100%"
-      >
-        <div class="d-flex fill-height justify-center align-center">
-          <div class="text-h2">
-            {{ slide }} Slide
-          </div>
-        </div>
-      </v-sheet>
-    </v-carousel-item>
-  </v-carousel>
-            <!-- <h1 class="title poppins-semibold">{{ title }}</h1>
-            <h3 class="desc poppins-regular">{{ description }}</h3> -->
+            <h1 class="title poppins-semibold">Your wishlist, at a glance</h1>
+            <h3 class="desc poppins-regular">Have a look at what changed since the last time you were here</h3>
 
+            <!-- for debugging -->
+            <!-- <div>{{ wishlistActual }}</div>
+            <div v-for="(product, i) in wishlistActual" :key="i"> {{ product }}</div> -->
+            
             <!-- Product Cards -->
-            <!-- <v-carousel hide-delimiters height="100%">
-                <v-carousel-item v-for="(product, i) in products" :key="i">
+            <v-slide-group>
+                <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
                     <div class="card-container">
-                        <!-- <ProductCard :productName="product" /> -->
-                        <div>{{ product }} slide</div>
+                        <ProductCard class="product-card" :productName="product" />
+                        <!-- <h1>{{ product }}</h1> -->
                     </div>
-                    
-                </v-carousel-item>
-            </v-carousel> -->
-
-            <!-- <v-container> 
-                <ProductCard :productName="wishlist.value[0]" />
-            </v-container> -->
-
-
+                </v-slide-item>
+            </v-slide-group>
+            
         </v-sheet>
     </div>
-    <div class="content-container">
-        <v-sheet color="FFFFFF" elevation="4">
-            <h1 class="title poppins-semibold">Largest price changes this week</h1>
-            <h3 class="desc poppins-regular">These products had the biggest price changes this week</h3>
+        
+    <div v-else class="content-container">
+    <v-sheet color="FFFFFF" elevation="4">
+        <h1 class="title poppins-semibold">{{ title }}</h1>
+        <h3 class="desc poppins-regular">{{ description }}</h3>
 
-            <!-- Product Cards -->
-            <!-- for each insight, different data from Product object is required -->
-            <v-carousel hide-delimiters height="100%">
-                <v-carousel-item v-for="(product, i) in products" :key="i">
-                    <div class="test">
-                        <ProductCard :wishlist="product" />
-                        <ProductCard :wishlist="product" />
-                        <ProductCard :wishlist="product" />
-                        <ProductCard :wishlist="product" />
-                    </div>
-                    
-                </v-carousel-item>
-            </v-carousel>
-       
-        </v-sheet>
-    </div>
-    </v-container>
+        <!-- Product Cards -->
+        <!-- for each insight, different data from Product object is required -->
+        <v-carousel hide-delimiters height="100%">
+            <v-carousel-item v-for="(product, i) in products" :key="i">
+            <div class="test">
+            <ProductCard :product="product" />
+            <ProductCard :product="product" />
+            <ProductCard :product="product" />
+            <ProductCard :product="product" />
+        </div>
+
+            </v-carousel-item>
+        </v-carousel>
+
+    </v-sheet>
+    </div>  
+    </v-container>  
 </template>
 
 
 <script setup>
-import { defineProps, onMounted, onBeforeMount } from 'vue'
-import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import { defineProps, watch, onMounted, ref } from 'vue'
 import ProductCard from './ProductCard.vue'
 
-
-const colors = [
-          'indigo',
-          'warning',
-          'pink darken-2',
-          'red lighten-1',
-          'deep-purple accent-4',
-        ]
-
-const slides =  ['First', 'Second', 'Third', 'Fourth', 'Fifth']
-
-let wishlist = []
-
-function print() {
-    console.log(wishlist)
-}
-
 const props = defineProps({
-    userEmail: String
+  wishlist: {
+    type: Array,
+    default: () => []
+  }
 })
 
-async function fetchUserWishlist(userEmail) {
-    try {
-        const db = getFirestore()
-        console.log(userEmail)
-        const userDocRef = doc(db, "Users", userEmail)
-        const userDocSnap = await getDoc(userDocRef)
-        if (userDocSnap.exists()) {
-            console.log('Document data:', userDocSnap.data())
-            wishlist = userDocSnap.data().Wishlist
-            console.log(wishlist)
-        } else {
-            console.log('No such document / user')
-        }
-    } catch (error) {
-        console.error('Error fetching user', error)
-    }
-}
+let wishlistActual = ref([])
+
+watch(() => props.wishlist, (newWishlist) => {
+  console.log('Wishlist changed')
+  console.log(newWishlist)
+  wishlistActual.value = newWishlist
+  console.log(wishlistActual.value)
+})
 
 onMounted(() => {
-    console.log(props.userEmail)
-    fetchUserWishlist(props.userEmail)
- })
+  console.log('Mounted')
+  console.log(props.wishlist)
+})
 </script>
 
 
 <style scoped>
-/* .poppins-semibold {
+.poppins-semibold {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
 }
@@ -140,12 +92,18 @@ onMounted(() => {
 }
 
 .content-container {
-    /* width: 70vw; */
-    /* height: 20vh; 
-}*/
+    /* width: 70vw; 
+    height: 20vh; */
+}
 
-/* .card-container {
+.card-container {
     display: flex;
     justify-content: row;
-} */ 
+}
+
+/* .product-card {
+    height: 20%;
+    width: 20%;
+} */
+
 </style>

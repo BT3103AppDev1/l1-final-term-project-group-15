@@ -10,7 +10,7 @@
       <SearchBar />
       <MasterInput v-if="userEmail == 'master@gmail.com'" />
       <UserPriceInput />
-      <RowCards :userEmail = "userEmail"/>
+      <RowCards :wishlist = "wishlist"/>
                 
     </v-container>
 
@@ -37,24 +37,29 @@ import HomeLoginComp from '../components/HomeLoginComp.vue'
 import MasterInput from '../components/MasterInput.vue'
 import UserPriceInput from '../components/UserPriceInput.vue'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { getFirestore, collection, doc, setDoc } from 'firebase/firestore'
-import { ref, onMounted } from 'vue'
+import { getFirestore, collection, doc, getDoc, setDoc } from 'firebase/firestore'
+import { ref,  onBeforeMount } from 'vue'
 
 
 const userEmail = ref("")
 
 const isLoggedIn = ref(false)
 const auth = getAuth()
-    
 
-onMounted(() => {
-  console.log('mounted');
+let wishlist = ref([])
+
+// onBeforeMount(() => {
+//   console.log('created')
+// })
+
+onBeforeMount(() => {
+  console.log('created');
 
   function isNewUser(user) {
     return user.metadata.creationTime === user.metadata.lastSignInTime;
   }
 
-  const newUserUpdate = onAuthStateChanged(auth, (user) => {
+  const newUserUpdate = onAuthStateChanged(auth, async (user) => {
     if (user) {
       isLoggedIn.value = true
       const isFirstTimeLogin = isNewUser(user);
@@ -84,18 +89,32 @@ onMounted(() => {
         }
       } else {
         console.log("Returning user");
+        console.log(user)
+        console.log(user.email)
+
+        userEmail.value = user.email
+        
+        const db = getFirestore()
+        const docRef = doc(db, 'Users', user.email)
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          console.log(data.Wishlist)
+          wishlist.value = data.Wishlist
+        }
+        console.log(wishlist)
       }
     } else {
       isLoggedIn.value = false
     }
-
-    console.log(user)
-    console.log(user.email)
-    userEmail.value = user.email
+  
   })
 
   return newUserUpdate;
 })
+
+
 </script>
 
 <style scoped>
