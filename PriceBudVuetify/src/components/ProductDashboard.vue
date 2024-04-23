@@ -46,11 +46,11 @@
     data() {
       return {
         lowestPrice: "",
-        lowestPriceDate: "",
-        YTDlowestPrice: "",
-        YTDlowestPriceDate: "",
+        lowestDate: "",
+        currentPrice: "",
+        currentDate: "",
         highestPrice: "",
-        highestPriceDate: "",
+        highestDate: "",
         wishListed: "",
         wishListedDate: "",
       };
@@ -60,29 +60,29 @@
         return [
           {
             variant: 'elevated',
-            title: `$${this.lowestPrice}`,
+            title: `$${this.currentPrice}`,
             headline: 'Current Price',
-            content: 'Since ' + this.lowestPriceDate,
+            content: 'Since ' + this.currentDate,
             image: 'mdi-trophy'
           },
           {
             variant: 'elevated',
-            title: `$${this.YTDlowestPrice}`,
+            title: `$${this.lowestPrice}`,
             headline: 'Lowest Price',
-            content: 'Since ' + this.YTDlowestPriceDate,
+            content: 'Since ' + this.lowestDate,
             image: 'mdi-star'
           },
           {
             variant: 'elevated',
             title: `$${this.highestPrice}`,
             headline: 'Highest Price',
-            content: 'Since ' + this.highestPriceDate,
+            content: 'Since ' + this.highestDate,
             image: 'mdi-flag'
           },
           {
             variant: 'elevated',
             title: `${this.wishListed}`,
-            headline: 'Monthly Views',
+            headline: 'Wish Listed',
             content: 'Since ' + this.wishListedDate,
             image: 'mdi-heart'
           }
@@ -112,13 +112,13 @@
         const docSnap = await getDoc(docRef);
   
         if (docSnap.exists()) {
-          const data = docSnap.data().CalculatedFields;
-          this.lowestPrice = data.LowestPrice[1];
-          this.lowestPriceDate = this.formatDate(data.LowestPrice[0]);
-          this.YTDlowestPrice = data.YTDLowestPrice[1];
-          this.YTDlowestPriceDate = this.formatDate(data.YTDLowestPrice[0]);
-          this.highestPrice = data.HighestPrice[1];
-          this.highestPriceDate = this.formatDate(data.HighestPrice[0]);
+          const data = docSnap.data();
+          this.currentPrice = data[`Current Price`];
+          this.currentDate = this.formatDate(data[`Current Date`]);
+          this.lowestPrice = data[`Lowest Price`];
+          this.lowestDate = this.formatDate(data[`Lowest Date`]);
+          this.highestPrice = data[`Highest Price`];
+          this.highestDate = this.formatDate(data[`Highest Date`]);
           this.wishListed = data.WishListed[1];
           this.wishListedDate =this.formatDate(data.WishListed[0]);
         } else {

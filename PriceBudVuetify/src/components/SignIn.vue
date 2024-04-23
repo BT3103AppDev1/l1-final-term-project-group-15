@@ -73,7 +73,7 @@ export default {
                 }).catch((error) => {
                     console.error("Error updating username:", error);
                 });
-                console.log('Successfully registered! Please login.');
+                ('Successfully registered! Please login.');
                 this.$router.push('/');
             })
             .catch(error => {
@@ -115,6 +115,7 @@ export default {
   max-width: 600px; 
   height: auto;
   padding: 20px;
+  background-color: #F5F5F5 ;
 }
 .rerouteLogIn{
     text-align: center;
