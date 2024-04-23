@@ -21,8 +21,7 @@
       </v-menu>
       </v-card-text>
 
-      <line-chart :data="chartData" :curve="true">
-      </line-chart>
+      <line-chart :data="chartData" prefix="$" :min = "lowprice"></line-chart>
     </v-card>
   </v-container>
 </template>
@@ -53,82 +52,87 @@ export default {
         handler: 'fetchDataByMonth'
       }
   },
-
   methods: {
     async fetchDataByDay() {
       const docRef = doc(db, 'Products', this.product);
       const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    const combinedChartData = [];
+      if (docSnap.exists()) {
+          const combinedChartData = [];
 
-    // Assuming data.Amazon and data.Lazada are objects with date keys and price values
-    // Convert Amazon data
-    let amazonData = {};
-    Object.keys(data.Amazon).forEach(date => {
-      amazonData[date] = data.Amazon[date];
-    });
-    combinedChartData.push({ name: 'Amazon', data: amazonData });
+          const aggregateByDay = (data) => {
+              Object.keys(data).forEach(date => {
+                  let smallestNumber = Infinity; // Set initial smallest number to positive infinity
+                      const price = Number(data[date]);
+                      if (!isNaN(price)) { // Check if it's a valid number
+                          if (price < smallestNumber) {
+                              smallestNumber = price;
+                          }
+                  }
+                  if (smallestNumber - 10 < this.lowprice) {
+                      this.lowprice = smallestNumber - 10;
+                  }
+              });
+              return data; // Moved the return statement outside the loop
+          };
 
-    // Convert Lazada data
-    let lazadaData = {};
-    Object.keys(data.Lazada).forEach(date => {
-      lazadaData[date] = data.Lazada[date];
-    });
-    combinedChartData.push({ name: 'Lazada', data: lazadaData });
+          combinedChartData.push({ name: 'Amazon', data: aggregateByDay(docSnap.data().Amazon) });
+          combinedChartData.push({ name: 'Lazada', data: aggregateByDay(docSnap.data().Lazada) });
+          combinedChartData.push({ name: 'Shopee', data: aggregateByDay(docSnap.data().Shopee) });
 
-    let shopeeData = {};
-    Object.keys(data.Shopee).forEach(date => {
-      shopeeData[date] = data.Shopee[date];
-    });
-    combinedChartData.push({ name: 'Shopee', data: shopeeData });
+          this.chartData = combinedChartData;
+      } else {
+          console.log('No such document!');
+      }
+    },
+    async fetchDataByMonth() {
+      const docRef = doc(db, 'Products', this.product);
+      const docSnap = await getDoc(docRef);
 
-    this.chartData = combinedChartData;
-  } else {
-    console.log('No such document!');
-  }
-},
-async fetchDataByMonth() {
-  const docRef = doc(db, 'Products', this.product);
-  const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const combinedChartData = [];
 
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    const combinedChartData = [];
+        // Helper function to format and aggregate data by month
+        const aggregateByMonth = (data) => {
+          const monthlyData = {};
+          Object.keys(data).forEach(date => {
+            const monthYear = parseInt(date/ 100)
+            if (!monthlyData[parseInt(monthYear*100 + 1)]) {
+              monthlyData[parseInt(monthYear*100 + 1)] = [];
+            }
+            monthlyData[parseInt(monthYear*100 + 1)].push(parseInt(data[date]));
+          });
+          
+          // Calculate average for each month (or choose another aggregation method)
+          const result = {};
+            Object.keys(monthlyData).forEach(month => {
+              let smallestNumber = Infinity; // Set initial smallest number to positive infinity
+              for (const priceStr in monthlyData[month]) {
+                const price = Number(monthlyData[month][priceStr]);
+                if (!isNaN(price)) { // Check if it's a valid number
+                  if (price < smallestNumber) {
+                    smallestNumber = price;
+                  }
+                }
+              }
+              result[month] = smallestNumber;
+              if(smallestNumber - 10 < this.lowprice) {
+                this.lowprice = smallestNumber - 10;
+              }
+              
+            });
+            return result;
+        };
 
-    // Helper function to format and aggregate data by month
-    const aggregateByMonth = (data) => {
-      const monthlyData = {};
-      Object.keys(data).forEach(date => {
-        const monthYear = new Date(date).toISOString().substring(0, 7); // 'YYYY-MM'
-        if (!monthlyData[monthYear]) {
-          monthlyData[monthYear] = [];
-        }
-        monthlyData[monthYear].push(data[date]);
-      });
-      
-      // Calculate average for each month (or choose another aggregation method)
-      const result = {};
-      Object.keys(monthlyData).forEach(month => {
-        const sum = monthlyData[month].reduce((a, b) => a + b, 0);
-        const average = sum / monthlyData[month].length;
-        result[month] = average;
-      });
-      return result;
-    };
+        combinedChartData.push({ name: 'Amazon', data: aggregateByMonth(docSnap.data().Amazon) });
+        combinedChartData.push({ name: 'Lazada', data: aggregateByMonth(docSnap.data().Lazada) });
+        combinedChartData.push({ name: 'Shopee', data: aggregateByMonth(docSnap.data().Shopee) });
 
-    combinedChartData.push({ name: 'Amazon', data: aggregateByMonth(data.Amazon) });
-    combinedChartData.push({ name: 'Lazada', data: aggregateByMonth(data.Lazada) });
-    combinedChartData.push({ name: 'Shopee', data: aggregateByMonth(data.Shopee) });
-
-    this.chartData = combinedChartData;
-  } else {
-    console.log('No such document!');
-  }
-},
-
-
+        this.chartData = combinedChartData;
+      } else {
+        console.log('No such document!');
+      }
+    },
   }
 }
 </script>
