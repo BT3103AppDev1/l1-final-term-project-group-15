@@ -41,7 +41,7 @@
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          this.productDescription = docSnap.data().Description;
+          this.productDescription = docSnap.data().description;
         } else {
           console.log('No such document!');
         }

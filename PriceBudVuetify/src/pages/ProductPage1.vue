@@ -33,7 +33,7 @@
           </div>
           <div class ="description-container">
           <ProductDescription :product = "product" :key = "product" />
-          <RetailerList :product = "product" :key = "product"/>
+          <RetailerList :product = "product" :key = "product" :userEmail = "userEmail"/>
           </div>
         </div>
 
