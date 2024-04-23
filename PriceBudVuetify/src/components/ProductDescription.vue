@@ -3,7 +3,7 @@
       <!-- Product Description Header -->
       <v-row class ="description">
         <v-col>
-          <v-card>
+          <v-card id ="desCard"> 
             <v-card-title class="title">Product Description</v-card-title>
             <v-card-text>
               <!-- Product Description -->
@@ -62,6 +62,9 @@
     font-display: flex;
     font-weight: 500;
     text-align: center;
+  }
+  #desCard{
+    border-radius: 8px;
   }
 
   </style>

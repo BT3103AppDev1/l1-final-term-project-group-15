@@ -1,29 +1,60 @@
 <template>
-    <v-container>
+    <v-container v-if="isLoggedIn" >
       <!-- Product Picture -->
-      <v-row>
-          <v-img :src="productImage" aspect-ratio="auto"></v-img>
-      </v-row>
+      <v-img :src="productImage" aspect-ratio="auto"></v-img>
 
-      <v-row class="rating-row">
+
+      <!-- Product Rating-->
       <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
-      </v-row>
+    
   
       <!-- Alert Box -->
-      <v-row class = "alert-row">
-          <div class="alert-box">
-            <strong>Send me an alert when price drops</strong>
-            <v-btn class = "alert-button" color="red" small rounded>Alert me</v-btn>
-          </div>
-      </v-row>
+      <v-card class="alert-box">
+        <v-card-text class="text1">
+          <strong>Send me an alert when price drops</strong>
+        </v-card-text>
+        <v-card-text class="button">
+          <v-btn class = "alert-button" color="red" small rounded @click="dialog = true"> Alert me</v-btn>
+        </v-card-text>
+
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <v-card-title> Alert Confirmed </v-card-title>
+          </v-card>
+         </v-dialog>
+       </v-card>
+    </v-container>
+
+    <v-container v-else>
+      <!-- Product Picture -->
+      <v-img :src="productImage" aspect-ratio="auto"></v-img>
+
+
+      <!-- Product Rating-->
+      <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
+
+  
+      <!-- Alert Box -->
+        <v-card class="alert-box">
+          <v-card-text class="text1">
+            <strong> Sign up to alert me to price drop </strong>
+          </v-card-text>
+          <v-card-text class="button">
+            <v-btn class = "alert-button" color="blue" small rounded @click="redirectLogIn" > Sign up</v-btn>
+          </v-card-text>
+        </v-card>
     </v-container>
   </template>
+
   
   <script>
   import { doc, getDoc } from 'firebase/firestore';
-  import { getFirestore } from 'firebase/firestore'
+  import { getFirestore } from 'firebase/firestore';
+  import { useRouter } from 'vue-router';
+  import { ref, onMounted } from 'vue';
+  import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
   export default {
-    // Component logic goes here
     data() {
       return {
         productImage: "",
@@ -57,9 +88,38 @@
           console.log('Product ID is null!');
         }
       }
+    },
+    setup() {
+      const router = useRouter();
+      const username = ref('');
+      const isLoggedIn = ref(false);
+      const auth = getAuth();
+      const dialog = ref(false);
+
+      const redirectLogIn = () => {
+        router.push('/SignIn');
+      };
+
+      const onAuthStateChangedHandler = (user) => {
+        if (user) {
+          isLoggedIn.value = true;
+          username.value = user.displayName;
+        } else {
+          isLoggedIn.value = false;
+        }
+      };
+
+      onMounted(() => {
+        console.log('mounted');
+        const unsubscribe = onAuthStateChanged(auth, onAuthStateChangedHandler);
+        return unsubscribe;
+      });
+
+      return { username, isLoggedIn, redirectLogIn, dialog};
     }
   };
-  </script>
+</script>
+  
   
   <style scoped>
   .rating-row {
@@ -70,15 +130,21 @@
     justify-content: center;
   }
   .alert-box {
-
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 5%;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     font-family: 'poppins';
     font-weight:500;
     justify-content: center;
+  }
+  .button{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 0%;
+  }
+  .text1{
+    text-align: center;
   }
 
   </style>

@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-container class="table-container">
       <!-- Header -->
       <v-row>
@@ -16,12 +15,12 @@
         outlined
       ></v-data-table>
     </v-container>
-  </v-app>
 </template>
 
 <script>
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
+
 export default {
   data() {
     return {
@@ -83,5 +82,8 @@ export default {
 /* Style for table headers */
 .v-data-table-header {
   font-weight: bold;
+}
+.table-container{
+  border-radius: 8px;
 }
 </style>

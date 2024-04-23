@@ -56,7 +56,7 @@
   const auth = getAuth()
   
   function redirectLogIn() {
-    router.push('/LogIn1');
+    router.push('/SignIn');
   }
   
   onMounted(() => {

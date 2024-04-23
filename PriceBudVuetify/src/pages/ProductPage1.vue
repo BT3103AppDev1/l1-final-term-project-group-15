@@ -1,7 +1,8 @@
 <template>
     <v-sheet class="page-container">
-  
+
       <SideBar class="sidebar" />
+  
   
       <v-container v-if="userEmail" class="right-container">
         <HeaderProduct />
@@ -119,14 +120,17 @@
 
   }
   
-  .page-container {
-    display: flex;
-    flex: 8;
-    margin: 0;
+  .right-containe {
+    width: 80%; /* Adjust this value based on your needs */
+    overflow-y: auto;
+    height: 100vh;
   }
   
   .sidebar {
-    flex: 2;
+    min-width: 120px;
+    width: 20%; /* Adjust this value based on your needs */
+    height: 100vh;
+    overflow-y: auto;
   }
   
   </style>
