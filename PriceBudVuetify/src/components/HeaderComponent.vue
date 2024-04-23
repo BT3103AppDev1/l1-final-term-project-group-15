@@ -1,22 +1,18 @@
 <template>
-  <v-container>
+  <v-container v-if="isLoggedIn">
     <v-toolbar density="compact" class="custom-toolbar">
       <v-card-title>
-        <template v-if="isLoggedIn">
           <h2 class="poppins-semibold">Welcome Back, {{ username }}</h2>
           <p>{{ content }}</p>
-        </template>
-        <template v-else>
-          <h2 class="poppins-semibold">Compare prices, find sweet deals</h2>
-        </template>
       </v-card-title>
+
       <v-spacer></v-spacer>
 
       <v-icon icon="mdi-trophy" />
 
-      <v-card-subtitle v-if="isLoggedIn">{{ username }} </v-card-subtitle>
+      <v-card-subtitle> {{ username }} </v-card-subtitle>
 
-      <v-menu v-if="isLoggedIn">
+      <v-menu>
         <!-- activates the menu dropdown -->
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn> 
@@ -32,6 +28,12 @@
       </v-menu>
     </v-toolbar>
   </v-container>
+
+  <v-container v-else>
+   <h2 class="poppins-semibold">Compare prices, find sweet deals</h2>
+  </v-container>
+
+
 </template>
 
 <script setup>

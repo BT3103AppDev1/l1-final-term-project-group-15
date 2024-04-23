@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <!-- Logo and Title -->
       <div class="d-flex align-center mt-5">
-        <!-- <img src="/Users/bachnguyen/Downloads/Screenshot_2024-04-03_at_2.43.16_PM-removebg-preview.png" alt="Logo" class="mr-2 ml-4" style="height: 24px;"> Adjust height as needed -->
+        <img src="../assets/icon.png" alt="Logo" class="mr-2 ml-4" style="height: 24px;">
         <span class="title"><strong>PriceBud</strong></span>
       </div>
       <!-- Sidebar content -->
@@ -24,7 +24,7 @@
             <v-list-item-title>Wishlist</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Profile">
+        <v-list-item link to="/ProfilePage">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
@@ -32,7 +32,7 @@
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Community">
+        <v-list-item link to="/CommunityPage">
           <v-list-item-icon>
             <v-icon>mdi-account-group</v-icon>
           </v-list-item-icon>
@@ -40,7 +40,7 @@
             <v-list-item-title>Community</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Setting">
+        <v-list-item link to="/SettingPage">
           <v-list-item-icon>
             <v-icon>mdi-cog</v-icon>
           </v-list-item-icon>
