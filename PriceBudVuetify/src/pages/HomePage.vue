@@ -3,7 +3,7 @@
   <!-- for parent wrapper use vsheet as vcontainer has default margin -->
   <!-- <router-link to="/SearchResults">Search</router-link> -->
   
-    <SideBar class="sidebar" />
+    <SideBar class="sidebar"/>
     
     <v-container v-if="isLoggedIn" class="right-container">
       <HeaderComponent />

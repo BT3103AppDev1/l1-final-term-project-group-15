@@ -7,7 +7,7 @@
   
       <div class = "container">
         <HeaderComponent />
-        <h1>This is the profile page</h1>
+        <h1>This is the community page</h1>
 
       </div>
     </div>

@@ -1,13 +1,14 @@
 <template>
-
-    <div class="d-flex align-center mt-5">
-        <!-- <img src="/Users/bachnguyen/Downloads/Screenshot_2024-04-03_at_2.43.16_PM-removebg-preview.png" alt="Logo" class="mr-2 ml-4" style="height: 24px;"> Adjust height as needed -->
-        <span class="title"><strong>PriceBud</strong></span>
-    </div>
-
-    <h1 id = "mainHead"> Welcome back! Log in here</h1>
-
-    <div id="firebaseui-auth-container"></div>
+    <v-dialog v-model="dialog" width="auto" persistent>
+        <v-card class="custom-card">
+            <div style="text-align: center;">
+            <img src="../assets/icon.png" alt="PriceBud" width="20%" height="20%">
+            </div>
+            <h1 id = "mainHead"> Welcome back! </h1>
+            <h4 id = "subHead">  Please enter your details to sign in </h4>
+            <div id="firebaseui-auth-container"></div>
+        </v-card>
+    </v-dialog>
 
 </template>
 
@@ -16,6 +17,8 @@ import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
+import { ref } from 'vue';
+
 
 export default {
     name:"LogIn",
@@ -34,11 +37,20 @@ export default {
             ]
         };
         ui.start("#firebaseui-auth-container", uiConfig)
+    },
+    setup(){
+        const dialog = ref(true);
+
+        return { dialog };
     }
 }
 </script>
 
 <style scoped> 
+
+#title{
+    text-align: center;
+}
 
 #firebaseui-auth-container{
     margin-top: 50px;
@@ -55,8 +67,16 @@ export default {
 #mainHead{
     text-align: center;
     font-family: "poppins";
-    background-color: #347AE2;
-    color: white;
 }
-
+#subHead{
+    text-align: center;
+    font-family: "poppins";
+    font-weight: normal;
+}
+.custom-card {
+  width: 120%; /* Adjust width as needed */
+  max-width: 600px; /* Set maximum width */
+  height: auto; /* Allow height to adjust based on content */
+  padding: 20px; /* Add padding for spacing */
+}
 </style>

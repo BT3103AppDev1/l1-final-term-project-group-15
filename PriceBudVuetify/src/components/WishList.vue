@@ -16,20 +16,29 @@
         :headers="headers"
         :items="wishlist"
         :search="search"
-        ></v-data-table>
+        >
+        <template v-slot:item.Image="{ item }">
+          <img :src="item.Image" alt="Product Image" width="100">
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn small rounded color="red" @click="deleteProduct(item)"><strong>Delete</strong></v-btn>
+        </template>
+      </v-data-table>
       </v-card>
 </template>
   
 <script>
   import { doc, getDoc } from 'firebase/firestore';
-  import { getFirestore } from 'firebase/firestore'
+  import { getFirestore, updateDoc, arrayRemove } from 'firebase/firestore'
+  import ProductTrend from './ProductTrend.vue';
   export default {
     data() {
       return {
-        userEmail: String,
         wishlist: [],
         search: "",
         headers: [
+          {title:"", value: "actions", align: "start"},
+          { title: "", value: "Image"},
           { title: "Product Name", value: "Name" },
           { title: "Unit Price", value: "Price" },
           { title: "Price Change", value: "PriceChange" },
@@ -39,30 +48,63 @@
       };
     },
     props: {
-      product: String
+      product: String,
+      userEmail: String
     },
     watch: {
-      product: {
+      userEmail: {
         immediate: true,
         handler: 'fetchProductData'
       }
     },
+
     methods: {
       async fetchProductData() {
-        if (this.product && this.userEmail) {
+        console.log(this.product)
+        console.log(this.userEmail)
+        if (this.userEmail) {
           const db = getFirestore();
-          const docRef = doc(db, 'Users', this.userEmail);
-          const docSnap = await getDoc(docRef);
+          const userDocRef = doc(db, 'Users', this.userEmail);
+          const userDocSnap = await getDoc(userDocRef);
 
-          if (docSnap.exists()) {
-            this.wishlist = docSnap.data().Wishlist || [];
+          if (userDocSnap.exists()) {
+            const wishlist = userDocSnap.data().Wishlist || [];
+            this.wishlist = [];
+
+            for (let productId of wishlist) {
+              const productDocRef = doc(db, 'Products', productId);
+              const productDocSnap = await getDoc(productDocRef);
+
+              if (productDocSnap.exists()) {
+                let productData = productDocSnap.data();
+                productData.id = productDocSnap.id; // Add the document ID to the product data
+                this.wishlist.push(productData);
+              } else {
+                console.log(`No such document: ${productId}`);
+              }
+            }
           } else {
             console.log('No such document!');
           }
         } else {
           console.log('Product ID is null!');
         }
-      }
+      },
+      async deleteProduct(product) {
+        const db = getFirestore();
+        const userDocRef = doc(db, 'Users', this.userEmail);
+
+        // Remove the product from the wishlist array in Firestore
+        await updateDoc(userDocRef, {
+          Wishlist: arrayRemove(product.id)
+        });
+
+        // Remove the product from the local wishlist array
+        const index = this.wishlist.findIndex(p => p.id === product.id);
+        if (index !== -1) {
+          this.wishlist.splice(index, 1);
+        }
+      },
     }
   };
 </script>

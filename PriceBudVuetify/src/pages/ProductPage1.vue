@@ -1,10 +1,11 @@
 <template>
     <v-sheet class="page-container">
-  
+
       <SideBar class="sidebar" />
   
+  
       <v-container v-if="userEmail" class="right-container">
-        <HeaderComponent />
+        <HeaderProduct />
         <AddButton :product = "product" :key = "product" :userEmail = "userEmail" />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
@@ -23,7 +24,7 @@
       </v-container>
       
       <v-container v-else class="right-container">
-        <HeaderComponent />
+        <HeaderProduct />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
         <div class = "container2">
@@ -46,7 +47,7 @@
   
   <script>
   import SideBar from '../components/SideBar.vue'
-  import HeaderComponent from '../components/HeaderComponent.vue'
+  import HeaderProduct from '../components/HeaderProduct.vue'
   import ProductDashboard from '../components/ProductDashboard.vue'
   import ProductTrend from '../components/ProductTrend.vue'
   import ProductPicture from '../components/ProductPicture.vue'
@@ -77,7 +78,7 @@
     },
     components: {
       SideBar,
-      HeaderComponent,
+      HeaderProduct,
       AddButton,
       ProductDashboard,
       ProductPicture,
@@ -119,14 +120,17 @@
 
   }
   
-  .page-container {
-    display: flex;
-    flex: 8;
-    margin: 0;
+  .right-containe {
+    width: 80%; /* Adjust this value based on your needs */
+    overflow-y: auto;
+    height: 100vh;
   }
   
   .sidebar {
-    flex: 2;
+    min-width: 120px;
+    width: 20%; /* Adjust this value based on your needs */
+    height: 100vh;
+    overflow-y: auto;
   }
   
   </style>
