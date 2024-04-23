@@ -6,36 +6,35 @@
             <v-card-text style="text-align: center;">
             <img src="../assets/icon.png" alt="PriceBud" width="20%" height="20%">
             </v-card-text>
-            <h1 id = "mainHead"> Welcome back! </h1>
-            <h4 id = "subHead">  Please enter your details to log in </h4>
+
+            <h1 id = "mainHead"> Welcome to the community! </h1>
+            <h4 id = "subHead">  Please enter your details to sign up </h4>
+        
             <v-card-text>
-                <form @submit.prevent="login" class="registration-form">
+                <form @submit.prevent="register" class="registration-form">
                     <input
                         type="email"
                         placeholder="Email address"
                         v-model="email"
                     />
                     <input
+                        type="text"
+                        placeholder="Username"
+                        v-model="username"
+                    />
+                    <input
                         type="password"
                         placeholder="Password"
                         v-model="password"
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit">Register</button>
                 </form>
             </v-card-text>
 
             <v-card-text class="rerouteLogIn"> 
-                Don't have an account?
-                <a href="/SignIn"> Sign Up </a>
+                Have an account?
+                <a href="/logIn1"> Login </a>
             </v-card-text>
-
-            <div style="text-align: center;">
-                <hr style="width: 40%; margin-top: 10px; float: left;">
-                <span style="margin-top: -10px;">or</span>
-                <hr style="width: 40%; margin-top: 10px; float: right;">
-            </div>
-
-            <div id="firebaseui-auth-container"></div>
         </v-card>
     </v-dialog>
 </template>
@@ -43,7 +42,6 @@
 <script>
 import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
-import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 import { ref } from 'vue';
 
@@ -58,32 +56,30 @@ export default {
         }; 
     },
     methods: {
-        login() {
+        register() {
             firebase
             .auth()
-            .signInWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-                console.log('Successfully logged in');
+            .createUserWithEmailAndPassword(this.email, this.password)
+            .then((userCredential) => {
+                // Get the user object from userCredential
+                const user = userCredential.user;
+
+                // Set the username in the user's profile
+                user.updateProfile({
+                    displayName: this.username
+                }).then(() => {
+                    // Username successfully updated
+                    console.log("Username updated:", this.username);
+                }).catch((error) => {
+                    console.error("Error updating username:", error);
+                });
+                console.log('Successfully registered! Please login.');
                 this.$router.push('/');
             })
             .catch(error => {
                 alert(error.message);
             });
         },
-    },
-    mounted() {
-        var ui = firebaseui.auth.AuthUI.getInstance();
-        if (!ui) {
-            ui = new firebaseui.auth.AuthUI(firebase.auth());
-        }
-
-        var uiConfig = {
-            signInSuccessUrl: '/HomePage',
-            signInOptions: [
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            ]
-        };
-        ui.start("#firebaseui-auth-container", uiConfig)
     },
     setup(){
         const dialog = ref(true);
@@ -114,23 +110,20 @@ export default {
     font-family: "poppins";
     font-weight: normal;
 }
-
 .custom-card {
   width: 120%;
   max-width: 600px; 
-  height: auto; 
-  padding: 20px; 
-  background-color: #F5F5F5 ;
+  height: auto;
+  padding: 20px;
+}
+.rerouteLogIn{
+    text-align: center;
 }
 
 .registration-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.rerouteLogIn{
-    text-align: center;
 }
 
 .registration-form input,
@@ -160,5 +153,4 @@ export default {
 .registration-form button:hover {
     background-color: #357ABD;
 }
-
 </style>
