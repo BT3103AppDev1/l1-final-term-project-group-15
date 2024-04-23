@@ -7,7 +7,7 @@
   
       <div class = "container">
         <HeaderComponent />
-        <h1>This is the profile page</h1>
+        <ProfileHeader />
 
       </div>
     </div>
@@ -20,11 +20,12 @@
 <script>
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
-
+import ProfileHeader from '../components/ProfileHeader.vue'
 export default {
     components: {
       SideBar,
       HeaderComponent,
+      ProfileHeader
 
     }
 }
