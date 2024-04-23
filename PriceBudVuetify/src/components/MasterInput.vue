@@ -5,7 +5,7 @@
         <h1>Master Product Data Input</h1>
         <p>Mass upload to product database</p>
       </div>
-      <div>
+      <div id="buttonsContainer">
         <!-- First button for uploading of new products' general information -->
         <v-btn class = "upload" @click="dialog = true" color="primary"  style="margin-bottom: 10px;" >Upload New Products</v-btn>
 
@@ -47,6 +47,8 @@
           <v-card  width="400">
             <v-card-title>Upload CSV Files</v-card-title>
             <v-card-text>
+
+              <!-- Select Product -->
               <h4>Select Product</h4>
               <v-autocomplete
                 label="Search product"
@@ -54,27 +56,43 @@
                 v-model="selectedProduct"
               ></v-autocomplete>
 
-              <h4>Select Retailer</h4>
+              <!-- <h4>Select Retailer</h4>
               <v-autocomplete
                 label="Search retailer"
                 :items="['Lazada','Shopee','Amazon']"
                 v-model="retailer"
-              ></v-autocomplete>
+              ></v-autocomplete> -->
 
               <h4>For retailer information:</h4>
               <div>
                 Map: date -> price
-              </div>
+              </div><br>
              
+              <h4>Shopee:</h4>
               <v-file-input
                 v-model="selectedFile2"
                 label="Select CSV file"
                 accept=".csv"
               ></v-file-input>
+
+              <h4>Lazada:</h4>
+              <v-file-input
+                v-model="selectedFile3"
+                label="Select CSV file"
+                accept=".csv"
+              ></v-file-input>
+
+              <h4>Amazon:</h4>
+              <v-file-input
+                v-model="selectedFile4"
+                label="Select CSV file"
+                accept=".csv"
+              ></v-file-input>             
+
             </v-card-text>
             <v-card-actions>
               <v-btn @click="dialog2 = false">Cancel</v-btn>
-              <v-btn class = "ms-auto" color="primary" @click="uploadRetailer">Upload</v-btn>
+              <v-btn class = "ms-auto" color="primary" @click="uploadAll">Upload</v-btn>
             </v-card-actions>
             
           </v-card>
@@ -95,7 +113,8 @@ const dialog = ref(false)
 const dialog2 = ref(false)
 const selectedFile = ref(null)
 const selectedFile2 = ref(null)
-const retailer = ref(null)
+const selectedFile3 = ref(null)
+const selectedFile4 = ref(null)
 const products = ref([])
 const selectedProduct = ref(null)
 
@@ -124,6 +143,10 @@ async function saveProductsToFirestore(products) {
       const docRef = doc(productsCollection, name); // Use product name as document ID
       await setDoc(docRef, { category, brand, description, image_path });
 
+      const userInputsCollection = collection(docRef, "UserInputs")
+      const userInputTestDoc = doc(userInputsCollection, 'TestUser')
+      await setDoc(userInputTestDoc, {})
+
       console.log(`Product "${name}" added to Firestore.`);
     } catch (error) {
       console.error(`Error adding product "${name}" to Firestore:`, error);
@@ -144,24 +167,55 @@ async function parseCSV(file) {
   });
 }
 
+async function uploadAll() {
+  if (selectedFile2.value) {
+    try {
+      const shopeeData = await parseCSV(selectedFile2.value[0])
+      await saveRetailersToFirestore(shopeeData, "Shopee")
 
-// Second dialogue functions
-async function uploadRetailer() {
-  if (!selectedFile2.value) return;
-  try {
-    const retData = await parseCSV(selectedFile2.value[0])
-    await saveRetailersToFirestore(retData)
-    dialog2.value = false
-  } catch (error) {
-    console.error('Error uploading retailer data:', error)
+    } catch (error) {
+      console.error("Error uploading Shopee data", error)
+    }
   }
+  
+  if (selectedFile3.value) {
+    try {
+      const lazadaData = await parseCSV(selectedFile3.value[0])
+      await saveRetailersToFirestore(lazadaData, "Lazada")
+    } catch (error) {
+      console.error("Error uploading Lazada data", error)
+    }
+  } 
+
+  if (selectedFile4.value) {
+    try {
+      const amazonData = await parseCSV(selectedFile4.value[0])
+      await saveRetailersToFirestore(amazonData, "Amazon")
+    } catch (error) {
+      console.error("Error uploading Amazon data", error)
+    }
+  }   
+  
+  dialog2.value = false
 }
-async function saveRetailersToFirestore(rows) {
+
+ // Second dialogue functions
+// async function uploadRetailer() {
+//   if (!selectedFile2.value) return;
+//   try {
+//     const retData = await parseCSV(selectedFile2.value[0])
+//     await saveRetailersToFirestore(retData)
+//     dialog2.value = false
+//   } catch (error) {
+//     console.error('Error uploading retailer data:', error)
+//   }
+// }
+
+async function saveRetailersToFirestore(rows, retString) {
   const db = getFirestore()
   const docRef = doc(db, 'Products', selectedProduct.value)
   const productDoc = await getDoc(docRef) 
   let productData = null
-  const retString = retailer.value
   
 
   // Checking if product is located successfully
@@ -174,8 +228,8 @@ async function saveRetailersToFirestore(rows) {
   }
 
   // Checking for retailer in product db
-  if (retailer.value in productData) {
-    const productMap = productData[retailer.value]
+  if (retString in productData) {
+    const productMap = productData[retString]
 
     const updateObj = {};
 
@@ -186,6 +240,7 @@ async function saveRetailersToFirestore(rows) {
       updateObj["Lowest Date"] = null
       updateObj["Current Price"] = null
       updateObj["Current Date"] = null
+      updateObj["Price Change"] = null
     } else {
       updateObj["Highest Price"] = productData["Highest Price"]
       updateObj["Highest Date"] = productData["Highest Date"]
@@ -193,6 +248,7 @@ async function saveRetailersToFirestore(rows) {
       updateObj["Lowest Date"] = productData["Lowest Date"]
       updateObj["Current Price"] = productData["Current Price"]
       updateObj["Current Date"] = productData["Current Date"]
+      updateObj["Price Change"] = productData["Price Change"]
     }
 
     // Check date for price trend range
@@ -222,6 +278,7 @@ async function saveRetailersToFirestore(rows) {
         updateObj["Current Date"] = date
         updateObj["Highest Date"] = date
         updateObj["Lowest Date"] = date
+        updateObj["Price Change"] = 0
       }
 
       // Check for highest price
@@ -236,16 +293,15 @@ async function saveRetailersToFirestore(rows) {
         updateObj["Lowest Date"] = date
       }
 
-      console.log("Check Date")
-      console.log(updateObj["Current Date"])
-      console.log(date)
       // Check for current price (newer) / (high or low if equal date)
       if (parseInt(updateObj["Current Date"]) < parseInt(date)) {
-        console.log("Newer")
+        updateObj["Price Change"] = Math.abs(parseInt(updateObj["Price Change"]) - parseInt(price)).toString()
         updateObj["Current Price"] = price
         updateObj["Current Date"] = date
+
       } else if (parseInt(updateObj["Current Date"]) == date) {
         if (parseInt(updateObj["Current Price"]) > price) {
+          updateObj["Price Change"] = Math.abs(parseInt(updateObj["Price Change"]) - parseInt(price)).toString()
           updateObj["Current Price"] = price
           updateObj["Current Date"] = date
         }
@@ -288,6 +344,7 @@ onMounted(async () => {
 <style>
 #firstContainer {
   display: flex;
+  align-items: center;
 }
 
 #firstContainer div {
@@ -310,5 +367,10 @@ onMounted(async () => {
 
 #right {
   float: right;
+}
+
+#buttonsContainer {
+  display: flex;
+  flex-direction: column;
 }
 </style>
