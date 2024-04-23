@@ -21,8 +21,10 @@
       >
         <div class="d-flex fill-height justify-center align-center">
           <div class="text-h2">
-            {{ slide }} Slide
+             {{ slide }} Slide
           </div>
+
+          
         </div>
       </v-sheet>
     </v-carousel-item>
@@ -74,7 +76,7 @@
 <script setup>
 import { defineProps } from 'vue'
 import ProductCard from './ProductCard.vue'
-import { onMounted } from 'vue';
+import { onMounted, onBeforeMount } from 'vue';
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { collection, getDocs  } from 'firebase/firestore'
 
@@ -116,9 +118,10 @@ async function fetchUserWishlist(userEmail) {
     }
 }
 
-onMounted(() => {
+onBeforeMount(async () => {
     console.log(props.userEmail)
-    fetchUserWishlist(props.userEmail)
+    await fetchUserWishlist(props.userEmail)
+    console.log(wishlist)
  })
 </script>
 
