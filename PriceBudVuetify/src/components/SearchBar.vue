@@ -11,7 +11,7 @@
         menu-icon= ""
         v-model ="selectedProduct"
         @update:model-value="select"
-        
+        append-inner-icon="mdi-magnify"
 
       ></v-autocomplete>
     </v-container>

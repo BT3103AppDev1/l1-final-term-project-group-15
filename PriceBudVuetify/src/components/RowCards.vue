@@ -12,14 +12,20 @@
             <div v-for="(product, i) in wishlistActual" :key="i"> {{ product }}</div> -->
             
             <!-- Product Cards -->
-            <v-slide-group>
+
+            <v-slide-group v-if="wishlistActual.length != 0">
                 <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
                     <div class="card-container">
-                        <ProductCard class="product-card" :productName="product" />
+                        <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />
                         <!-- <h1>{{ product }}</h1> -->
                     </div>
                 </v-slide-item>
             </v-slide-group>
+
+            <div v-else>
+                <h1 class="poppins-semibold center-div">Your wishlist is empty</h1>
+                <!-- <h3 class="poppins-regular">Add products to your wishlist to see them here</h3> -->
+            </div>
             
         </v-sheet>
     </div>
@@ -34,7 +40,7 @@
         <v-slide-group>
             <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
                 <div class="card-container">
-                    <ProductCard class="product-card" :productName="product" />
+                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />
                     <!-- <h1>{{ product }}</h1> -->
                 </div>
             </v-slide-item>
@@ -53,7 +59,7 @@ import ProductCard from './ProductCard.vue'
 const props = defineProps({
   wishlist: {
     type: Array,
-    default: () => []
+    default: () => {}
   },
   isLoggedIn: {
     type: Boolean,
@@ -61,13 +67,20 @@ const props = defineProps({
   }
 })
 
+// make wishlist dynamic on wishlisting (add date since wishlisted)
+
+
 let wishlistActual = ref([])
+let wishlistedPrices = ref([])
 
 watch(() => props.wishlist, (newWishlist) => {
   console.log('Wishlist changed')
   console.log(newWishlist)
-  wishlistActual.value = newWishlist
+  wishlistActual.value = Object.keys(newWishlist)
+  wishlistedPrices.value = Object.values(newWishlist)
+
   console.log(wishlistActual.value)
+  console.log(wishlistedPrices.value)
 })
 
 onMounted(() => {
@@ -93,13 +106,19 @@ onMounted(() => {
 }
 
 .content-container {
-    /* width: 70vw; 
-    height: 20vh; */
+    margin-bottom: 4%;
 }
 
 .card-container {
     display: flex;
     justify-content: row;
+}
+
+.center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
 }
 
 /* .product-card {
