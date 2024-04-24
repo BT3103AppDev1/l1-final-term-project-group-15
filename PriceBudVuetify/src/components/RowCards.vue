@@ -4,8 +4,8 @@
     <div v-if="props.isLoggedIn" class="content-container">
         <v-sheet color="FFFFFF" elevation="4">
             
-            <h1 class="title poppins-semibold">Your wishlist, at a glance</h1>
-            <h3 class="desc poppins-regular">Have a look at what changed since the last time you were here</h3>
+            <h3 class="title poppins-semibold">Your wishlist, at a glance</h3>
+            <p class="desc poppins-regular">Have a look at what changed since the last time you were here</p>
 
             <!-- for debugging -->
             <!-- <div>{{ wishlistActual }}</div>
@@ -23,7 +23,7 @@
             </v-slide-group>
 
             <div v-else>
-                <h1 class="poppins-semibold center-div">Your wishlist is empty</h1>
+                <h2 class="poppins-semibold center-div">Your wishlist is empty</h2>
                 <!-- <h3 class="poppins-regular">Add products to your wishlist to see them here</h3> -->
             </div>
             
@@ -32,8 +32,8 @@
         
     <div class="content-container">
     <v-sheet color="FFFFFF" elevation="4">
-        <h1 class="title poppins-semibold">Largest price changes this week</h1>
-        <h3 class="desc poppins-regular"> These products had  the biggest jumps/drops in price this week</h3>
+        <h3 class="title poppins-semibold">Largest price changes this week</h3>
+        <p class="desc poppins-regular"> These products had  the biggest jumps/drops in price this week</p>
 
         <!-- Product Cards -->
         <!-- for each insight, different data from Product object is required -->

@@ -1,15 +1,15 @@
 <template>
-    <v-container v-if="inWishlistView">
+    <v-container class="main-content" v-if="inWishlistView">
         <!-- wishlist row product card -->
         <div class="product-card" @click="redirectProductPage()">
-            <h3 class="poppins-regular">{{ fullName }}</h3>
+            <h3 class="poppins-semibold">{{ fullName }}</h3>
             <img class="product-image" :src="imageurl" alt="product image">
-            <h1 class="poppins-semibold">{{ price }}</h1>
+            <h1 class="poppins-semibold price-margin">{{ price }}</h1>
             <div class="pricechange-container" v-if="priceChange != 0">
                 <v-icon :icon="priceChange >= 0 ? 'mdi-arrow-up' : 'mdi-arrow-down'" 
                     :color="priceChange >= 0 ? 'red' : 'green'"/>                
                 <p class="poppins-regular">
-                    <span :style="{ color: priceChange >= 0 ? 'red' : 'green' }">${{ priceChange }}</span>
+                    <span :style="{ color: priceChange >= 0 ? 'red' : 'green' }">${{ Math.abs(priceChange) }}</span>
                     since wishlisting
                 </p>
             </div>
@@ -20,7 +20,7 @@
             </div>
         </div>
     </v-container>
-    <v-container v-else>
+    <v-container class="main-content" v-else>
         <!-- if in the insight row -->  
 
 
@@ -83,6 +83,11 @@ if (docSnap.exists()) {
 
 <style scoped>
 /* Your component styles here */
+/* .main-content {
+    margin: 5%;
+    display: flex;
+} */
+
 .product-card {
     /* width: 100%;
     height: 100%; */
@@ -105,9 +110,29 @@ if (docSnap.exists()) {
     margin: 10%;
 }
 
+.price-margin {
+    margin: 5%;
+}   
+
 .font-green {
   color: green;
 }
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
 
 </style>

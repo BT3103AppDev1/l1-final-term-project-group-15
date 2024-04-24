@@ -73,6 +73,7 @@ onMounted(() => {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 28px;
+    background-color: white;
 }
 
 .custom-toolbar {
@@ -84,5 +85,6 @@ onMounted(() => {
   font-family: 'poppins';
   font-size: 11px; 
   font-weight: bold;
+  background-color: white;
 }
 </style>
