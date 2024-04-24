@@ -19,7 +19,7 @@
         </div>
 
         <!--Testing-->
-        <h1>This is a page for product: {{ $route.params.id }}</h1>
+
       </v-container>
       
       <v-container v-else class="right-container">

@@ -37,23 +37,6 @@ export default {
       ]
     }
   },
-  computed: {
-    formattedRetailerList(){
-      return this.retailerList.map(item => {
-        let date = item.Date;
-        let formattedDate = `${date.substring(6,8)} ${this.getMonthName(date.substring(4,6))} ${date.substring(0,4)}`;
-        return {
-          no: item.no,
-          Price: item.Price,
-          Location: item.Location,
-          Retailer: item.Retailer,
-          Date: formattedDate,
-          user : item.User,
-          sortDate: new Date(date.substring(0,4), date.substring(4,6) - 1, date.substring(6,8)) // for sorting
-        };
-      });
-    }
-  },
 
   props: {
     product: String,
@@ -68,9 +51,13 @@ export default {
       },
 
       methods: {
-        getMonthName(monthNumber) {
-          const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-          return monthNames[parseInt(monthNumber) - 1];
+        formatDate(dateStr) {
+        const year = dateStr.substring(0, 4);
+        const month = dateStr.substring(4, 6);
+        const day = dateStr.substring(6, 8);
+        const date = new Date(year, month - 1, day);
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
         },
         async fetchRetailerList() {
           if (this.product) {
@@ -78,16 +65,18 @@ export default {
             const collectionRef = collection(db, 'Products', this.product, 'UserInputs');
             const querySnapshot = await getDocs(collectionRef);
 
-            this.retailerList = querySnapshot.docs.map((doc, index) => {
+            this.retailerList = querySnapshot.docs
+            .filter(doc => doc.id !== 'TestUser')
+            .map((doc, index) => {
               let data = doc.data();
-              return {
-                no: index + 1, // Add a 'no' field that is the index + 1
-                Price: `$${data.Price}`, // Add a '$' sign in front of the price
-                Retailer: data.Retailer,
-                Date: data.Date,
-                Location: data.Location,
-                User: data.User
-              };
+                return {
+                  no: index + 1, // Add a 'no' field that is the index + 1
+                  Price: `$${data.Price}`, // Add a '$' sign in front of the price
+                  Retailer: data.Retailer,
+                  Date: this.formatDate(data.Date),
+                  Location: data.Location,
+                  User: data.User
+                };
             });
           } else {
             console.log('Product ID is null!');
