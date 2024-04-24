@@ -44,7 +44,7 @@
   <style scoped>
   .container {
     display: flex;
-    flex-direction: row ;
+    flex-direction: row;
   }
   .right-button{
     margin-left: auto;

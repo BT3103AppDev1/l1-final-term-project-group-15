@@ -1,60 +1,76 @@
 <template>
-    <div class="page-container">
+  <v-sheet class="page-container">
   
-      <div class="sidebar">
-        <SideBar />
-      </div>
+    <SideBar class="sidebar" />
   
-      <div class = "container">
-        <HeaderComponent />
-        <h1>This is the community page</h1>
+    <v-container v-if="userEmail" class="right-container">
+      <HeaderComponent />
+      <CommunityCard />
 
-      </div>
-    </div>
+    </v-container>
 
+    <v-container v-else class="right-container">
+      <HeaderComponent />
 
+     <h2> Please LogIn/Sign Up to create your first post!</h2>
 
-  </template>
+    </v-container>
+
+  </v-sheet>
+</template>
 
     
 <script>
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
+import CommunityCard from '../components/CommunityCard.vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default {
-    components: {
+  data() {
+      return {
+        product: null,
+        auth: null,
+        userEmail: null
+      }
+    },
+  components: {
       SideBar,
       HeaderComponent,
+      CommunityCard,
+  },    
+  mounted() {
+    this.product = this.$route.params.id
 
-    }
+    this.auth = getAuth()
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.userEmail = user.email
+        console.log(this.userEmail)
+        console.log('test')
+      } 
+    })
+  },
 }
-
-
 </script>
 
-<style>
-  .home {
-    display: flex;
-  }
-  
-  .main-content {
-    flex-grow: 1;
-  }
-  
-  .container { 
-    flex: 8;
-    display: flex;
-    flex-direction: column;
-  }
+<style scoped>
+.page-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  margin: auto;
+}
 
-  .page-container {
-    display: flex;
-    flex: 8;
-    margin: 0;
-  }
-  
-  .sidebar {
-    flex: 2;
-  }
-  
-  </style>
+.sidebar {
+  width: 20%; /* Adjust this value based on your needs */
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.right-container {
+  width: 80%; /* Adjust this value based on your needs */
+  overflow-y: auto;
+  height: 100vh;
+}
+</style>

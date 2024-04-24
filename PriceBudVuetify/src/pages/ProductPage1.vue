@@ -3,7 +3,6 @@
 
       <SideBar class="sidebar" />
   
-  
       <v-container v-if="userEmail" class="right-container">
         <HeaderProduct />
         <ProductButton :product = "product" :key = "product" :userEmail = "userEmail" />
@@ -90,7 +89,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   .home {
     display: flex;
   }
@@ -98,12 +97,7 @@
   .main-content {
     flex-grow: 1;
   }
-  
-  .container {
-    flex: 8;
-    display: flex;
-    flex-direction: column;
-  }
+
   .container2 {
     display: flex;
     flex-direction: row;
