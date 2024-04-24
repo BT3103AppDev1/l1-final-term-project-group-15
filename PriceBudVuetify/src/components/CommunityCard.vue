@@ -177,11 +177,6 @@ export default {
         fetchPosts(); 
     })
 
-    watch(cards, (newValue, oldValue) => {
-      // Fetch posts when cards value changes
-      fetchPosts();
-    });
-
     return { dialog, selectedProduct, products, cardTitle, cardContent, post, cards };  }
 };
 </script>
