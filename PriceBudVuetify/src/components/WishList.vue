@@ -29,7 +29,7 @@
   
 <script>
   import { doc, getDoc } from 'firebase/firestore';
-  import { getFirestore, updateDoc, arrayRemove } from 'firebase/firestore'
+  import { getFirestore, updateDoc, deleteField } from 'firebase/firestore'
   import ProductTrend from './ProductTrend.vue';
   export default {
     data() {
@@ -113,7 +113,7 @@
 
         // Remove the product from the wishlist array in Firestore
         await updateDoc(userDocRef, {
-          Wishlist: arrayRemove(product.id)
+          [`Wishlist.${product.id}`]: deleteField()
         });
 
         // Remove the product from the local wishlist array

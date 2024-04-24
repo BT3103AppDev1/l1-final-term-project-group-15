@@ -137,17 +137,33 @@ async function saveProductsToFirestore(products) {
   const db = getFirestore();
   const productsCollection = collection(db, 'Products');
 
+  console.log(productsCollection)
+
   for (const product of products) {
     const { Name: name, Category: category, Brand: brand, Description: description, Image_path: image_path } = product;
 
     try {
       // Construct document reference with document path
       const docRef = doc(productsCollection, name); // Use product name as document ID
-      await setDoc(docRef, { category, brand, description, image_path });
 
-      const userInputsCollection = collection(docRef, "UserInputs")
-      const userInputTestDoc = doc(userInputsCollection, 'TestUser')
-      await setDoc(userInputTestDoc, {})
+      try {
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          console.log("product exists")
+          await updateDoc(docRef, { category, brand, description, image_path })
+          
+        } else {
+          console.log("product does not exist")
+          await setDoc(docRef, { category, brand, description, image_path });
+          const userInputsCollection = collection(docRef, "UserInputs")
+          const userInputTestDoc = doc(userInputsCollection, 'TestUser')
+          await setDoc(userInputTestDoc, {})
+        }
+
+      } catch (error) {
+        console.error("product fetching error")
+      }
 
       console.log(`Product "${name}" added to Firestore.`);
     } catch (error) {
@@ -244,7 +260,15 @@ async function saveRetailersToFirestore(rows, retString) {
       updateObj["Current Date"] = null
       updateObj["Price Change"] = null
       
-
+      updateObj["Current Retailer"] = null
+      updateObj["Shopee Current"] = null
+      updateObj["Shopee Current Date"] = null
+      updateObj["Lazada Current"] = null
+      updateObj["Lazada Current Date"] = null
+      updateObj["Amazon Current"] = null
+      updateObj["Amazon Current Date"] = null
+      updateObj["Number Of Wishlists"] = null
+      updateObj["Ratings"] = null
 
     } else {
       updateObj["Highest Price"] = productData["Highest Price"]
@@ -254,6 +278,20 @@ async function saveRetailersToFirestore(rows, retString) {
       updateObj["Current Price"] = productData["Current Price"]
       updateObj["Current Date"] = productData["Current Date"]
       updateObj["Price Change"] = productData["Price Change"]
+
+      updateObj["Current Retailer"] = productData["Current Retailer"]
+
+      updateObj["Shopee Current"] = productData["Shopee Current"]
+      updateObj["Shopee Current Date"] = productData["Shopee Current Date"]
+
+      updateObj["Lazada Current"] = productData["Lazada Current"]
+      updateObj["Lazada Current Date"] = productData["Lazada Current Date"]
+
+      updateObj["Amazon Current"] = productData["Amazon Current"]
+      updateObj["Amazon Current Date"] = productData["Amazon Current Date"]
+
+      updateObj["Number Of Wishlists"] = productData["Number Of Wishlists"]
+      updateObj["Ratings"] = productData["Ratings"]
     }
 
     // Check date for price trend range
@@ -284,6 +322,9 @@ async function saveRetailersToFirestore(rows, retString) {
         updateObj["Highest Date"] = date
         updateObj["Lowest Date"] = date
         updateObj["Price Change"] = 0
+        updateObj["Current Retailer"] = retString
+        updateObj["Number Of Wishlists"] = Math.floor(Math.random() * (2000 - 0)) + 0;
+        updateObj["Ratings"] = Math.floor(Math.random() * (5 - 0)) + 0;
       }
 
       // Check for highest price
@@ -303,17 +344,71 @@ async function saveRetailersToFirestore(rows, retString) {
         updateObj["Price Change"] = Math.abs(parseInt(updateObj["Price Change"]) - parseInt(price)).toString()
         updateObj["Current Price"] = price
         updateObj["Current Date"] = date
+        updateObj["Current Retailer"] = retString
 
       } else if (parseInt(updateObj["Current Date"]) == date) {
         if (parseInt(updateObj["Current Price"]) > price) {
           updateObj["Price Change"] = Math.abs(parseInt(updateObj["Price Change"]) - parseInt(price)).toString()
           updateObj["Current Price"] = price
           updateObj["Current Date"] = date
+          updateObj["Current Retailer"] = retString
         }
       }
+
+      if (retString == "Shopee") {
+        if (updateObj["Shopee Current"] == null) {
+          updateObj["Shopee Current"] = price
+          updateObj["Shopee Current Date"] = date
+        }
+
+        if ((parseInt(updateObj["Shopee Current Date"]) < parseInt(date))) {
+          updateObj["Shopee Current"] = price
+          updateObj["Shopee Current Date"] = date
+
+        } else if (parseInt(updateObj["Shopee Current Date"]) == date) {
+          if (parseInt(updateObj["Shopee Current"]) > price) {
+            updateObj["Shopee Current"] = price
+            updateObj["Shopee Current Date"] = date 
+          }
+        }
+      }
+
+      if (retString == "Lazada") {
+        if (updateObj["Lazada Current"] == null) {
+          updateObj["Lazada Current"] = price
+          updateObj["Lazada Current Date"] = date
+        }
+
+        if ((parseInt(updateObj["Lazada Current Date"]) < parseInt(date))) {
+          updateObj["Lazada Current"] = price
+          updateObj["Lazada Current Date"] = date
+
+        } else if (parseInt(updateObj["Lazada Current Date"]) == date) {
+          if (parseInt(updateObj["Lazada Current"]) > price) {
+            updateObj["Lazada Current"] = price
+            updateObj["Lazada Current Date"] = date 
+          }
+        }
+      }
+
+      if (retString == "Amazon") {
+        if (updateObj["Amazon Current"] == null) {
+          updateObj["Amazon Current"] = price
+          updateObj["Amazon Current Date"] = date
+        }
+
+        if ((parseInt(updateObj["Amazon Current Date"]) < parseInt(date))) {
+          updateObj["Amazon Current"] = price
+          updateObj["Amazon Current Date"] = date
+
+        } else if (parseInt(updateObj["Amazon Current Date"]) == date) {
+          if (parseInt(updateObj["Amazon Current"]) > price) {
+            updateObj["Amazon Current"] = price
+            updateObj["Amazon Current Date"] = date 
+          }
+        }
+      }   
     }
-
-
 
     try {
       await updateDoc(docRef, updateObj);
