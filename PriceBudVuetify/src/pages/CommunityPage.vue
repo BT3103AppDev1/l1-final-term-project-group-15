@@ -12,7 +12,7 @@
     <v-container v-else class="right-container">
       <HeaderComponent />
 
-     <h2> Please LogIn/Sign Up to create your first post!</h2>
+     <h2> Please Log In/Sign Up to create your first post!</h2>
 
     </v-container>
 

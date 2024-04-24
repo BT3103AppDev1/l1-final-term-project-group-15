@@ -75,7 +75,7 @@
 
 <script>
     import firebaseApp from '../firebase.js';
-    import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "firebase/firestore";
+    import { getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc } from "firebase/firestore";
     import { ref } from 'vue'
 
     const db = getFirestore(firebaseApp);
@@ -91,6 +91,7 @@
         content: "",
         likes: "",
         comments: "",
+        dialog: false,
       };
     },
     props: {
@@ -102,7 +103,7 @@
         immediate: true,
         handler: 'fetchData'
       }
-  },
+    },
     methods: {
         async fetchData() {
             const docRef = doc(db, 'UserInputsCommunity', this.blogId);
@@ -136,35 +137,56 @@
                 this.likes = currentLikes + 1; // Update local likes count in the component
             }
         },
+        async  commenting() {
+          const docRef = doc(db, 'UserInputsCommunity', this.blogId)
+          const docSnap = await getDoc(docRef);
+
+          const data = docSnap.data();
+          console.log(data);
+          const currentComments = data.Comments || 0; // Get current likes count or default to 0
+
+          // Update the document with the incremented likes count
+          await updateDoc(docRef, { Comments: currentComments + 1 });
+          console.log(this.comments)
+          this.comments = currentComments + 1;    
+
+          const userCommentsCollection = collection(docRef, "UserComments")
+          await addDoc(userCommentsCollection, {
+              cardComment: this.cardComment
+          })
+
+          this.dialog = false
+      }
     },
-    setup(props) {
-    const dialog = ref(false);
-    const cardComment = ref(null);
-    let docSnap = null; 
-    let docRef = null; 
+    // setup(props) {
+    //   const dialog = ref(false);
+    //   const cardComment = ref(null);
+    //   let docSnap = null; 
+    //   let docRef = null; 
 
-    async function commenting() {
-        docRef = doc(db, 'UserInputsCommunity', props.blogId);
-        docSnap = await getDoc(docRef);
+    //   async function commenting() {
+    //       docRef = doc(db, 'UserInputsCommunity', props.blogId);
+    //       docSnap = await getDoc(docRef);
 
-        const data = docSnap.data();
-        console.log(data);
-        const currentComments = data.Comments || 0; // Get current likes count or default to 0
+    //       const data = docSnap.data();
+    //       console.log(data);
+    //       const currentComments = data.Comments || 0; // Get current likes count or default to 0
 
-        // Update the document with the incremented likes count
-        await setDoc(docRef, { Comments: currentComments + 1 }, { merge: true });
-        this.comments = currentComments + 1;    
+    //       // Update the document with the incremented likes count
+    //       await updateDoc(docRef, { Comments: currentComments + 1 });
+    //       console.log(this.comments)
+    //       this.comments = currentComments + 1;    
 
-        const userCommentsCollection = collection(props.blogId, "UserComments")
-        await addDoc(userCommentsCollection, {
-            cardComment: cardComment.value
-        })
+    //       const userCommentsCollection = collection(props.blogId, "UserComments")
+    //       await addDoc(userCommentsCollection, {
+    //           cardComment: cardComment.value
+    //       })
 
-        dialog.value = false
-    }
+    //       dialog.value = false
+    //   }
 
-    return { dialog, commenting}
-    }
+    //   return { dialog, commenting}
+    // }
 }
 // go back method 
 
