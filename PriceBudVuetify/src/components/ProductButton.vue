@@ -10,7 +10,7 @@
   </template>
   
   <script>
-  import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
+  import { getFirestore, doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
   
   export default {
     data() {
@@ -44,7 +44,7 @@
   <style scoped>
   .container {
     display: flex;
-    flex-direction: row ;
+    flex-direction: row;
   }
   .right-button{
     margin-left: auto;

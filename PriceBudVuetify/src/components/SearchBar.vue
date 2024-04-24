@@ -1,5 +1,6 @@
 <template>
-    <v-container class="search">
+    <v-container>
+      <h3 class="search">Search Product</h3>
       <v-autocomplete
         rounded
         auto-select-first
@@ -10,7 +11,7 @@
         menu-icon= ""
         v-model ="selectedProduct"
         @update:model-value="select"
-        
+        append-inner-icon="mdi-magnify"
 
       ></v-autocomplete>
     </v-container>
@@ -54,5 +55,11 @@ export default {
 
 <style>
   .search {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 24px;
+    margin-bottom: 8px;
+    margin-left: 4px;
   }
 </style>
