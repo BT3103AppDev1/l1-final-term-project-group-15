@@ -53,44 +53,44 @@
       </v-row>
   
       <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
-    <v-card-title class="title">{{ card.title }}</v-card-title>
-    <v-card-text class="content">
-      <div class="info-row">
-        <div class="user-info">
-          <v-icon class="user-icon">mdi-account</v-icon>
-          <span class="user-name">{{ card.user }}</span>
-        </div>
-        <div class="date-info">
-          <v-icon class="date-icon">mdi-calendar</v-icon>
-          <span class="date">{{ card.date }}</span>
-        </div>
-        <div class="likes-info">
-          <v-icon class="likes-icon">mdi-thumb-up</v-icon>
-          <span class="likes">{{ card.likes }}</span>
-        </div>
-        <div class="comments-info">
-          <v-icon class="comments-icon">mdi-comment-multiple-outline</v-icon>
-          <span class="comments">{{ card.comments }}</span>
-        </div>
+  <v-card-title class="title">{{ card.title }}</v-card-title>
+  <v-card-text class="content">
+    <div class="info-row">
+      <div class="user-info">
+        <v-icon class="user-icon">mdi-account</v-icon>
+        <span class="user-name">{{ card.user }}</span>
       </div>
-      <div class="card-content">{{ card.content }}</div>
-    </v-card-text>
-  </v-card>
+      <div class="product-info">
+        <v-icon class="product-icon">mdi-tag</v-icon>
+        <span class="product-name">{{ card.product }}</span>
+      </div>
+      <div class="date-info">
+        <v-icon class="date-icon">mdi-calendar</v-icon>
+        <span class="date">{{ card.date }}</span>
+      </div>
+      <div class="likes-info">
+        <v-icon class="likes-icon">mdi-thumb-up</v-icon>
+        <span class="likes">{{ card.likes }}</span>
+      </div>
+      <div class="comments-info">
+        <v-icon class="comments-icon">mdi-comment-multiple-outline</v-icon>
+        <span class="comments">{{ card.comments }}</span>
+      </div>
+    </div>
+    <div class="card-content">{{ card.content }}</div>
+  </v-card-text>
+</v-card>
+
     </v-container>
   </template>
   
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default {
-  data() {
-    return {
-
-    };
-  },
   methods: {
     sortBy(option) {
       // Handle sorting logic based on the selected option
@@ -153,9 +153,8 @@ export default {
             product: doc.data().Product,
             date: doc.data().Date.toDate().toDateString(), // Assuming Date is stored as Firestore Timestamp
             likes: doc.data().Likes,
-            comments: doc.data().comments,
+            comments: doc.data().Comments,
         }));
-        console.log(cards)
     }
 
     onMounted(async () => {
@@ -176,8 +175,12 @@ export default {
         })
 
         fetchPosts(); 
-
     })
+
+    watch(cards, (newValue, oldValue) => {
+      // Fetch posts when cards value changes
+      fetchPosts();
+    });
 
     return { dialog, selectedProduct, products, cardTitle, cardContent, post, cards };  }
 };
@@ -216,18 +219,18 @@ export default {
   flex-wrap: wrap;
 }
 
-.user-info, .date-info, .likes-info, .comments-info {
+.user-info, .date-info, .likes-info, .comments-info, .product-info{
   display: flex;
   align-items: center;
   margin-right: 20px;
 }
 
-.user-icon, .date-icon, .likes-icon, .comments-icon {
+.user-icon, .date-icon, .likes-icon, .comments-icon,.product-icon {
   margin-right: 5px;
   font-size: 16px;
 }
 
-.user-name, .date, .likes, .comments {
+.user-name, .date, .likes, .comments, .product {
   font-size: 14px;
 }
 
