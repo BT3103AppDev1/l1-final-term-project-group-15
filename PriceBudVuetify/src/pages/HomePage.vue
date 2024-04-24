@@ -18,10 +18,7 @@
       <HeaderComponent />
       <SearchBar />
       <HomeLoginComp />
-      <RowCards :isWishlist="false"
-                title="Largest price changes this week"
-                description="These products had the biggest price changes this week"
-                />
+      <RowCards :isLoggedIn="false"/>
       
     </v-container>
 
@@ -46,7 +43,7 @@ const userEmail = ref("")
 const isLoggedIn = ref(false)
 const auth = getAuth()
 
-let wishlist = ref([])
+let wishlist = ref({})
 
 // onBeforeMount(() => {
 //   console.log('created')
@@ -72,7 +69,7 @@ onBeforeMount(() => {
         const customDocumentId = user.email
         const userDocumentRef = doc(userCollection, customDocumentId)
         const userData = {
-          Wishlist: [],
+          Wishlist: {},
           Name: user.displayName,
         }
 
@@ -103,7 +100,7 @@ onBeforeMount(() => {
           console.log(data.Wishlist)
           wishlist.value = data.Wishlist
         }
-        console.log(wishlist)
+        console.log(wishlist.value)
       }
     } else {
       isLoggedIn.value = false
