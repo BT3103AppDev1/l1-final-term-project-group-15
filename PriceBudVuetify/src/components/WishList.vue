@@ -67,7 +67,7 @@
             'Name': item['Name'],
             'Current Price': `$${item['Current Price']}`,
             'Price Change': `$${item['Price Change']}`,
-            'Retailer': item['Retailer'],
+            'Retailer': item['Current Retailer'],
             'pricetrend': 'Price Trend'
           };
         });

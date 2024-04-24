@@ -83,7 +83,7 @@
 
           if (docSnap.exists()) {
             this.productImage = docSnap.data().image_path;
-            this.rating = docSnap.data().Rating;
+            this.rating = docSnap.data().Ratings;
           } else {
             console.log('No such document!');
           }

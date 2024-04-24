@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { collection, getDocs } from 'firebase/firestore'
+import {doc, collection, getDocs, getDoc } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 
 export default {
@@ -28,7 +28,6 @@ export default {
     return {
       retailerList: [],
       headers: [
-        { title: 'No', align: 'start', value: 'no' },
         { title: 'Price', value: 'Price' },
         { title: 'Retailer', value: 'Retailer' },
         { title: 'Date', value: 'Date' },
@@ -62,22 +61,53 @@ export default {
         async fetchRetailerList() {
           if (this.product) {
             const db = getFirestore();
+            const productRef = doc(db, 'Products', this.product);
+            const productSnap = await getDoc(productRef);
+
+            if (productSnap.exists()) {
+              const productData = productSnap.data();
+              // Add Shopee, Lazada, and Amazon data to the retailerList
+              this.retailerList = [
+                {
+                  Price: `$${productData['Shopee Current']}`,
+                  Retailer: 'Shopee',
+                  Date: this.formatDate(productData['Shopee Current Date']),
+                  Location: 'E-Commerce',
+                  User: 'Shopee'
+                },
+                {
+                  Price: `$${productData['Lazada Current']}`,
+                  Retailer: 'Lazada',
+                  Date: this.formatDate(productData['Lazada Current Date']),
+                  Location: 'E-Commerce',
+                  User: 'Lazada'
+                },
+                {
+                  Price: `$${productData['Amazon Current']}`,
+                  Retailer: 'Amazon',
+                  Date: this.formatDate(productData['Amazon Current Date']),
+                  Location: 'E-Commerce',
+                  User: 'Amazon'
+                }
+              ];
+            }
+
+
             const collectionRef = collection(db, 'Products', this.product, 'UserInputs');
             const querySnapshot = await getDocs(collectionRef);
 
-            this.retailerList = querySnapshot.docs
+            this.retailerList = this.retailerList.concat(querySnapshot.docs
             .filter(doc => doc.id !== 'TestUser')
             .map((doc, index) => {
               let data = doc.data();
-                return {
-                  no: index + 1, // Add a 'no' field that is the index + 1
+                return { // Add a 'no' field that is the index + 1
                   Price: `$${data.Price}`, // Add a '$' sign in front of the price
                   Retailer: data.Retailer,
                   Date: this.formatDate(data.Date),
                   Location: data.Location,
                   User: data.User
                 };
-            });
+            }));
           } else {
             console.log('Product ID is null!');
           }
