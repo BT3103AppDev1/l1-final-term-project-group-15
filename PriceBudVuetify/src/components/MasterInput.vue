@@ -243,6 +243,9 @@ async function saveRetailersToFirestore(rows, retString) {
       updateObj["Current Price"] = null
       updateObj["Current Date"] = null
       updateObj["Price Change"] = null
+      
+
+
     } else {
       updateObj["Highest Price"] = productData["Highest Price"]
       updateObj["Highest Date"] = productData["Highest Date"]

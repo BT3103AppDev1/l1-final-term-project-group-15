@@ -72,7 +72,7 @@ onBeforeMount(() => {
         const customDocumentId = user.email
         const userDocumentRef = doc(userCollection, customDocumentId)
         const userData = {
-          Wishlist: [],
+          Wishlist: {},
           Name: user.displayName,
         }
 
