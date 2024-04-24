@@ -1,6 +1,11 @@
 <template>
     <v-container>
-      <!-- Button to add a new card -->
+
+        <v-container> 
+            <h2 class="title">Our Community Page</h2>
+            <h5 class="subtitle">see what others are reviewing about </h5>
+        </v-container>
+
       <v-row class="mb-4"> <!-- Add margin-bottom class -->
         <v-col>
           <v-menu offset-y>
@@ -13,17 +18,33 @@
   
             <!-- Menu Items -->
             <v-list>
-                <v-list-item @click="sortBy('largest')">
-                    <v-list-item-title>Largest to Smallest</v-list-item-title>
-                </v-list-item>
-              <v-list-item @click="sortBy('smallest')">Smallest to Largest</v-list-item>
-              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>
-            </v-list>
+              <v-list-item @click="sortBy('popular')">Most Popular </v-list-item>
+              <v-list-item @click="sortBy('commented')">Most Commented</v-list-item>
+              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>            </v-list>
           </v-menu>
         </v-col>
+
         <v-col class="text-right"> <!-- Aligns the button to the right -->
-          <v-btn @click="addCard">Add Card</v-btn>
+          <v-btn @click="dialog = true"> create <v-icon>mdi-plus</v-icon> </v-btn>
         </v-col>
+
+        <v-dialog v-model="dialog" max-width="500">
+            <v-card>
+                <v-card-title class ="cardTitle">Create a post</v-card-title>
+                <v-card-text>
+                    <!-- Form or content for adding a new card goes here -->
+                    <v-text-field label="Card Title" v-model="newCardTitle"></v-text-field>
+                    <v-textarea label="Card Content" v-model="newCardContent"></v-textarea>
+                    <v-text-field label="Product" v-model="newProduct"></v-text-field>
+                    <v-text-field label="Brand" v-model="newBrand"></v-text-field>
+                    </v-card-text>
+                <v-card-actions>
+                    <v-btn color="primary" @click="addCard">Post</v-btn>
+                    <v-btn color="red darken-1" @click="dialog = false">Cancel</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        
       </v-row>
   
       <v-card v-for="(card, index) in cards" :key="index" color="#7C8DB5" class="mb-4">
@@ -38,6 +59,8 @@
   
 
 <script>
+import { ref } from 'vue';
+
 export default {
   data() {
     return {
@@ -67,10 +90,10 @@ export default {
     sortBy(option) {
       // Handle sorting logic based on the selected option
       switch (option) {
-        case 'largest':
+        case 'popular':
           // Sort from largest to smallest
           break;
-        case 'smallest':
+        case 'commented':
           // Sort from smallest to largest
           break;
         case 'recent':
@@ -80,6 +103,10 @@ export default {
           break;
       }
     }
+  },
+  setup() {
+    const dialog = ref(false);
+    return { dialog };
   }
 };
 </script>
@@ -87,6 +114,18 @@ export default {
 <style scoped>
 .text-right {
   text-align: right; /* Aligns the button to the right */
+}
+.subtitle {
+  font-weight: 400;
+  font-family: 'poppins';
+  color: grey;
+}
+.title {
+  font-family: 'poppins';
+  font-weight: bold;
+}
+.cardTitle{
+    text-align: center;
 }
 </style>
    
