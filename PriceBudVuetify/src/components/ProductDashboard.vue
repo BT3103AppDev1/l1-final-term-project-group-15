@@ -113,14 +113,15 @@
   
         if (docSnap.exists()) {
           const data = docSnap.data();
+          const today = new Date().toDateString();
           this.currentPrice = data[`Current Price`];
           this.currentDate = this.formatDate(data[`Current Date`]);
           this.lowestPrice = data[`Lowest Price`];
           this.lowestDate = this.formatDate(data[`Lowest Date`]);
           this.highestPrice = data[`Highest Price`];
           this.highestDate = this.formatDate(data[`Highest Date`]);
-          this.wishListed = data.WishListed[1];
-          this.wishListedDate =this.formatDate(data.WishListed[0]);
+          this.wishListed = data[`Number Of Wishlists`];
+          this.wishListedDate = today;
         } else {
           console.log('No such document!');
         }

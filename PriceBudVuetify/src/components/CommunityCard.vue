@@ -77,7 +77,7 @@
                 <span class="comments">{{ card.comments }}</span>
             </div>
             </div>
-            <div class="card-content">{{ card.content }}</div>
+            <div class="card-content">{{ truncatedContent(card.content) }}</div>
         </v-card-text>
         </v-card>
     </v-container>
@@ -112,7 +112,16 @@ export default {
     route(card) {
       console.log(card.id)
       this.$router.push({ name: 'CommunityToBlog', params: { id: card.id } })
-    }  
+    },
+    truncatedContent(content) {
+      const words = content.split(' '); // Split content into words
+      let truncatedWords = words.slice(0, 20); // Take the first 20 words
+
+      if (words.length > 20) {
+        truncatedWords.push("..."); // Add ellipsis if there are more than 20 words
+      }
+      return truncatedWords.join(' '); // Join the truncated words back into a string
+    }
   },
   computed: {
     sortedCards() {
@@ -140,7 +149,7 @@ export default {
             cardContent: cardContent.value,
             User: userName.value,
             Product: selectedProduct.value,
-            Date: new Date(),
+            Date: Date(),
             Likes: 0,
             Comments: 0,
         })
