@@ -7,7 +7,7 @@
   
       <div class = "container">
         <HeaderComponent />
-        <Setting1 />
+        <SettingComp />
 
       </div>
     </div>
@@ -20,13 +20,13 @@
 <script>
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
-import Setting1 from '../components/Setting1.vue';
+import SettingComp from '../components/SettingComp.vue';
 
 export default {
     components: {
       SideBar,
       HeaderComponent,
-      Setting1,
+      SettingComp,
 
     }
 }

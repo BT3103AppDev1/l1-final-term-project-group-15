@@ -9,7 +9,9 @@
       <!-- Data Table -->
       <v-data-table
         :headers="headers"
-        :items="items"
+        :items="retailerList"
+        :sort-by = "[{key: 'Price', order: 'asc'}, {key: 'Date', order: 'desc'}]"
+        multi-sort
         class="elevation-1"
         dense
         outlined
@@ -18,15 +20,45 @@
 </template>
 
 <script>
-import { doc, getDoc } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { getFirestore } from 'firebase/firestore'
 
 export default {
   data() {
     return {
-      props: {
-      product: String
-      },
+      retailerList: [],
+      headers: [
+        { title: 'No', align: 'start', value: 'no' },
+        { title: 'Price', value: 'Price' },
+        { title: 'Retailer', value: 'Retailer' },
+        { title: 'Date', value: 'Date' },
+        { title: 'Location', value: 'Location' },
+        { title: 'Input By', value: 'User' },
+      ]
+    }
+  },
+  computed: {
+    formattedRetailerList(){
+      return this.retailerList.map(item => {
+        let date = item.Date;
+        let formattedDate = `${date.substring(6,8)} ${this.getMonthName(date.substring(4,6))} ${date.substring(0,4)}`;
+        return {
+          no: item.no,
+          Price: item.Price,
+          Location: item.Location,
+          Retailer: item.Retailer,
+          Date: formattedDate,
+          user : item.User,
+          sortDate: new Date(date.substring(0,4), date.substring(4,6) - 1, date.substring(6,8)) // for sorting
+        };
+      });
+    }
+  },
+
+  props: {
+    product: String,
+    userEmail: String
+  },
 
       watch: {
         product: {
@@ -34,38 +66,34 @@ export default {
           handler: 'fetchRetailerList'
         }
       },
-      headers: [
-        { title: 'No', align: 'start', value: 'no' },
-        { title: 'Price', value: 'price' },
-        { title: 'Retailer', value: 'retailer' },
-        { title: 'Date', value: 'date' },
-        { title: 'Location', value: 'location' },
-        { title: 'Input By', value: 'inputBy' },
-      ],
-      items: [
-        { no: 1, price: '$45.90', retailer: 'B&H Photo', date: '15 Dec 2023', location: 'Tampines St 21 #01-67', inputBy: 'User 1234' },
-        // Add additional items as needed
-      ]
 
-    };
-  },
-  methods: {
-    async fetchRetailerList() {
-      if (this.product) {
-        const db = getFirestore();
-        const docRef = doc(db, 'Products', this.product);
-        const docSnap = await getDoc(docRef);
+      methods: {
+        getMonthName(monthNumber) {
+          const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+          return monthNames[parseInt(monthNumber) - 1];
+        },
+        async fetchRetailerList() {
+          if (this.product) {
+            const db = getFirestore();
+            const collectionRef = collection(db, 'Products', this.product, 'UserInputs');
+            const querySnapshot = await getDocs(collectionRef);
 
-        if (docSnap.exists()) {
-          // Fetch retailer list from Firestore
-        } else {
-          console.log('No such document!');
-        }
-      } else {
-        console.log('Product ID is null!');
+            this.retailerList = querySnapshot.docs.map((doc, index) => {
+              let data = doc.data();
+              return {
+                no: index + 1, // Add a 'no' field that is the index + 1
+                Price: `$${data.Price}`, // Add a '$' sign in front of the price
+                Retailer: data.Retailer,
+                Date: data.Date,
+                Location: data.Location,
+                User: data.User
+              };
+            });
+          } else {
+            console.log('Product ID is null!');
+          }
+        },
       }
-    },
-  }
 };
 </script>
 

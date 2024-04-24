@@ -6,7 +6,7 @@
   
       <v-container v-if="userEmail" class="right-container">
         <HeaderProduct />
-        <AddButton :product = "product" :key = "product" :userEmail = "userEmail" />
+        <ProductButton :product = "product" :key = "product" :userEmail = "userEmail" />
         <ProductDashboard :product = "product"/>
         <ProductTrend :product = "product"/>
         <div class = "container2">
@@ -33,7 +33,7 @@
           </div>
           <div class ="description-container">
           <ProductDescription :product = "product" :key = "product" />
-          <RetailerList :product = "product" :key = "product"/>
+          <RetailerList :product = "product" :key = "product" :userEmail = "userEmail"/>
           </div>
         </div>
 
@@ -53,7 +53,7 @@
   import ProductPicture from '../components/ProductPicture.vue'
   import ProductDescription from '../components/ProductDescription.vue'
   import RetailerList from '@/components/RetailerList.vue'  
-  import AddButton from '@/components/AddButton.vue'
+  import ProductButton from '@/components/ProductButton.vue'
   import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
   export default {
@@ -79,7 +79,7 @@
     components: {
       SideBar,
       HeaderProduct,
-      AddButton,
+      ProductButton,
       ProductDashboard,
       ProductPicture,
       ProductTrend,

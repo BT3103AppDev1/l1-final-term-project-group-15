@@ -17,8 +17,8 @@
         :items="wishlist"
         :search="search"
         >
-        <template v-slot:item.Image="{ item }">
-          <img :src="item.Image" alt="Product Image" width="100">
+        <template v-slot:item.image_path="{ item }">
+          <img :src="item.image_path" alt="Product Image" width="100">
         </template>
         <template v-slot:item.actions="{ item }">
           <v-btn small rounded color="red" @click="deleteProduct(item)"><strong>Delete</strong></v-btn>
@@ -38,10 +38,10 @@
         search: "",
         headers: [
           {title:"", value: "actions", align: "start"},
-          { title: "", value: "Image"},
+          { title: "", value: "image_path"},
           { title: "Product Name", value: "Name" },
-          { title: "Unit Price", value: "Price" },
-          { title: "Price Change", value: "PriceChange" },
+          { title: "Unit Price", value: "Current Price" },
+          { title: "Price Change", value: "Price Change" },
           { title: "Retailer", value: "Retailer"},
           {title: "Price Trend", value: "pricetrend"}
         ]    
@@ -77,7 +77,8 @@
 
               if (productDocSnap.exists()) {
                 let productData = productDocSnap.data();
-                productData.id = productDocSnap.id; // Add the document ID to the product data
+                productData.id = productDocSnap.id;
+                productData.Name = productDocSnap.id;
                 this.wishlist.push(productData);
               } else {
                 console.log(`No such document: ${productId}`);

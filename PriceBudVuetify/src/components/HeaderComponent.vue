@@ -1,10 +1,8 @@
 <template>
   <v-container v-if="isLoggedIn">
     <v-toolbar density="compact" class="custom-toolbar">
-      <v-card-title>
-          <h2 class="poppins-semibold">Welcome Back, {{ username }}</h2>
-          <p>{{ content }}</p>
-      </v-card-title>
+        <h2 class="poppins-semibold">Welcome Back, {{ username }}</h2>
+        <p>{{ content }}</p>
 
       <v-spacer></v-spacer>
 

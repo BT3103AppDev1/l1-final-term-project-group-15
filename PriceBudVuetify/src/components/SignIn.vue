@@ -115,7 +115,9 @@ export default {
   max-width: 600px; 
   height: auto;
   padding: 20px;
-  background-color: #F5F5F5 ;
+  background-color: #F5F5F5;
+  border-color: transparent;
+  opacity: 0.97;
 }
 .rerouteLogIn{
     text-align: center;

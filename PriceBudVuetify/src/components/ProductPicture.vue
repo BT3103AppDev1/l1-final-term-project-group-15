@@ -1,7 +1,9 @@
 <template>
     <v-container v-if="isLoggedIn" >
       <!-- Product Picture -->
-      <v-img :src="productImage" aspect-ratio="auto"></v-img>
+      <div class = "image-container">
+        <v-img :src="productImage" aspect-ratio="auto"></v-img>
+      </div>
 
 
       <!-- Product Rating-->
@@ -27,8 +29,9 @@
 
     <v-container v-else>
       <!-- Product Picture -->
-      <v-img :src="productImage" aspect-ratio="auto"></v-img>
-
+      <div class = "image-container">
+        <v-img :src="productImage" aspect-ratio="auto"></v-img>
+      </div>
 
       <!-- Product Rating-->
       <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
@@ -79,7 +82,7 @@
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            this.productImage = docSnap.data().Image;
+            this.productImage = docSnap.data().image_path;
             this.rating = docSnap.data().Rating;
           } else {
             console.log('No such document!');
@@ -122,6 +125,15 @@
   
   
   <style scoped>
+  .image-container {
+  width: 300px;
+  height: 300px; /* Set the width of the image container */
+  }
+
+  .image-container > .v-image {
+  width: auto; /* Make the image take up the full width of its container */
+  height: auto; /* This will maintain the aspect ratio of the image */
+  }
   .rating-row {
     display: flex;
     justify-content: center;

@@ -7,7 +7,8 @@
   
       <div class = "container">
         <HeaderComponent />
-        <ProfileHeader />
+        <ProfileHeader :userEmail = "userEmail"/>
+        <ProfileComponent />
 
       </div>
     </div>
@@ -21,13 +22,33 @@
 import SideBar from '../components/SideBar.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import ProfileHeader from '../components/ProfileHeader.vue'
+import ProfileComponent from '../components/ProfileComponent.vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 export default {
-    components: {
+  data() {
+      return {
+        auth: null,
+        userEmail: null
+      }
+    },
+    mounted() {
+      this.product = this.$route.params.id
+
+      this.auth = getAuth()
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.userEmail = user.email
+          console.log(this.userEmail)
+          console.log('test')
+        } 
+      })
+    },
+  components: {
       SideBar,
       HeaderComponent,
-      ProfileHeader
-
-    }
+      ProfileHeader,
+      ProfileComponent
+  }
 }
 
 
