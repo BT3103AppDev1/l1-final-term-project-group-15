@@ -36,7 +36,8 @@ const props = defineProps({
   inWishlistView: {
     type: Boolean,
     default: true
-  }
+  },
+  wishlistedPrice: Number
 })
 
 function redirectProductPage() {
@@ -47,6 +48,7 @@ function redirectProductPage() {
 onBeforeMount (() => {
   console.log('created')
   console.log(props.productName)
+  console.log(props.wishlistedPrice)
 })
 
 onMounted (async () => {
@@ -92,6 +94,7 @@ if (docSnap.exists()) {
 .product-image {
     height: 180px;
     width: fit-content;
+    margin: 10%;
 }
 
 .font-green {
