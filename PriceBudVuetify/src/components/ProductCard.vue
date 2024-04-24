@@ -5,13 +5,19 @@
             <h3 class="poppins-regular">{{ fullName }}</h3>
             <img class="product-image" :src="imageurl" alt="product image">
             <h1 class="poppins-semibold">{{ price }}</h1>
-            <!-- <div class="pricechange-container">
-                <v-icon icon="mdi-arrow-down" color="green"/>
+            <div class="pricechange-container" v-if="priceChange != 0">
+                <v-icon :icon="priceChange >= 0 ? 'mdi-arrow-up' : 'mdi-arrow-down'" 
+                    :color="priceChange >= 0 ? 'red' : 'green'"/>                
                 <p class="poppins-regular">
-                    <span class="font-green">${{  props.product.pricechange }}</span> 
+                    <span :style="{ color: priceChange >= 0 ? 'red' : 'green' }">${{ priceChange }}</span>
                     since wishlisting
                 </p>
-            </div> -->
+            </div>
+            <div class="pricechange-container" v-else>
+                <p class="poppins-regular">
+                    No change since wishlisting
+                </p>
+            </div>
         </div>
     </v-container>
     <v-container v-else>
@@ -29,6 +35,7 @@ import { useRouter } from 'vue-router'
 let fullName = ref('')
 let price = ref('')
 let imageurl = ref('')
+let priceChange = ref(0)
 
 const router = useRouter()
 const props = defineProps({
@@ -61,6 +68,7 @@ if (docSnap.exists()) {
     fullName.value = data.brand + ' ' + props.productName // fullName is Brand + productName
     price.value = '$' + data["Current Price"] // edit here to make it dynamic
     imageurl.value = data.image_path
+    priceChange.value = props.wishlistedPrice - data["Current Price"]
 
 
     console.log(fullName)

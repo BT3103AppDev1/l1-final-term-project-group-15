@@ -10,7 +10,7 @@
   </template>
   
   <script>
-  import { getFirestore, doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+  import { getFirestore, doc, updateDoc, getDoc, increment } from "firebase/firestore";
   
   export default {
     data() {
@@ -26,13 +26,22 @@
       async addProduct() {
         const db = getFirestore();
         const userRef = doc(db, 'Users', this.userEmail);
+        const productRef = doc(db, 'Products', this.product);
+        const productSnap = await getDoc(productRef);
   
-        // Atomically add a new product ID to the "wishlist" array field.
-        await updateDoc(userRef, {
-          Wishlist: arrayUnion(this.product)
-        });
+        if (productSnap.exists()) {
+          const productData = productSnap.data();
+          const currentPrice = productData['Current Price'];
+
+          await updateDoc(userRef, {
+            [`Wishlist.${this.product}`]: currentPrice
+          });
+          await updateDoc(productRef, {
+            ['Number Of Wishlisted']: increment(1)
+          });
   
-        this.$router.push({ name: 'ProductToWishList', params: { id: this.product } });
+          this.$router.push({ name: 'ProductToWishList', params: { id: this.product } });
+        }
       },
       goBack() {
         this.$router.go(-1)
