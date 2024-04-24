@@ -1,52 +1,46 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" app id="navDrawer">
       <!-- Logo and Title -->
-      <div class="d-flex align-center mt-5">
-        <img src="../assets/icon.png" alt="Logo" class="mr-2 ml-4" style="height: 24px;">
-        <span class="title"><strong>PriceBud</strong></span>
+      <div class="d-flex align-center mt-5" style="margin-bottom: 6vh; font-family: 'Poppins', 'sans-serif'; font-weight: 500; font-style: normal">
+        <img src="../assets/icon.png" alt="Logo" class="mr-2 ml-4" style="height: 32px;">
+        <span style="font-size: larger;" class="title">PriceBud</span>
       </div>
       <!-- Sidebar content -->
       <v-list>
-        <v-list-item to="/">
-          <v-list-item-icon>
+        <v-list-item :class="{ 'active-list-item': $route.path === '/HomePage' }" to="/">
+          <template v-slot:prepend>
             <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Home Page</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Home Page</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/WishListPage">
-          <v-list-item-icon>
+
+        <v-list-item :class="{ 'active-list-item': $route.path === '/WishListPage' }" link to="/WishListPage">
+          <template v-slot:prepend>
             <v-icon>mdi-heart</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Wishlist</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Wishlist</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/ProfilePage">
-          <v-list-item-icon>
+
+        <v-list-item :class="{ 'active-list-item': $route.path === '/ProfilePage' }" link to="/ProfilePage">
+          <template v-slot:prepend>
             <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Profile</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/CommunityPage">
-          <v-list-item-icon>
+
+        <v-list-item :class="{ 'active-list-item': $route.path === '/CommunityPage' }" link to="/CommunityPage">
+          <template v-slot:prepend>
             <v-icon>mdi-account-group</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Community</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Community</v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/SettingPage">
-          <v-list-item-icon>
+
+        <v-list-item :class="{ 'active-list-item': $route.path === '/SettingPage' }" link to="/SettingPage">
+          <template v-slot:prepend>
             <v-icon>mdi-cog</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>Settings</v-list-item-title>
         </v-list-item>
       </v-list>
 
@@ -133,8 +127,33 @@
   }
 </script>
 
-<style scoped>
+<style>
  .bottom-sidebar-items {
   margin-top: 50%;
  }
+
+  #navDrawer > * {
+    margin: 15px;
+  }
+
+  .active-list-item {
+    background-color: white;
+    color: rgba(53, 123, 226, 1);
+  }
+
+  .v-list-item-title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: small;
+    color:rgb(92, 105, 135);
+  }
+
+  .v-icon {
+    color:rgb(90, 102, 132);
+  }
+
+  .v-list-item__prepend {
+    width: 3hv;
+  }
 </style>
