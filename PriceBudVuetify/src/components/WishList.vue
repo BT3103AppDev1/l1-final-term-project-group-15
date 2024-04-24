@@ -14,7 +14,7 @@
         </template>
        <v-data-table
         :headers="headers"
-        :items="wishlist"
+        :items="formattedWishlist"
         :search="search"
         >
         <template v-slot:item.image_path="{ item }">
@@ -58,6 +58,22 @@
       }
     },
 
+    computed: {
+      formattedWishlist() {
+        return this.wishlist.map(item => {
+          return {
+            id: item.id,
+            'image_path': item['image_path'],
+            'Name': item['Name'],
+            'Current Price': `$${item['Current Price']}`,
+            'Price Change': `$${item['Price Change']}`,
+            'Retailer': item['Retailer'],
+            'pricetrend': 'Price Trend'
+          };
+        });
+      }
+    },
+
     methods: {
       async fetchProductData() {
         console.log(this.product)
@@ -71,7 +87,7 @@
             const wishlist = userDocSnap.data().Wishlist || [];
             this.wishlist = [];
 
-            for (let productId of wishlist) {
+            for (let productId in wishlist) {
               const productDocRef = doc(db, 'Products', productId);
               const productDocSnap = await getDoc(productDocRef);
 

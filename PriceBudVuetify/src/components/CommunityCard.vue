@@ -1,10 +1,10 @@
 <template>
-    <v-container>
+    <v-container >
 
-        <v-container> 
+        <div>
             <h2 class="title">Our Community Page</h2>
             <h5 class="subtitle">see what others are reviewing about </h5>
-        </v-container>
+        </div>
 
       <v-row class="mb-4"> <!-- Add margin-bottom class -->
         <v-col>
@@ -33,13 +33,18 @@
                 <v-card-title class ="cardTitle">Create a post</v-card-title>
                 <v-card-text>
                     <!-- Form or content for adding a new card goes here -->
-                    <v-text-field label="Card Title" v-model="newCardTitle"></v-text-field>
-                    <v-textarea label="Card Content" v-model="newCardContent"></v-textarea>
-                    <v-text-field label="Product" v-model="newProduct"></v-text-field>
-                    <v-text-field label="Brand" v-model="newBrand"></v-text-field>
-                    </v-card-text>
+                    <v-autocomplete
+                        label="Search product"
+                        :items="products"
+                        v-model="selectedProduct"
+                        rounded
+                        variant="solo"
+                    ></v-autocomplete>
+                    <v-text-field label="Title" v-model="cardTitle"></v-text-field>
+                    <v-textarea label="Content" v-model="cardContent"></v-textarea>
+                </v-card-text>
                 <v-card-actions>
-                    <v-btn color="primary" @click="addCard">Post</v-btn>
+                    <v-btn color="primary" @click="post">Post</v-btn>
                     <v-btn color="red darken-1" @click="dialog = false">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -47,46 +52,46 @@
         
       </v-row>
   
-      <v-card v-for="(card, index) in cards" :key="index" color="#7C8DB5" class="mb-4">
-        <v-card-title>Card {{ index + 1 }}</v-card-title>
-        <!-- Card content goes here -->
-        <v-card-text>
-          {{ card.content }}
-        </v-card-text>
-      </v-card>
+      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
+  <v-card-title class="title">{{ card.title }}</v-card-title>
+  <v-card-text class="content">
+    <div class="info-row">
+      <div class="user-info">
+        <v-icon class="user-icon">mdi-account</v-icon>
+        <span class="user-name">{{ card.user }}</span>
+      </div>
+      <div class="product-info">
+        <v-icon class="product-icon">mdi-tag</v-icon>
+        <span class="product-name">{{ card.product }}</span>
+      </div>
+      <div class="date-info">
+        <v-icon class="date-icon">mdi-calendar</v-icon>
+        <span class="date">{{ card.date }}</span>
+      </div>
+      <div class="likes-info">
+        <v-icon class="likes-icon">mdi-thumb-up</v-icon>
+        <span class="likes">{{ card.likes }}</span>
+      </div>
+      <div class="comments-info">
+        <v-icon class="comments-icon">mdi-comment-multiple-outline</v-icon>
+        <span class="comments">{{ card.comments }}</span>
+      </div>
+    </div>
+    <div class="card-content">{{ card.content }}</div>
+  </v-card-text>
+</v-card>
+
     </v-container>
   </template>
   
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue'
+import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default {
-  data() {
-    return {
-      cards: [
-        {
-          title: 'Card 1',
-          content: 'This is the content of card 1.'
-        },
-        {
-          title: 'Card 2',
-          content: 'This is the content of card 2.'
-        },
-        {
-          title: 'Card 3',
-          content: 'This is the content of card 3.'
-        }
-      ]
-    };
-  },
   methods: {
-    addCard() {
-      this.cards.push({
-        title: `Card ${this.cards.length + 1}`,
-        content: `This is the content of card ${this.cards.length + 1}.`
-      });
-    },
     sortBy(option) {
       // Handle sorting logic based on the selected option
       switch (option) {
@@ -106,8 +111,73 @@ export default {
   },
   setup() {
     const dialog = ref(false);
-    return { dialog };
-  }
+    const selectedProduct = ref(null)
+    const products = ref([])
+    const cards = ref([]);
+
+    const cardTitle = ref(null)
+    const cardContent = ref(null)
+    const userName = ref(null)
+    const auth = getAuth()
+
+    async function post() {
+        const db = getFirestore()
+        const userInputsCollection = collection(db, "UserInputsCommunity")
+
+        const blogPage = await addDoc(userInputsCollection, {
+            cardTitle: cardTitle.value,
+            cardContent: cardContent.value,
+            User: userName.value,
+            Product: selectedProduct.value,
+            Date: new Date(),
+            Likes: 0,
+            Comments: 0,
+        })
+
+        const userCommentsCollection = collection(blogPage, "UserComments")
+        const commentInputDummy = doc(userCommentsCollection, "DummyComment") 
+        await setDoc(commentInputDummy, {})
+        console.log(userName.value)
+        dialog.value = false
+
+        //still have to display 
+    }
+
+    async function fetchPosts() {
+        const db = getFirestore();
+        const querySnapshot = await getDocs(collection(db, "UserInputsCommunity"));
+        cards.value = querySnapshot.docs.map(doc => ({
+            title: doc.data().cardTitle,
+            content: doc.data().cardContent,
+            user: doc.data().User,
+            product: doc.data().Product,
+            date: doc.data().Date.toDate().toDateString(), // Assuming Date is stored as Firestore Timestamp
+            likes: doc.data().Likes,
+            comments: doc.data().Comments,
+        }));
+    }
+
+    onMounted(async () => {
+        try {
+            const db = getFirestore()
+            const querySnapshot = await getDocs(collection(db, "Products"))
+            for (const doc of querySnapshot.docs) {
+            products.value.push(doc.id)
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error)
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+            userName.value = user.displayName
+            }
+        })
+
+        fetchPosts(); 
+    })
+
+    return { dialog, selectedProduct, products, cardTitle, cardContent, post, cards };  }
 };
 </script>
 
@@ -127,5 +197,41 @@ export default {
 .cardTitle{
     text-align: center;
 }
+
+.title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-info, .date-info, .likes-info, .comments-info, .product-info{
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.user-icon, .date-icon, .likes-icon, .comments-icon,.product-icon {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+.user-name, .date, .likes, .comments, .product {
+  font-size: 14px;
+}
+
+.card-content {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
 </style>
-   
