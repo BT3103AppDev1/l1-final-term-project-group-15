@@ -37,7 +37,7 @@
             [`Wishlist.${this.product}`]: currentPrice
           });
           await updateDoc(productRef, {
-            ['Number Of Wishlisted']: increment(1)
+            ['Number Of Wishlists']: increment(1)
           });
   
           this.$router.push({ name: 'ProductToWishList', params: { id: this.product } });
