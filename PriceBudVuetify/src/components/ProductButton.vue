@@ -10,7 +10,7 @@
   </template>
   
   <script>
-  import { getFirestore, doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+  import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
   
   export default {
     data() {

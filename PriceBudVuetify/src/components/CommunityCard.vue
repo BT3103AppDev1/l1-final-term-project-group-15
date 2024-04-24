@@ -51,62 +51,72 @@
         </v-dialog>
         
       </v-row>
-  
-      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
-  <v-card-title class="title">{{ card.title }}</v-card-title>
-  <v-card-text class="content">
-    <div class="info-row">
-      <div class="user-info">
-        <v-icon class="user-icon">mdi-account</v-icon>
-        <span class="user-name">{{ card.user }}</span>
-      </div>
-      <div class="product-info">
-        <v-icon class="product-icon">mdi-tag</v-icon>
-        <span class="product-name">{{ card.product }}</span>
-      </div>
-      <div class="date-info">
-        <v-icon class="date-icon">mdi-calendar</v-icon>
-        <span class="date">{{ card.date }}</span>
-      </div>
-      <div class="likes-info">
-        <v-icon class="likes-icon">mdi-thumb-up</v-icon>
-        <span class="likes">{{ card.likes }}</span>
-      </div>
-      <div class="comments-info">
-        <v-icon class="comments-icon">mdi-comment-multiple-outline</v-icon>
-        <span class="comments">{{ card.comments }}</span>
-      </div>
-    </div>
-    <div class="card-content">{{ card.content }}</div>
-  </v-card-text>
-</v-card>
 
+      <router-link v-for="(card, index) in cards" :key="index" :to="{ name: 'CardDetails', params: { cardId: card.id }}" class="text-decoration-none">
+        <v-card class="mb-4" outlined>
+            <v-card-title class="title">{{ card.title }}</v-card-title>
+        <v-card-text class="content">
+            <div class="info-row">
+            <div class="user-info">
+                <v-icon class="user-icon">mdi-account</v-icon>
+                <span class="user-name">{{ card.user }}</span>
+            </div>
+            <div class="product-info">
+                <v-icon class="product-icon">mdi-tag</v-icon>
+                <span class="product-name">{{ card.product }}</span>
+            </div>
+            <div class="date-info">
+                <v-icon class="date-icon">mdi-calendar</v-icon>
+                <span class="date">{{ card.
+                date.toDate().toDateString() }}</span>
+            </div>
+            <div class="likes-info">
+                <v-icon class="likes-icon">mdi-thumb-up</v-icon>
+                <span class="likes">{{ card.likes }}</span>
+            </div>
+            <div class="comments-info">
+                <v-icon class="comments-icon">mdi-comment-multiple-outline</v-icon>
+                <span class="comments">{{ card.comments }}</span>
+            </div>
+            </div>
+            <div class="card-content">{{ card.content }}</div>
+        </v-card-text>
+        </v-card>
+    </router-link>
     </v-container>
   </template>
   
 
 <script>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from 'firebase/firestore'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default {
   methods: {
     sortBy(option) {
-      // Handle sorting logic based on the selected option
-      switch (option) {
-        case 'popular':
-          // Sort from largest to smallest
-          break;
-        case 'commented':
-          // Sort from smallest to largest
-          break;
-        case 'recent':
-          // Sort by most recent
-          break;
-        default:
-          break;
-      }
+        switch (option) {
+            case 'popular':
+            // Sort posts by the number of likes (from largest to smallest)
+            this.cards.sort((a, b) => b.likes - a.likes);
+            break;
+            case 'commented':
+            // Sort posts by the number of comments (from largest to smallest)
+            this.cards.sort((a, b) => b.comments - a.comments);
+            break;
+            case 'recent':
+            // Sort posts by date (from most recent to oldest)
+            this.cards.sort((a, b) => b.date- a.date);
+            break;
+            default:
+            break;
+        }
+    }   
+  },
+  computed: {
+    sortedCards() {
+        // Sort cards by date (from most recent to oldest)
+        return this.cards.slice().sort((a, b) => b.date - a.date);
     }
   },
   setup() {
@@ -151,7 +161,7 @@ export default {
             content: doc.data().cardContent,
             user: doc.data().User,
             product: doc.data().Product,
-            date: doc.data().Date.toDate().toDateString(), // Assuming Date is stored as Firestore Timestamp
+            date: doc.data().Date, // Assuming Date is stored as Firestore Timestamp
             likes: doc.data().Likes,
             comments: doc.data().Comments,
         }));
