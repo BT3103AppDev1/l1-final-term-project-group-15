@@ -2,12 +2,14 @@
   <v-container>
     <div id="firstContainer">
       <div>
-        <h1>Master Product Data Input</h1>
+        <h3>Master Product Data Input</h3>
         <p>Mass upload to product database</p>
+        <p>1. Upload Products: General information for new products</p>
+        <p>2. Upload Retailers: Retailer information for existing products</p>
       </div>
       <div id="buttonsContainer">
         <!-- First button for uploading of new products' general information -->
-        <v-btn class = "upload" @click="dialog = true" color="primary"  style="margin-bottom: 10px;" >Upload New Products</v-btn>
+        <v-btn class = "upload" @click="dialog = true" color="rgba(105, 181, 120, 1)"  rounded='xl' style="margin-bottom: 10px; width: 18vw;" >Upload Products</v-btn>
 
         <v-dialog v-model="dialog" width="auto">
           <v-card  width="400">
@@ -41,7 +43,7 @@
         </v-dialog>
 
         <!-- Uploading of retailer price information for existing products -->
-        <v-btn class = "upload" @click="dialog2 = true" color="primary">Upload Retailers (Existing Products)</v-btn>
+        <v-btn class = "upload" @click="dialog2 = true" rounded='xl' color="rgba(105, 181, 120, 1)"  style="width: 18vw;" >Upload Retailers</v-btn>
 
         <v-dialog v-model="dialog2" width="auto">
           <v-card  width="400">
@@ -349,7 +351,6 @@ onMounted(async () => {
 
 #firstContainer div {
   flex: 1; 
-  padding: 0 10px; 
 }
 
 .upload {
@@ -362,15 +363,27 @@ onMounted(async () => {
 
 #description div {
   flex: 1;
-  padding: 0 10px;
-}
-
-#right {
-  float: right;
 }
 
 #buttonsContainer {
   display: flex;
   flex-direction: column;
+  align-items: flex-end; /* Align items to the start of the container */
 }
+
+#firstContainer div h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 24px;
+}
+
+#firstContainer div p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  color: rgb(91, 104, 134);
+}
+
 </style>
