@@ -4,7 +4,7 @@
       <div class="info">
         <div class="pic">
           <v-avatar size="100">
-            <img class="avatar" :src="profilePic">
+            <img class="avatar" :src="profilePic" >
           </v-avatar>
           <input type="file" ref="file" style="display: none" @change="onFileSelected"></input>
         </div>
@@ -52,13 +52,13 @@
   <script>
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-
+import DefaultProfilePic from "../assets/DefaultProfilePic.png"
   
   export default {
     data() {
       return {
         isEditing: false,
-        profilePic: "../assets/icon.png",
+        profilePic: DefaultProfilePic,
         preferences: '',
         biography: '',
         contact: '',
@@ -176,5 +176,8 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
     margin-bottom: 0;
     margin: 0%;
     height: fit-content;
+  }
+  .text-end {
+    margin-right: 40px;
   }
   </style>
