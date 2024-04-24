@@ -7,9 +7,9 @@
 
 
       <!-- Product Rating-->
-      <v-rating v-model="rating" :half-increments="true" color="yellow" dense readonly></v-rating>
-    
-  
+      <div class = "rating">
+        <v-rating v-model="rating" :half-increments="true" dense readonly></v-rating>
+      </div>
       <!-- Alert Box -->
       <v-card class="alert-box">
         <v-card-text class="text1">
@@ -125,6 +125,13 @@
   
   
   <style scoped>
+  .rating {
+    display: flex;
+    justify-content: center;
+  }
+  ::v-deep .v-rating .v-icon.v-icon--color {
+  color: yellow !important;
+  }
   .image-container {
   width: 300px;
   height: 300px; /* Set the width of the image container */
