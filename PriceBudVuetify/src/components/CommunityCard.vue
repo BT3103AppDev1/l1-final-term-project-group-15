@@ -52,9 +52,8 @@
         
       </v-row>
 
-      <router-link v-for="(card, index) in cards" :key="index" :to="{ name: 'CardDetails', params: { cardId: card.id }}" class="text-decoration-none">
-        <v-card class="mb-4" outlined>
-            <v-card-title class="title">{{ card.title }}</v-card-title>
+      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
+        <v-card-title class="title">{{ card.title }}</v-card-title>
         <v-card-text class="content">
             <div class="info-row">
             <div class="user-info">
@@ -67,8 +66,7 @@
             </div>
             <div class="date-info">
                 <v-icon class="date-icon">mdi-calendar</v-icon>
-                <span class="date">{{ card.
-                date.toDate().toDateString() }}</span>
+                <span class="date">{{ card.date.toDate().toDateString() }}</span>
             </div>
             <div class="likes-info">
                 <v-icon class="likes-icon">mdi-thumb-up</v-icon>
@@ -82,7 +80,6 @@
             <div class="card-content">{{ card.content }}</div>
         </v-card-text>
         </v-card>
-    </router-link>
     </v-container>
   </template>
   
