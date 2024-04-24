@@ -5,8 +5,7 @@
 
     <v-container v-if="userEmail" class="right-container">
       <HeaderComponent />
-      <BlogComp />
-
+      <BlogComp :blogId = "blogId"/>
     </v-container>
 
     </v-sheet>
@@ -22,7 +21,8 @@
     data() {
         return {
           auth: null,
-          userEmail: null
+          userEmail: null,
+          blogId: null
         }
       },
     components: {
@@ -31,6 +31,8 @@
         BlogComp,
     },    
     mounted() {
+      this.blogId = this.$route.params.id
+   
   
       this.auth = getAuth()
       onAuthStateChanged(this.auth, (user) => {

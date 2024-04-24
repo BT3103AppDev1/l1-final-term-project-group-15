@@ -20,7 +20,8 @@
             <v-list>
               <v-list-item @click="sortBy('popular')">Most Popular </v-list-item>
               <v-list-item @click="sortBy('commented')">Most Commented</v-list-item>
-              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>            </v-list>
+              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>    
+            </v-list>
           </v-menu>
         </v-col>
 
@@ -52,7 +53,10 @@
         
       </v-row>
 
-      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
+      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined 
+        @mouseenter="hoveredCard = index" 
+        @mouseleave="hoveredCard = null"
+      :style="{ cursor: hoveredCard === index ? 'pointer' : 'pointer' }">
         <v-card-title class="title" @click="route(card)">{{ card.title }}</v-card-title>
         <v-card-text class="content" @click="route(card)">
             <div class="info-row">
@@ -66,7 +70,7 @@
             </div>
             <div class="date-info">
                 <v-icon class="date-icon">mdi-calendar</v-icon>
-                <span class="date">{{ card.date.toDate().toDateString() }}</span>
+                <span class="date">{{ card.date.toDate().toDateString()}}</span>
             </div>
             <div class="likes-info">
                 <v-icon class="likes-icon">mdi-thumb-up</v-icon>
@@ -123,12 +127,6 @@ export default {
       return truncatedWords.join(' '); // Join the truncated words back into a string
     }
   },
-  computed: {
-    sortedCards() {
-        // Sort cards by date (from most recent to oldest)
-        return this.cards.slice().sort((a, b) => b.date - a.date);
-    }
-  },
   setup() {
     const dialog = ref(false);
     const selectedProduct = ref(null)
@@ -149,7 +147,7 @@ export default {
             cardContent: cardContent.value,
             User: userName.value,
             Product: selectedProduct.value,
-            Date: Date(),
+            Date: new Date(),
             Likes: 0,
             Comments: 0,
         })
