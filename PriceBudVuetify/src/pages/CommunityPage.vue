@@ -40,7 +40,6 @@ export default {
       CommunityCard,
   },    
   mounted() {
-    this.product = this.$route.params.id
 
     this.auth = getAuth()
     onAuthStateChanged(this.auth, (user) => {

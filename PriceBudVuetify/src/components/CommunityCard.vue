@@ -53,8 +53,8 @@
       </v-row>
 
       <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
-        <v-card-title class="title">{{ card.title }}</v-card-title>
-        <v-card-text class="content">
+        <v-card-title class="title" @click="route(card)">{{ card.title }}</v-card-title>
+        <v-card-text class="content" @click="route(card)">
             <div class="info-row">
             <div class="user-info">
                 <v-icon class="user-icon">mdi-account</v-icon>
@@ -108,7 +108,11 @@ export default {
             default:
             break;
         }
-    }   
+    },
+    route(card) {
+      console.log(card.id)
+      this.$router.push({ name: 'CommunityToBlog', params: { id: card.id } })
+    }  
   },
   computed: {
     sortedCards() {
@@ -161,6 +165,7 @@ export default {
             date: doc.data().Date, // Assuming Date is stored as Firestore Timestamp
             likes: doc.data().Likes,
             comments: doc.data().Comments,
+            id: doc.id
         }));
     }
 
