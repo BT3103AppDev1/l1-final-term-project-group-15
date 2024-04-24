@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="isLoggedIn">
     <v-toolbar density="compact" class="custom-toolbar">
-        <h2 class="poppins-semibold">Welcome Back, {{ username }}</h2>
+        <h2 class="title">Welcome Back, {{ username }}</h2>
         <p>{{ content }}</p>
 
       <v-spacer></v-spacer>
@@ -68,10 +68,11 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
-.poppins-semibold {
+<style>
+.title {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
+    font-size: 28px;
 }
 
 .custom-toolbar {
