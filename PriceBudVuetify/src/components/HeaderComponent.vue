@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="isLoggedIn">
-    <v-toolbar density="compact" class="custom-toolbar">
+    <v-toolbar density="compact" id="custom-toolbar">
         <h2 class="title">Welcome Back, {{ username }}</h2>
         <p>{{ content }}</p>
 
@@ -76,12 +76,7 @@ onMounted(() => {
     background-color: white;
 }
 
-.custom-toolbar {
-  font-family: 'poppins'; 
-  font-weight: bold;
-  background-color: white;
-}
-.custom-toolbar p {
+#custom-toolbar  {
   font-family: 'poppins';
   font-size: 11px; 
   font-weight: bold;
