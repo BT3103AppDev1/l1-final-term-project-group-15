@@ -49,11 +49,11 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item @click="showInsight1()">
+                        <v-list-item @click="showReviewInsight()">
                         <v-list-item-title>Most highly rated</v-list-item-title>
                         </v-list-item>
 
-                        <v-list-item @click="showInsight2()">
+                        <v-list-item @click="showWishlistInsight()">
                         <v-list-item-title>Most wishlisted</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -62,18 +62,28 @@
         </div>
         <!-- Product Cards -->
         <!-- for each insight, different data from Product object is required -->
-        <v-slide-group v-if="toggleOn">
-            <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
+        <v-slide-group v-if="toggleOn" :key="toggleOn">
+            <v-slide-item>
                 <div class="card-container">
-                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />                    <!-- <h1>{{ product }}</h1> -->
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="5" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="5" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="4" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
                 </div>
             </v-slide-item>
         </v-slide-group>
 
         <v-slide-group v-else>
-            <v-slide-item v-for="(itemNumber, i) in itemNumberArr" :key="i">
+            <v-slide-item>
                 <div class="card-container">
-                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />                    <!-- <h1>{{ product }}</h1> -->
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />                
                 </div>
             </v-slide-item>
         </v-slide-group>
@@ -88,8 +98,6 @@
 import { defineProps, watch, onMounted, ref } from 'vue'
 import ProductCard from './ProductCard.vue'
 
-const itemNumberArr = [0, 1, 2, 3, 4]
-
 const props = defineProps({
   wishlist: {
     type: Array,
@@ -101,14 +109,14 @@ const props = defineProps({
   }
 })
 
-let toggleOn = ref(false)
+let toggleOn = ref(true)
 
-function showInsight1() {
+function showReviewInsight() {
     console.log('showing review insight')
     toggleOn.value = true
 }
 
-function showInsight2() {
+function showWishlistInsight() {
     console.log('showing wishlist insight')
     toggleOn.value = false
 }
