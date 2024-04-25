@@ -115,7 +115,7 @@
           const data = docSnap.data();
           const today = new Date().toDateString();
           this.currentPrice = data[`Current Price`];
-          this.currentDate = this.formatDate(data[`Current Date`]);
+          this.currentDate = today;
           this.lowestPrice = data[`Lowest Price`];
           this.lowestDate = this.formatDate(data[`Lowest Date`]);
           this.highestPrice = data[`Highest Price`];

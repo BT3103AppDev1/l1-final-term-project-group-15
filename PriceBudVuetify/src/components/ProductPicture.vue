@@ -20,10 +20,19 @@
         </v-card-text>
 
         <v-dialog v-model="dialog" width="auto">
-          <v-card>
-            <v-card-title> Alert Confirmed </v-card-title>
+          <v-card class="alert-card">
+            <v-card-title class="text-h5 title">Alert Confirmed!</v-card-title>
+            <v-card-text class="message">
+              We will notify you once the price drops.
+            </v-card-text>
+            <v-divider class="divider"></v-divider>
+            <v-card-actions>
+              <v-btn color="primary" text @click="dialog = false"> <strong>OK</strong></v-btn>
+            </v-card-actions>
           </v-card>
-         </v-dialog>
+        </v-dialog>
+
+
        </v-card>
     </v-container>
 
@@ -165,6 +174,23 @@
   .text1{
     text-align: center;
   }
+  .alert-card {
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-weight: bold;
+  color: #333;
+}
+
+.message {
+  color: #555;
+}
+
+.divider {
+  margin: 16px 0;
+}
 
   </style>
   
