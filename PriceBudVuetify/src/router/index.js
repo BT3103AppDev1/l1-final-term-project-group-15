@@ -26,7 +26,6 @@ import HomePage from '../pages/HomePage.vue'
 import IndexPage from '../pages/index.vue'
 import LogIn1 from '../components/LogIn1.vue'
 import SignIn from '../components/SignIn.vue'
-import LogOut1 from '../components/LogOut1.vue'
 import ProductPage1 from '../pages/ProductPage1.vue'
 import ProfilePage from '../pages/ProfilePage.vue'
 import SearchResultsPage from '../pages/searchResults.vue'
@@ -46,7 +45,6 @@ const router = createRouter({
     { path: '/index', component: IndexPage },
     { path: '/LogIn1', component: LogIn1 },
     { path: '/SignIn', component: SignIn },
-    { path: '/LogOut1', component: LogOut1 },
     { path: '/ProductPage1', component: ProductPage1 },
     { path: '/ProfilePage', component: ProfilePage },
     { path: '/SettingPage', component: SettingPage },

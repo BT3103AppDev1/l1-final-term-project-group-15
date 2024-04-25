@@ -36,7 +36,7 @@
           </template>
           <v-list-item-title>Community</v-list-item-title>
         </v-list-item>
-        
+
         <v-list-item :class="{ 'active-list-item': $route.path === '/SettingPage' }" link to="/SettingPage">
           <template v-slot:prepend>
             <v-icon>mdi-cog</v-icon>
@@ -121,8 +121,17 @@
   })
 
   function handleSignout() {
-    signOut(auth)
-  }
+      // Sign out the user
+      signOut(auth)
+        .then(() => {
+          // Navigate to the home page after successful sign out
+          router.push('/HomePage');
+        })
+        .catch((error) => {
+          // Handle sign out errors
+          console.error('Sign out error:', error);
+        });
+    }
 
   function handleSignin() {
     router.push('/LogIn1')
