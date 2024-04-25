@@ -46,6 +46,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" @click="post">Post</v-btn>
+                    <v-spacer></v-spacer>
                     <v-btn color="red darken-1" @click="dialog = false">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -58,7 +59,7 @@
         @mouseleave="hoveredCard = null"
       :style="{ cursor: hoveredCard === index ? 'pointer' : 'pointer' }">
         <v-card-title class="title" @click="route(card)">{{ card.title }}</v-card-title>
-        <v-card-text class="content" @click="route(card)">
+        <v-card-text class="thing" @click="route(card)">
             <div class="info-row">
             <div class="user-info">
                 <v-icon class="user-icon">mdi-account</v-icon>
@@ -223,7 +224,7 @@ export default {
   color: #333;
 }
 
-.content {
+.thing {
   display: flex;
   flex-direction: column;
 }

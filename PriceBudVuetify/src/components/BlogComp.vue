@@ -1,9 +1,10 @@
 <template>
     <v-container>
-  
+
+   
       <!-- Full screen of the post -->
       <v-card class="blog-card">
-  
+        
         <!-- Return button -->
         <v-card-actions>
           <v-btn class="left-button" @click="goBack">
@@ -68,15 +69,33 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        
       </v-card>
+
+      <div class="spacer"></div>
+
+      <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4" outlined>
+      <v-card-title class="title">{{ comment.user }}</v-card-title>
+      <v-card-text class="content">
+        <div class="info-row">
+          <div class="product-info">
+            <span class="product-name">{{ comment.cardComment }}</span>
+          </div>
+          <div class="date-info">
+            <v-icon class="date-icon">mdi-calendar</v-icon>
+            <span class="date">{{ comment.commentDate.toDate().toDateString() }}</span>
+          </div>
+        </div>
+      </v-card-text>
+    </v-card>
+
+
     </v-container>
   </template>
 
 <script>
     import firebaseApp from '../firebase.js';
-    import { getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc } from "firebase/firestore";
-    import { ref } from 'vue'
+    import { getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, getDocs } from "firebase/firestore";
+
 
     const db = getFirestore(firebaseApp);
 
@@ -92,6 +111,9 @@
         likes: "",
         comments: "",
         dialog: false,
+        cardComment: "",
+        commentDate: "",
+        commentTexts: [],
       };
     },
     props: {
@@ -99,7 +121,7 @@
         
     },
     watch: {
-      blogId: {
+        blogId: {
         immediate: true,
         handler: 'fetchData'
       }
@@ -143,52 +165,41 @@
 
           const data = docSnap.data();
           console.log(data);
-          const currentComments = data.Comments || 0; // Get current likes count or default to 0
+          const currentComments = data.Comments || 0; 
 
-          // Update the document with the incremented likes count
+          
           await updateDoc(docRef, { Comments: currentComments + 1 });
           console.log(this.comments)
           this.comments = currentComments + 1;    
 
           const userCommentsCollection = collection(docRef, "UserComments")
           await addDoc(userCommentsCollection, {
-              cardComment: this.cardComment
+              cardComment: this.cardComment,
+              user: this.user,
+              date: new Date(),
           })
 
           this.dialog = false
-      }
+        },
+        async fetchComments() {
+            const blogDocRef = doc(db, 'UserInputsCommunity', this.blogId);
+            const userCommentsCollection = collection(blogDocRef, "UserComments");
+            const querySnapshot = await getDocs(userCommentsCollection);
+
+            this.commentTexts = querySnapshot.docs
+            .filter(doc => doc.data().user != null)
+            .map(doc => ({
+                user: doc.data().user,
+                commentDate: doc.data().date,
+                cardComment: doc.data().cardComment,
+            }));
+            console.log(this.commentTexts);
+        }
     },
-    // setup(props) {
-    //   const dialog = ref(false);
-    //   const cardComment = ref(null);
-    //   let docSnap = null; 
-    //   let docRef = null; 
-
-    //   async function commenting() {
-    //       docRef = doc(db, 'UserInputsCommunity', props.blogId);
-    //       docSnap = await getDoc(docRef);
-
-    //       const data = docSnap.data();
-    //       console.log(data);
-    //       const currentComments = data.Comments || 0; // Get current likes count or default to 0
-
-    //       // Update the document with the incremented likes count
-    //       await updateDoc(docRef, { Comments: currentComments + 1 });
-    //       console.log(this.comments)
-    //       this.comments = currentComments + 1;    
-
-    //       const userCommentsCollection = collection(props.blogId, "UserComments")
-    //       await addDoc(userCommentsCollection, {
-    //           cardComment: cardComment.value
-    //       })
-
-    //       dialog.value = false
-    //   }
-
-    //   return { dialog, commenting}
-    // }
-}
-// go back method 
+      mounted() {
+        this.fetchComments();
+    },
+} 
 
 </script>
 
@@ -197,7 +208,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background-color: lightGrey;
 }
 .left-button {
   margin-right: 10px;
@@ -229,8 +240,7 @@
   margin-right: 20px;
 }
 .add-comment-button {
-  color: white;
-  background-color: #007bff;
+    border: 1px solid #333;
 }
 .card-title {
   font-size: 24px;
@@ -240,6 +250,14 @@
 .likes-comments {
   display: flex;
   align-items: center;
+}
+.spacer {
+  margin-top: 20px; /* Adjust the value as needed */
+}
+.mb-4 {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
 }
 
 
