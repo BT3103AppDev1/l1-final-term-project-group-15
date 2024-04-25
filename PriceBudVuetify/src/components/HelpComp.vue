@@ -1,5 +1,5 @@
 <template>
-    <v-container class = "container">
+    <v-container>
       <h1>Help Center</h1>
   
       <v-card class="mb-4">
@@ -38,9 +38,6 @@
 
   p {
     padding-bottom: 1vh;
-  }
-  .container {
-    font-family: "Poppins";
   }
   </style>
   
