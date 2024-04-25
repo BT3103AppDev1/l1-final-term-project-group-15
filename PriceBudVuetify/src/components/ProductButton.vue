@@ -39,7 +39,6 @@
           await updateDoc(productRef, {
             ['Number Of Wishlists']: increment(1)
           });
-  
           this.$router.push({ name: 'ProductToWishList', params: { id: this.product } });
         }
       },

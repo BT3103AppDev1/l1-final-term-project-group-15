@@ -2,7 +2,7 @@
     <v-container>
 
     <div v-if="props.isLoggedIn" class="content-container">
-        <v-sheet color="FFFFFF" elevation="4">
+        <v-sheet color="FFFFFF" elevation="3" :style="{ 'border-radius': '12px' }">
             
             <h3 class="title poppins-semibold">Your wishlist, at a glance</h3>
             <p class="desc poppins-regular">Have a look at what changed since the last time you were here</p>
@@ -31,10 +31,22 @@
     </div>
         
     <div class="content-container">
-    <v-sheet color="FFFFFF" elevation="4">
-        <h3 class="title poppins-semibold">Largest price changes this week</h3>
-        <p class="desc poppins-regular"> These products had  the biggest jumps/drops in price this week</p>
-
+    <v-sheet color="FFFFFF" elevation="3" :style="{ 'border-radius': '12px' }">
+        <div class="titles-and-button">
+            <div v-if="toggleOn">
+                <h3 class="title poppins-semibold">Products that are the most highly rated</h3>
+                <p class="desc poppins-regular"> These products are the most widely praised</p>
+            </div>
+            <div v-else>
+                <h3 class="title poppins-semibold">Most wanted products, according to you</h3>
+                <p class="desc poppins-regular">These products have the most people adding to them to their Wishlist</p>
+            </div>
+            <div>
+                <v-button>
+                    Toggle
+                </v-button>
+            </div>
+        </div>
         <!-- Product Cards -->
         <!-- for each insight, different data from Product object is required -->
         <v-slide-group>
@@ -62,6 +74,10 @@ const props = defineProps({
     default: () => {}
   },
   isLoggedIn: {
+    type: Boolean,
+    default: false
+  },
+  toggleOn: {
     type: Boolean,
     default: false
   }
@@ -119,6 +135,12 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     padding: 10%;
+}
+
+.titles-and-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* .product-card {
