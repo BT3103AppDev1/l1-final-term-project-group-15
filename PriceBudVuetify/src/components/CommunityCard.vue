@@ -165,7 +165,7 @@ export default {
         await setDoc(commentInputDummy, {})
         console.log(userName.value)
         dialog.value = false
-
+        window.location.reload();
         //still have to display 
     }
 
