@@ -58,35 +58,36 @@
   
         <!-- Dialog for adding a comment -->
         <v-dialog v-model="dialog" width="auto">
-          <v-card>
+            <v-card class="comment-dialog">
             <v-card-title class="card-title">Add Comment</v-card-title>
             <v-card-text>
-              <v-textarea label="Content" v-model="cardComment"></v-textarea>
+                <v-textarea label="Content" v-model="cardComment"></v-textarea>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" @click="commenting">Post</v-btn>
-              <v-btn color="red darken-1" @click="dialog = false">Cancel</v-btn>
+                <v-btn class="post-btn" @click="commenting">Post</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn class="cancel-btn" color="red darken-1" @click="dialog = false">Cancel</v-btn>
             </v-card-actions>
-          </v-card>
+            </v-card>
         </v-dialog>
       </v-card>
 
       <div class="spacer"></div>
 
-      <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4" outlined>
-      <v-card-title class="title">{{ comment.commentUser }}</v-card-title>
-      <v-card-text class="content">
-        <div class="info-row">
-          <div class="product-info">
-            <span class="product-name">{{ comment.cardComment }}</span>
-          </div>
-          <div class="date-info">
-            <v-icon class="date-icon">mdi-calendar</v-icon>
-            <span class="date">{{ comment.commentDate.toDate().toDateString() }}</span>
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
+      <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4 custom-card" outlined>
+        <v-card-title class="title">{{ comment.commentUser }}</v-card-title>
+        <v-card-text class="content">
+            <div class="info-row">
+            <div class="product-info">
+                <span class="product-name">{{ comment.cardComment }}</span>
+            </div>
+            <div class="date-info">
+                <v-icon class="date-icon">mdi-calendar</v-icon>
+                <span class="date">{{ comment.commentDate.toDate().toDateString() }}</span>
+            </div>
+            </div>
+        </v-card-text>
+      </v-card>
 
 
     </v-container>
@@ -184,7 +185,6 @@
               date: new Date(),
           })
           this.commentUser = currentUser.displayName;
-          console.log(this.commentUser)
           window.location.reload();
           this.dialog = false
         },
@@ -201,6 +201,7 @@
                 cardComment: doc.data().cardComment,
             }));
             console.log(this.commentTexts);
+
         }
     },
       mounted() {
@@ -253,6 +254,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
+  text-align: center;
 }
 .likes-comments {
   display: flex;
@@ -261,11 +263,27 @@
 .spacer {
   margin-top: 20px; /* Adjust the value as needed */
 }
-.mb-4 {
+
+.comment-dialog {
+  width: 400px; /* Set the width of the dialog */
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.post-btn {
+  color: black;
+}
+
+.custom-card {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
 }
+
 
 
 </style>
