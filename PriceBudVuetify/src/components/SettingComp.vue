@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class = "container">
       <h3 class="text-h3">Settings</h3>
 
       <div class="spacer">
@@ -54,6 +54,12 @@
   }
   .spacer{
     margin: 20px;
+  }
+  .container {
+    font-family: 'Poppins';
+  }
+  .text-h3 {
+    font-family: 'Poppins';
   }
   </style>
   
