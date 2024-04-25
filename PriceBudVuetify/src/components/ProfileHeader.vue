@@ -50,8 +50,8 @@
 </template>
   
   <script>
-import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { getFirestore, doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 import DefaultProfilePic from "../assets/DefaultProfilePic.png"
   
   export default {
@@ -93,7 +93,7 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
 
         const db = getFirestore();
         const userRef = doc(db, 'Users', this.userEmail);
-        await updateDoc(userRef, { Picture: url });
+        await setDoc(userRef, { Picture: url });
       });
     },
     async fetchProfileInfo() {
@@ -111,11 +111,21 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
     async editProfile() {
       const db = getFirestore();
       const userRef = doc(db, 'Users', this.userEmail);
-      await updateDoc(userRef, {
+
+      if (this.preferences === undefined) {
+        this.preferences = '';
+      }
+      if (this.biography === undefined) {
+        this.biography = '';
+      }
+      if (this.contact=== undefined) {
+      this.contact = '';
+      }
+      await setDoc(userRef, {
       Preferences: this.preferences,
       Biography: this.biography,
       Contact: this.contact
-    });
+    },{ merge: true });
   },
   },
 };

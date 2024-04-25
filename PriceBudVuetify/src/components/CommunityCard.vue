@@ -1,32 +1,28 @@
 <template>
-    <v-container >
-
-        <div>
-            <h2 class="title">Our Community Page</h2>
-            <h5 class="subtitle">see what others are reviewing about </h5>
-        </div>
-
+    <v-container>
       <v-row class="mb-4"> <!-- Add margin-bottom class -->
+
+        <!-- Sort Options Button -->
         <v-col>
           <v-menu offset-y>
             <!-- Activator Button -->
             <template v-slot:activator="{ props }">
-              <v-btn color="primary" dark v-bind="props">
-                Sort Options <v-icon>mdi-menu-down</v-icon>
+              <v-btn rounded="lg" v-bind="props" variant="outlined">
+                <p>Sort Options</p> <v-icon>mdi-menu-down</v-icon>
               </v-btn>
             </template>
   
             <!-- Menu Items -->
             <v-list>
-              <v-list-item @click="sortBy('popular')">Most Popular </v-list-item>
-              <v-list-item @click="sortBy('commented')">Most Commented</v-list-item>
-              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>    
+              <v-list-item @click="sortBy('popular')"><p class="menuText">Most Popular</p></v-list-item>
+              <v-list-item @click="sortBy('commented')"><p class="menuText">Most Commented</p></v-list-item>
+              <v-list-item @click="sortBy('recent')"><p class="menuText">Most Recent</p></v-list-item>    
             </v-list>
           </v-menu>
         </v-col>
 
         <v-col class="text-right"> <!-- Aligns the button to the right -->
-          <v-btn @click="dialog = true"> create <v-icon>mdi-plus</v-icon> </v-btn>
+          <v-btn @click="dialog = true"  variant="outlined" rounded="lg" color="green"> <p>create </p><v-icon color="green">mdi-plus</v-icon> </v-btn>
         </v-col>
 
         <v-dialog v-model="dialog" max-width="500">
@@ -54,12 +50,18 @@
         
       </v-row>
 
-      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined 
+      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" 
         @mouseenter="hoveredCard = index" 
         @mouseleave="hoveredCard = null"
-      :style="{ cursor: hoveredCard === index ? 'pointer' : 'pointer' }">
-        <v-card-title class="title" @click="select(card)">{{ card.title }}</v-card-title>
+        :style="{ cursor: hoveredCard === index ? 'pointer' : 'pointer' }"
+        variant="elevated"
+        rounded="lg"
+      
+        > <!-- Set variant to "text" -->
+      
+        <v-card-title class="title" @click="select(card)"><p style="padding: 8px; padding-bottom: 0px" >{{ card.title }}</p></v-card-title>
         <v-card-text class="thing" @click="select(card)">
+          <div style="padding-left: 8px;" class="cardInfo">
             <div class="info-row">
             <div class="user-info">
                 <v-icon class="user-icon">mdi-account</v-icon>
@@ -83,8 +85,10 @@
             </div>
             </div>
             <div class="card-content">{{ truncatedContent(card.content) }}</div>
+          </div>
         </v-card-text>
-        </v-card>
+</v-card>
+
     </v-container>
   </template>
   
@@ -161,7 +165,7 @@ export default {
         await setDoc(commentInputDummy, {})
         console.log(userName.value)
         dialog.value = false
-
+        window.location.reload();
         //still have to display 
     }
 
@@ -264,5 +268,24 @@ export default {
   margin-top: 10px;
   font-size: 16px;
   color: #555;
+}
+
+p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.menuText {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cardInfo > * {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
 }
 </style>

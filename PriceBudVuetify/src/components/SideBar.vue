@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app id="navDrawer">
       <!-- Logo and Title -->
-      <div class="d-flex align-center mt-5 change-cursor" @click="$router.push('/HomePage')"
+      <div class="d-flex align-center mt-5 change-cursor" @click="$router.push('/AboutUsPage')"
        style="margin-bottom: 6vh; font-family: 'Poppins', 'sans-serif'; font-weight: 500; font-style: normal">
         <img src="../assets/icon.png" alt="Logo" class="mr-2 ml-4" style="height: 32px;">
         <span style="font-size: larger;" class="title">PriceBud</span>
@@ -43,10 +43,11 @@
           </template>
           <v-list-item-title>Settings</v-list-item-title>
         </v-list-item>
+
       </v-list>
 
       <v-list class = "bottom-sidebar-items">
-        <v-list-item link to="/Help Centre">
+        <v-list-item link to="/HelpCentrePage">
           <v-list-item-icon>
             <v-icon>mdi-help-circle</v-icon>
           </v-list-item-icon>
@@ -54,7 +55,7 @@
             <v-list-item-title>Help Centre</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Contact us">
+        <v-list-item link to="/ContactUsPage">
           <v-list-item-icon>
             <v-icon>mdi-email</v-icon>
           </v-list-item-icon>
@@ -120,8 +121,17 @@
   })
 
   function handleSignout() {
-    signOut(auth)
-  }
+      // Sign out the user
+      signOut(auth)
+        .then(() => {
+          // Navigate to the home page after successful sign out
+          router.push('/HomePage');
+        })
+        .catch((error) => {
+          // Handle sign out errors
+          console.error('Sign out error:', error);
+        });
+    }
 
   function handleSignin() {
     router.push('/LogIn1')
