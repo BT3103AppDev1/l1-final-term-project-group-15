@@ -18,7 +18,7 @@
           <v-form @submit.prevent="submitForm">
             <v-text-field v-model="formData.name" label="Your Name"></v-text-field>
             <!-- Add more input fields for email, message, etc. as needed -->
-            <v-btn type="submit" color="primary">Submit</v-btn>
+            <v-btn type="submit" color="primary" small rounded>Submit</v-btn>
           </v-form>
         </v-card-text>
       </v-card>
