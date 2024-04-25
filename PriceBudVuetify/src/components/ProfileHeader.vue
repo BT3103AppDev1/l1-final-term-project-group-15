@@ -111,11 +111,21 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
     async editProfile() {
       const db = getFirestore();
       const userRef = doc(db, 'Users', this.userEmail);
-      await updateDoc(userRef, {
+
+      if (this.preferences === undefined) {
+        this.preferences = '';
+      }
+      if (this.biography === undefined) {
+        this.biography = '';
+      }
+      if (this.contact=== undefined) {
+      this.contact = '';
+      }
+      await setDoc(userRef, {
       Preferences: this.preferences,
       Biography: this.biography,
       Contact: this.contact
-    });
+    },{ merge: true });
   },
   },
 };
