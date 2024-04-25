@@ -23,6 +23,9 @@
         <template v-slot:item.actions="{ item }">
           <v-btn small rounded color="red" @click="deleteProduct(item)"><strong>Delete</strong></v-btn>
         </template>
+        <template v-slot:item.pricetrend="{ item }">
+          <ProductTrend2 :product="item.id" :retailer = "retailer" />
+        </template>
       </v-data-table>
       </v-card>
 </template>
@@ -30,22 +33,26 @@
 <script>
   import { doc, getDoc } from 'firebase/firestore';
   import { getFirestore, updateDoc, deleteField } from 'firebase/firestore'
-  import ProductTrend from './ProductTrend.vue';
+  import ProductTrend2 from './ProductTrend2.vue';
   export default {
     data() {
       return {
+        retailer:"",
         wishlist: [],
         search: "",
         headers: [
           {title:"", value: "actions", align: "start"},
-          { title: "", value: "image_path"},
-          { title: "Product Name", value: "Name" },
-          { title: "Unit Price", value: "Current Price" },
-          { title: "Price Change", value: "Price Change" },
-          { title: "Retailer", value: "Retailer"},
-          {title: "Price Trend", value: "pricetrend"}
+          { title: "", value: "image_path", aligh:"center"},
+          { title: "Product Name", value: "Name", align: "center"},
+          { title: "Unit Price", value: "Current Price", align: "center"},
+          { title: "Price Change", value: "Price Change", align: "center"},
+          { title: "Retailer", value: "Retailer", align: "center"},
+          {title: "Price Trend", value: "pricetrend", align: "center"}
         ]    
       };
+    },
+    components: {
+      ProductTrend2
     },
     props: {
       product: String,
@@ -90,6 +97,7 @@
             for (let productId in wishlist) {
               const productDocRef = doc(db, 'Products', productId);
               const productDocSnap = await getDoc(productDocRef);
+              this.retailer = productDocSnap.data()['Current Retailer'];
 
               if (productDocSnap.exists()) {
                 let productData = productDocSnap.data();

@@ -20,7 +20,8 @@
             <v-list>
               <v-list-item @click="sortBy('popular')">Most Popular </v-list-item>
               <v-list-item @click="sortBy('commented')">Most Commented</v-list-item>
-              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>            </v-list>
+              <v-list-item @click="sortBy('recent')">Most Recent</v-list-item>    
+            </v-list>
           </v-menu>
         </v-col>
 
@@ -45,6 +46,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" @click="post">Post</v-btn>
+                    <v-spacer></v-spacer>
                     <v-btn color="red darken-1" @click="dialog = false">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -52,9 +54,12 @@
         
       </v-row>
 
-      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined>
-        <v-card-title class="title" @click="route(card)">{{ card.title }}</v-card-title>
-        <v-card-text class="content" @click="route(card)">
+      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined 
+        @mouseenter="hoveredCard = index" 
+        @mouseleave="hoveredCard = null"
+      :style="{ cursor: hoveredCard === index ? 'pointer' : 'pointer' }">
+        <v-card-title class="title" @click="select(card)">{{ card.title }}</v-card-title>
+        <v-card-text class="thing" @click="select(card)">
             <div class="info-row">
             <div class="user-info">
                 <v-icon class="user-icon">mdi-account</v-icon>
@@ -66,7 +71,7 @@
             </div>
             <div class="date-info">
                 <v-icon class="date-icon">mdi-calendar</v-icon>
-                <span class="date">{{ card.date.toDate().toDateString() }}</span>
+                <span class="date">{{ card.date.toLocaleDateString() }}</span>
             </div>
             <div class="likes-info">
                 <v-icon class="likes-icon">mdi-thumb-up</v-icon>
@@ -109,11 +114,13 @@ export default {
             break;
         }
     },
-    route(card) {
+    select(card) {
       console.log(card.id)
       this.$router.push({ name: 'CommunityToBlog', params: { id: card.id } })
     },
     truncatedContent(content) {
+      if (!content) return ''; // Return an empty string if content is undefined
+      
       const words = content.split(' '); // Split content into words
       let truncatedWords = words.slice(0, 20); // Take the first 20 words
 
@@ -122,12 +129,7 @@ export default {
       }
       return truncatedWords.join(' '); // Join the truncated words back into a string
     }
-  },
-  computed: {
-    sortedCards() {
-        // Sort cards by date (from most recent to oldest)
-        return this.cards.slice().sort((a, b) => b.date - a.date);
-    }
+
   },
   setup() {
     const dialog = ref(false);
@@ -149,7 +151,7 @@ export default {
             cardContent: cardContent.value,
             User: userName.value,
             Product: selectedProduct.value,
-            Date: Date(),
+            Date: new Date(),
             Likes: 0,
             Comments: 0,
         })
@@ -164,19 +166,27 @@ export default {
     }
 
     async function fetchPosts() {
-        const db = getFirestore();
-        const querySnapshot = await getDocs(collection(db, "UserInputsCommunity"));
-        cards.value = querySnapshot.docs.map(doc => ({
-            title: doc.data().cardTitle,
-            content: doc.data().cardContent,
-            user: doc.data().User,
-            product: doc.data().Product,
-            date: doc.data().Date, // Assuming Date is stored as Firestore Timestamp
-            likes: doc.data().Likes,
-            comments: doc.data().Comments,
+    const db = getFirestore();
+    const querySnapshot = await getDocs(collection(db, "UserInputsCommunity"));
+    cards.value = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        const dateData = doc.data().Date
+        console.log("Raw Date Data:", dateData); // Log the raw date data
+        const formatted = dateData.toDate()
+        console.log(formatted)
+        return {
+            title: data.cardTitle,
+            content: data.cardContent,
+            user: data.User,
+            product: data.Product,
+            date: formatted, // Convert Firestore Timestamp to JavaScript Date
+            likes: data.Likes,
+            comments: data.Comments,
             id: doc.id
-        }));
-    }
+        };
+    });
+}
+
 
     onMounted(async () => {
         try {
@@ -225,7 +235,7 @@ export default {
   color: #333;
 }
 
-.content {
+.thing {
   display: flex;
   flex-direction: column;
 }

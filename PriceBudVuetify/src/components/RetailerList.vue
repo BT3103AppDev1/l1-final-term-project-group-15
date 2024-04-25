@@ -10,7 +10,6 @@
       <v-data-table
         :headers="headers"
         :items="retailerList"
-        :sort-by = "[{key: 'Price', order: 'asc'}, {key: 'Date', order: 'desc'}]"
         multi-sort
         class="elevation-1"
         dense
@@ -28,14 +27,27 @@ export default {
     return {
       retailerList: [],
       headers: [
-        { title: 'Price', value: 'Price' },
+        { title: 'Price', value: 'Price',
+          sort: (a, b) => {
+            const priceA = Number(a.replace(/[^0-9.-]+/g, ""));
+            const priceB = Number(b.replace(/[^0-9.-]+/g, ""));
+            return priceA - priceB;
+          }
+        },
         { title: 'Retailer', value: 'Retailer' },
-        { title: 'Date', value: 'Date' },
+        { title: 'Date', value: 'Date',
+          sort: (a, b) => {
+            const dateA = this.reverseFormatDate(a);
+            const dateB = this.reverseFormatDate(b);
+            return dateA - dateB;
+          }
+        },
         { title: 'Location', value: 'Location' },
         { title: 'Input By', value: 'User' },
       ]
     }
   },
+
 
   props: {
     product: String,
@@ -50,13 +62,20 @@ export default {
       },
 
       methods: {
+        reverseFormatDate(dateStr) {
+          const dateParts = dateStr.split(' ');
+          const month = new Date(Date.parse(dateParts[0] +" 1, 2012")).getMonth()+1;
+          const day = Number(dateParts[1].replace(',', ''));
+          const year = Number(dateParts[2]);
+          return new Date(year, month - 1, day);
+        },
         formatDate(dateStr) {
-        const year = dateStr.substring(0, 4);
-        const month = dateStr.substring(4, 6);
-        const day = dateStr.substring(6, 8);
-        const date = new Date(year, month - 1, day);
-        const options = { day: '2-digit', month: 'short', year: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
+          const year = dateStr.substring(0, 4);
+          const month = dateStr.substring(4, 6);
+          const day = dateStr.substring(6, 8);
+          const date = new Date(year, month - 1, day);
+          const options = { day: '2-digit', month: 'short', year: 'numeric' };
+          return date.toLocaleDateString('en-US', options);
         },
         async fetchRetailerList() {
           if (this.product) {
@@ -98,7 +117,7 @@ export default {
 
             this.retailerList = this.retailerList.concat(querySnapshot.docs
             .filter(doc => doc.id !== 'TestUser')
-            .map((doc, index) => {
+            .map((doc) => {
               let data = doc.data();
                 return { // Add a 'no' field that is the index + 1
                   Price: `$${data.Price}`, // Add a '$' sign in front of the price

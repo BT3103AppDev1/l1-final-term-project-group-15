@@ -4,82 +4,142 @@
       <div class="info">
         <div class="pic">
           <v-avatar size="100">
-            <img class="avatar" :src="profilePic" alt="Profile Picture">
+            <img class="avatar" :src="profilePic" >
           </v-avatar>
-          <v-file-input hide-input @change="onFileSelected"></v-file-input>
+          <input type="file" ref="file" style="display: none" @change="onFileSelected"></input>
         </div>
-        <div class="name">
-          <h2>{{ userName }}</h2>
-        </div>
-        <div>
-          <p>Joined on {{ joinDate }}</p>
-        </div>
+        <v-container class="name">
+          <h1>{{ userName }}</h1>
+          <v-btn class = "button" variant = "text" small color="primary" @click="$refs.file.click()"><strong>Upload Profile Picture</strong></v-btn>
+        </v-container>
       </div>
       <div class="text-end">
-        <v-btn color="primary" small rounded>Edit Profile</v-btn>
+        <v-btn v-if="isEditing" color="success" small rounded @click="toggleEdit">Save Changes</v-btn>
+        <v-btn v-else color="primary" small rounded @click = "toggleEdit()">Edit Profile</v-btn>
       </div>
     </div>
+
+    <div>
+            <v-card class = "card1">
+                <v-card-title>Preferences</v-card-title>
+                <v-card-text class = "text1">
+                  <v-textarea v-if = "isEditing" v-model="preferences"></v-textarea>
+                  <p v-else>{{ preferences }}</p>
+                </v-card-text>
+            </v-card>
+          </div>
+        <div>
+            <v-card class = "card2">
+                <v-card-title>Biography</v-card-title>
+                <v-card-text>
+                  <v-textarea v-if = "isEditing" v-model="biography"></v-textarea>
+                  <p v-else>{{ biography }}</p>
+                </v-card-text>
+            </v-card>
+          </div>
+        <div>
+            <v-card class = "card3">
+                <v-card-title>Contact</v-card-title>
+                <v-card-text>
+                  <v-textarea v-if = "isEditing" v-model="contact"></v-textarea>
+                  <p v-else>{{ contact }}</p>
+                </v-card-text>
+            </v-card>
+          </div>
   </v-container>
 </template>
   
   <script>
-  import { getFirestore, doc, getDoc, updateDoc} from 'firebase/firestore';
-  import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import DefaultProfilePic from "../assets/DefaultProfilePic.png"
   
   export default {
     data() {
       return {
-        userName: '',
-        joinDate: '20 May 2024',
-        profilePic: '',
+        isEditing: false,
+        profilePic: DefaultProfilePic,
+        preferences: '',
+        biography: '',
+        contact: '',
       }
     },
     props: {
-      userEmail: String
+      userEmail: String,
+      userName: String
     },
     watch: {
       userEmail: {
         immediate: true,
-        handler: 'fetchProfilePic'
+        handler() {this.fetchProfileInfo()}
       }
     },
     methods: {
-      async onFileSelected(event) {
-        const db = getFirestore();
-        const storage = getStorage();
-        const file = event.target.files[0];
-        const storageRef = ref(storage, file.name);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-  
-        uploadTask.on('state_changed', 
-          (snapshot) => {
-            // Handle the upload task progress
-          }, 
-          (error) => {
-            // Handle unsuccessful uploads
-          }, 
-          async () => {
-            const fileUrl = await getDownloadURL(uploadTask.snapshot.ref);
-            this.profilePic = fileUrl;
-            const userRef = doc(db, 'Users', this.userEmail);
-            await updateDoc(userRef, { Picture: fileUrl });
-          }
-        );
-      },
-      async fetchProfilePic() {
-        const db = getFirestore();
-        const userRef = doc(db, 'Users', this.userEmail);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          this.profilePic = docSnap.data().Picture;
-          this.userName = docSnap.data().Name;
-        }
+      toggleEdit() {
+      this.isEditing = !this.isEditing;
+      if (!this.isEditing) {
+        this.editProfile();
       }
     },
-  }
+    async onFileSelected(event) {
+      const file = event.target.files[0];
+      const storage = getStorage();
+      const storageRef = ref(storage, `profilePics/${this.userEmail}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.then(async () => {
+        const url = await getDownloadURL(storageRef);
+        this.profilePic = url;
+
+        const db = getFirestore();
+        const userRef = doc(db, 'Users', this.userEmail);
+        await updateDoc(userRef, { Picture: url });
+      });
+    },
+    async fetchProfileInfo() {
+      const db = getFirestore();
+      const userRef = doc(db, 'Users', this.userEmail);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        this.profilePic = userSnap.data().Picture;
+        this.preferences = userSnap.data().Preferences;
+        this.biography = userSnap.data().Biography;
+        this.contact = userSnap.data().Contact;
+      }
+    },
+    async editProfile() {
+      const db = getFirestore();
+      const userRef = doc(db, 'Users', this.userEmail);
+      await updateDoc(userRef, {
+      Preferences: this.preferences,
+      Biography: this.biography,
+      Contact: this.contact
+    });
+  },
+  },
+};
   </script>
 
   <style scoped>
+
+.card1 {
+    border: none !important;
+    box-shadow: none;
+}
+
+.card2 {
+    border: none !important;
+    box-shadow: none;
+}
+
+.card3 {
+    border: none !important;
+    box-shadow: none;
+}
+  .button {
+    text-transform: none;
+  }
   .info {
   display: flex;
   align-items: center;
@@ -92,9 +152,16 @@
 }
     .pic {
     padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .name {
     padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
   }
   
   .avatar {
@@ -109,5 +176,8 @@
     margin-bottom: 0;
     margin: 0%;
     height: fit-content;
+  }
+  .text-end {
+    margin-right: 40px;
   }
   </style>
