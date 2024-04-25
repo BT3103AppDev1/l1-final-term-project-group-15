@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <h1 class="text-h3">Settings</h1>
+      <h3 class="text-h3">Settings</h3>
 
       <div class="spacer">
 

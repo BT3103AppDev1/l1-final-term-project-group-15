@@ -5,7 +5,7 @@
  
      <v-container class="right-container">
        <HeaderComponent />
-       <HelpComp />
+       <AboutComp />
      </v-container>
  
      </v-sheet>
@@ -14,13 +14,13 @@
    <script>
    import SideBar from '../components/SideBar.vue'
    import HeaderComponent from '../components/HeaderComponent.vue'
-   import HelpComp from '../components/HelpComp.vue'
+   import AboutComp from '../components/AboutComp.vue'
    
    export default {
      components: {
          SideBar,
          HeaderComponent,
-         HelpComp,
+         AboutComp,
      },    
    }
    </script>

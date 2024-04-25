@@ -37,7 +37,7 @@ import CommunityPage from '../pages/CommunityPage.vue'
 import BlogPage from '../pages/BlogPage.vue'
 import HelpCentrePage from '../pages/HelpCentrePage.vue'
 import ContactUsPage from '@/pages/ContactUsPage.vue'
-//import WishList from '@/components/WishList.vue'
+import AboutUsPage from '@/pages/AboutUsPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +56,7 @@ const router = createRouter({
     { path: '/WishListPage', component: WishListPage },
     { path: '/HelpCentrePage', component: HelpCentrePage },
     { path: '/ContactUsPage', component: ContactUsPage },
+    { path: '/AboutUsPage', component: AboutUsPage },
     { path: '/HomePage/:id', name: "HomeToProduct", component: ProductPage1 },
     {path: '/ProductPage1/:id', name: "ProductToWishList", component: WishListPage},
     { path: '/testing', component: TestPage},

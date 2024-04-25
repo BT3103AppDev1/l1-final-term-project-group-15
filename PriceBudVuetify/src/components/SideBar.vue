@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app id="navDrawer">
       <!-- Logo and Title -->
-      <div class="d-flex align-center mt-5 change-cursor" @click="$router.push('/HomePage')"
+      <div class="d-flex align-center mt-5 change-cursor" @click="$router.push('/AboutUsPage')"
        style="margin-bottom: 6vh; font-family: 'Poppins', 'sans-serif'; font-weight: 500; font-style: normal">
         <img src="../assets/icon.png" alt="Logo" class="mr-2 ml-4" style="height: 32px;">
         <span style="font-size: larger;" class="title">PriceBud</span>

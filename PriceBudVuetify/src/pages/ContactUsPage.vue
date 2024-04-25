@@ -3,7 +3,7 @@
  
      <SideBar class="sidebar" />
  
-     <v-container v-if="userEmail" class="right-container">
+     <v-container class="right-container">
        <HeaderComponent />
        <ContactComp />
      </v-container>
@@ -15,34 +15,13 @@
    import SideBar from '../components/SideBar.vue'
    import HeaderComponent from '../components/HeaderComponent.vue'
    import ContactComp from '../components/ContactComp.vue'
-   import { getAuth, onAuthStateChanged } from 'firebase/auth'
    
    export default {
-     data() {
-         return {
-           auth: null,
-           userEmail: null,
-           blogId: null
-         }
-       },
      components: {
          SideBar,
          HeaderComponent,
          ContactComp,
      },    
-     mounted() {
-       this.blogId = this.$route.params.id
-    
-   
-       this.auth = getAuth()
-       onAuthStateChanged(this.auth, (user) => {
-         if (user) {
-           this.userEmail = user.email
-           console.log(this.userEmail)
-           console.log('test')
-         } 
-       })
-     },
    }
    </script>
    
@@ -67,4 +46,3 @@
    }
    
    </style>
-   

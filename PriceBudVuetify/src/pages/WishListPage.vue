@@ -5,11 +5,18 @@
         <SideBar />
       </div>
   
-      <div class = "container">
+      <v-container v-if="userEmail" class = "container">
         <HeaderComponent />
         <WishList :product = "product" :key = "product" :userEmail = "userEmail"/>
 
-      </div>
+      </v-container>
+
+      <v-container v-else class="containerr">
+        <HeaderComponent />
+
+      <h2> Please Log In/Sign Up to set you own wishlist</h2>
+
+      </v-container>
     </div>
 
 

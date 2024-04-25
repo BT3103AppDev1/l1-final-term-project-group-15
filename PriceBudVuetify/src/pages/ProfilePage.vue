@@ -5,11 +5,19 @@
         <SideBar />
       </div>
   
-      <div class = "container">
+      <v-container v-if="userEmail" class = "container">
         <HeaderComponent />
         <ProfileHeader :userEmail = "userEmail" :userName = "userName"/>
 
-      </div>
+      </v-container>
+
+      <v-container v-else class="containerr">
+        <HeaderComponent />
+
+      <h2> Please Log In/Sign Up to see your profile!</h2>
+
+      </v-container>
+
     </div>
 
 
