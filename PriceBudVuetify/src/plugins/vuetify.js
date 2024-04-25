@@ -7,7 +7,7 @@
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
-
+import { VSparkline } from 'vuetify/labs/VSparkline'
 
 
 // Composables
@@ -17,6 +17,9 @@ import { createVuetify } from 'vuetify'
 export default createVuetify({
   theme: {
     defaultTheme: 'light',
+  },
+  components: {
+    VSparkline,
   },
 })
 
