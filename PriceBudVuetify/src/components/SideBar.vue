@@ -47,7 +47,7 @@
       </v-list>
 
       <v-list class = "bottom-sidebar-items">
-        <v-list-item link to="/Help Centre">
+        <v-list-item link to="/HelpCentrePage">
           <v-list-item-icon>
             <v-icon>mdi-help-circle</v-icon>
           </v-list-item-icon>
@@ -55,7 +55,7 @@
             <v-list-item-title>Help Centre</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Contact us">
+        <v-list-item link to="/ContactUsPage">
           <v-list-item-icon>
             <v-icon>mdi-email</v-icon>
           </v-list-item-icon>
