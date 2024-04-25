@@ -74,7 +74,7 @@
       <div class="spacer"></div>
 
       <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4" outlined>
-      <v-card-title class="title">{{ comment.user }}</v-card-title>
+      <v-card-title class="title">{{ comment.commentUser }}</v-card-title>
       <v-card-text class="content">
         <div class="info-row">
           <div class="product-info">
@@ -95,7 +95,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, getDocs } from "firebase/firestore";
-
+    import { getAuth } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
 
@@ -113,6 +113,7 @@
         dialog: false,
         cardComment: "",
         commentDate: "",
+        commentUser:"",
         commentTexts: [],
       };
     },
@@ -172,13 +173,18 @@
           console.log(this.comments)
           this.comments = currentComments + 1;    
 
+
+          const auth = getAuth();
+          const currentUser= auth.currentUser;
+
           const userCommentsCollection = collection(docRef, "UserComments")
           await addDoc(userCommentsCollection, {
               cardComment: this.cardComment,
-              user: this.user,
+              commentUser: currentUser.displayName,
               date: new Date(),
           })
-
+          this.commentUser = currentUser.displayName;
+          console.log(this.commentUser)
           window.location.reload();
           this.dialog = false
         },
@@ -188,9 +194,9 @@
             const querySnapshot = await getDocs(userCommentsCollection);
 
             this.commentTexts = querySnapshot.docs
-            .filter(doc => doc.data().user != null)
+            .filter(doc => doc.data().commentUser != null)
             .map(doc => ({
-                user: doc.data().user,
+                commentUser: doc.data().commentUser,
                 commentDate: doc.data().date,
                 cardComment: doc.data().cardComment,
             }));

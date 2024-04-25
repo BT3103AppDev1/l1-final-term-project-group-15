@@ -71,7 +71,7 @@
             </div>
             <div class="date-info">
                 <v-icon class="date-icon">mdi-calendar</v-icon>
-                <span class="date">{{ card.date}}</span>
+                <span class="date">{{ card.date.toLocaleDateString() }}</span>
             </div>
             <div class="likes-info">
                 <v-icon class="likes-icon">mdi-thumb-up</v-icon>
