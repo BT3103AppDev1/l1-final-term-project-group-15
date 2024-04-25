@@ -54,7 +54,7 @@
         
       </v-row>
 
-      <v-card v-for="(card, index) in cards" :key="index" class="mb-4" outlined 
+      <v-card v-for="(card, index) in cards" :key="index" class="mb-4 custom-card" outlined 
         @mouseenter="hoveredCard = index" 
         @mouseleave="hoveredCard = null"
       :style="{ cursor: hoveredCard === index ? 'pointer' : 'pointer' }">
@@ -264,5 +264,9 @@ export default {
   margin-top: 10px;
   font-size: 16px;
   color: #555;
+}
+
+.custom-card{
+  background-color: #F5F5F5;
 }
 </style>
