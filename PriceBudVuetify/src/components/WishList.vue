@@ -137,18 +137,15 @@
 <style scoped>
 .subtitle {
   font-weight: 400;
-  font-family: "Poppins", sans-serif;
-  font-style: normal;
+  font-family: 'poppins';
   color: grey;
-  margin-bottom: 2%;
+  margin-bottom: 5%;
   margin-left: 2%;
 }
 .title {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-style: normal;
+  font-family: 'poppins';
+  font-weight: bold;
   margin-left: 2%;
-  font-size: 24px;
 }
 
 .list {

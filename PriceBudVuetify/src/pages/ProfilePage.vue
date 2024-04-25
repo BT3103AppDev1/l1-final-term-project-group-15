@@ -71,7 +71,7 @@ export default {
   }
   
   .container { 
-    width: 80%;
+    flex: 8;
     display: flex;
     flex-direction: column;
   }
@@ -83,7 +83,7 @@ export default {
   }
   
   .sidebar {
-    width: 20%;
+    flex: 2;
   }
   
   </style>
