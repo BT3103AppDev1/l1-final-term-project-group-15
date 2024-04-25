@@ -1,44 +1,40 @@
 <template>
-    <v-container v-if="isLoggedIn"> 
-      <v-toolbar density="compact" class="custom-toolbar">
-        <v-card-title>
-            <h2 class="poppins-semibold"> Welcome Back, {{ username }} </h2>
-            <p>{{ content }}</p>
+  <v-container v-if="isLoggedIn">
+    <v-toolbar density="compact" id="custom-toolbar">
+        <h2 class="title">Welcome Back, {{ username }}</h2>
+        <p>{{ content }}</p>
 
-        </v-card-title>
-        <v-spacer></v-spacer>
-  
-        <v-icon icon="mdi-trophy" />
-  
-        <v-card-subtitle>{{ username }} </v-card-subtitle>
-  
-        <v-menu>
-          <!-- activates the menu dropdown -->
-          <template v-slot:activator="{ props }">
-            <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn> 
-          </template>
-  
-          <v-list>
-            <v-list-item>
-              <v-list-item-title>
-                <v-btn @click="redirectProfile">Profile</v-btn>
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-toolbar>
-    </v-container>
+      <v-spacer></v-spacer>
 
-    <v-container v-else>
-        <v-toolbar density="compact" class="custom-toolbar">
-    <h2 class="poppins-semibold"> Sign in to unlock full potential </h2>
-    <v-spacer></v-spacer>
+      <v-card-subtitle> {{ username }} </v-card-subtitle>
 
-    <div>
-        <v-btn @click="redirectLogIn"> Sign in</v-btn>
-    </div>
+      <v-menu>
+        <!-- activates the menu dropdown -->
+        <template v-slot:activator="{ props }">
+          <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn> 
+        </template>
+
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>
+              <v-btn @click="redirectProfile">Profile</v-btn>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-toolbar>
-</v-container>
+  </v-container>
+
+  <v-container v-else>
+    <v-toolbar density="compact" class="custom-toolbar">
+      <h2 class="poppins-semibold"> Sign in to unlock full potential </h2>
+      <v-spacer></v-spacer>
+
+      <div>
+          <v-btn @click="redirectLogIn"> Sign in</v-btn>
+      </div>
+    </v-toolbar>
+  </v-container>
 
   </template>
   

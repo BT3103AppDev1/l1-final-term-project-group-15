@@ -1,9 +1,7 @@
 <template>
-    <div class="page-container">
-  
-      <div class="sidebar">
-        <SideBar />
-      </div>
+    <v-sheet class="page-container">
+
+      <SideBar class="sidebar" />
   
       <v-container v-if="userEmail" class = "container">
         <HeaderComponent />
@@ -17,7 +15,7 @@
       <h2> Please Log In/Sign Up to set you own wishlist</h2>
 
       </v-container>
-    </div>
+    </v-sheet>
 
 
 
@@ -57,19 +55,21 @@
   }
   
   .container { 
-    flex: 8;
+    width: 80%;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
   }
 
   .page-container {
     display: flex;
-    flex: 8;
-    margin: 0;
+    margin: auto;
+    height: 100vh;
+    overflow: hidden;
   }
   
   .sidebar {
-    flex: 2;
+    width: 20%;
   }
   
   </style>

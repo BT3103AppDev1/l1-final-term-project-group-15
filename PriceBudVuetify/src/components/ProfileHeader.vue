@@ -136,6 +136,7 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
 .card1 {
     border: none !important;
     box-shadow: none;
+    padding-top: 3vh;
 }
 
 .card2 {
