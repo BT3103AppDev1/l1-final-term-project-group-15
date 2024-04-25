@@ -34,7 +34,7 @@ import SignupPage from '../pages/SignupPage.vue'
 import WishListPage from '../pages/WishListPage.vue'
 import TestPage from '@/pages/TestPage.vue'
 import SettingPage from '@/pages/SettingPage.vue'
-import CommunityPage from '@/pages/CommunityPage.vue'
+import CommunityPage from '../pages/CommunityPage.vue'
 import BlogPage from '../pages/BlogPage.vue'
 //import WishList from '@/components/WishList.vue'
 

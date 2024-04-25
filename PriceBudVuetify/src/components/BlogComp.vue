@@ -179,6 +179,7 @@
               date: new Date(),
           })
 
+          window.location.reload();
           this.dialog = false
         },
         async fetchComments() {
