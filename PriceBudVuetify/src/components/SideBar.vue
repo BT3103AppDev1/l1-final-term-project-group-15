@@ -37,12 +37,6 @@
           <v-list-item-title>Community</v-list-item-title>
         </v-list-item>
 
-        <v-list-item :class="{ 'active-list-item': $route.path === '/SettingPage' }" link to="/SettingPage">
-          <template v-slot:prepend>
-            <v-icon>mdi-cog</v-icon>
-          </template>
-          <v-list-item-title>Settings</v-list-item-title>
-        </v-list-item>
       </v-list>
 
       <v-list class = "bottom-sidebar-items">

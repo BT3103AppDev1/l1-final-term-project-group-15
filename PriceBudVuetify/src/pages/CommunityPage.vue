@@ -4,7 +4,8 @@
     <SideBar class="sidebar" />
   
     <v-container v-if="userEmail" class="right-container">
-      <HeaderComponent />
+      <HeaderComponent style="padding-bottom: 0px;"/>
+      <p style="padding-left: 16px; padding-bottom: 16px">See what others are reviewing about!</p>
       <CommunityCard />
 
     </v-container>
@@ -73,4 +74,11 @@ export default {
   height: 100vh;
 }
 
+p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  color: rgb(91, 104, 134);
+}
 </style>
