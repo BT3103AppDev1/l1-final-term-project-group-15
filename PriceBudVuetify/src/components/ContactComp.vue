@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <h1 class="text-h3">Contact Us</h1>
+      <h1>Contact Us</h1>
   
       <v-card class="mb-4">
         <v-card-title>Contact Information</v-card-title>
@@ -45,6 +45,15 @@
   </script>
   
   <style scoped>
-  /* Add your component-specific styles here */
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    padding-bottom: 2vh;
+  }
+
+  p {
+    padding-bottom: 1vh;
+  }
   </style>
   
