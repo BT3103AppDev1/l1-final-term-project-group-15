@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class = "container">
       <h1 class="text-h3">Help Center</h1>
   
       <v-card class="mb-4">
@@ -30,5 +30,12 @@
   
   <style scoped>
   /* Add your component-specific styles here */
+  .container {
+    font-family: 'Poppins';
+  }
+  .text-h3 {
+    font-family: 'Poppins';
+    margin-bottom: 20px;
+  }
   </style>
   
