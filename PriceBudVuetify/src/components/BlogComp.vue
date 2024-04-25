@@ -34,7 +34,7 @@
         </v-card-text>
         
         <!-- Review Item -->
-        <v-card-text>
+        <v-card-text style="padding-top: 2px; padding-bottom: 2px;" >
           <p class="reviewItem">Review Item: {{ product }}</p>
         </v-card-text>
         
@@ -46,20 +46,20 @@
           <v-btn v-else icon="mdi-thumb-up" @click="incrementLikes">
           </v-btn>
 
-          <span style="padding-right: 3vw;" >{{ likes }}</span>
+          <span style="padding-right: 4vw;" >{{ likes }}</span>
 
-          <v-icon style="padding-right: 2vw;" >mdi-comment-multiple-outline</v-icon>
+          <v-icon style="padding-right: 3vw;" >mdi-comment-multiple-outline</v-icon>
           <span>{{ comments }}</span>
         </v-card-actions>
 
   
         <!-- Add comment button -->
-        <v-card-actions>
+        <!-- <v-card-actions>
           <v-btn class="add-comment-button" @click="dialog = true">Add Comment</v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
   
         <!-- Dialog for adding a comment -->
-        <v-dialog v-model="dialog" width="auto">
+        <!-- <v-dialog v-model="dialog" width="auto">
             <v-card class="comment-dialog">
             <v-card-title class="card-title">Add Comment</v-card-title>
             <v-card-text>
@@ -71,21 +71,40 @@
                 <v-btn class="cancel-btn" color="red darken-1" @click="dialog = false">Cancel</v-btn>
             </v-card-actions>
             </v-card>
-        </v-dialog>
+        </v-dialog>  -->
       </v-card>
 
       <div class="spacer"></div>
 
-      <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4 custom-card" outlined>
-        <v-card-title class="title">{{ comment.commentUser }}</v-card-title>
-        <v-card-text class="content">
+      <v-btn class="add-comment-button" @click="dialog = true">Add Comment</v-btn>
+      
+      <v-dialog v-model="dialog" width="auto">
+        <v-card class="comment-dialog">
+        <v-card-title class="card-title">Add Comment</v-card-title>
+        <v-card-text>
+            <v-textarea label="Content" v-model="cardComment"></v-textarea>
+        </v-card-text>
+        <v-card-actions>
+            <v-btn class="post-btn" @click="commenting">Post</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn class="cancel-btn" color="red darken-1" @click="dialog = false">Cancel</v-btn>
+        </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <div class="spacer"></div>
+
+      <!-- Comments -->
+      <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4 custom-card" variant="elevated">
+        <!-- <v-card-title class="title">{{ comment.commentUser }}</v-card-title> -->
+        <v-card-item style="padding: 16px;" >
+          <span class="commentUser">{{ comment.commentUser }}</span><br>
+          <span class="commentDate">{{ comment.commentDate.toDate().toDateString() }}</span>
+        </v-card-item>
+        <v-card-text class="content" style="margin-top: 0px;" >
             <div class="info-row">
             <div class="product-info">
                 <span class="product-name">{{ comment.cardComment }}</span>
-            </div>
-            <div class="date-info">
-                <v-icon class="date-icon">mdi-calendar</v-icon>
-                <span class="date">{{ comment.commentDate.toDate().toDateString() }}</span>
             </div>
             </div>
         </v-card-text>
@@ -297,21 +316,21 @@
   width: 400px; /* Set the width of the dialog */
 }
 
-.card-title {
+/* .title {
   font-size: 18px;
   font-weight: bold;
   color: #333;
-}
+} */
 
 .post-btn {
   color: black;
 }
 
-.custom-card {
+/* .custom-card {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #F5F5F5;
-}
+} */
 
 .button-text {
   font-family: "Poppins", sans-serif;
@@ -333,5 +352,19 @@
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.commentUser {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 16px;
+}
+
+.commentDate {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px;
 }
 </style>
