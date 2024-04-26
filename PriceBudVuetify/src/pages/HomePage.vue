@@ -1,5 +1,8 @@
 <template>
-  <v-sheet class="page-container">  
+  <v-sheet class="page-container">
+  <!-- for parent wrapper use vsheet as vcontainer has default margin -->
+  <!-- <router-link to="/SearchResults">Search</router-link> -->
+  
     <SideBar class="sidebar"/>
     
     <v-container v-if="isLoggedIn" class="right-container">
@@ -8,6 +11,7 @@
       <MasterInput v-if="userEmail == 'master@gmail.com'" />
       <UserPriceInput />
       <RowCards :wishlist = "wishlist" :isLoggedIn="true" />
+                
     </v-container>
 
     <v-container v-else class="right-container">
@@ -15,7 +19,9 @@
       <SearchBar />
       <HomeLoginComp />
       <RowCards :isLoggedIn="false"/>
+      
     </v-container>
+
   </v-sheet>
 </template>
 
@@ -33,25 +39,31 @@ import { ref,  onBeforeMount } from 'vue'
 
 
 const userEmail = ref("")
+
 const isLoggedIn = ref(false)
 const auth = getAuth()
+
 let wishlist = ref({})
 
+// onBeforeMount(() => {
+//   console.log('created')
+// })
+
 onBeforeMount(() => {
-  // Method to check if user is new
+  console.log('created');
+
   function isNewUser(user) {
     return user.metadata.creationTime === user.metadata.lastSignInTime;
   }
 
-  // Method to update firestore and create a new User document for new users and other functionalities
   const newUserUpdate = onAuthStateChanged(auth, async (user) => {
-    console.log(user)
     if (user) {
       isLoggedIn.value = true
       const isFirstTimeLogin = isNewUser(user);
 
-      // Creation of new document for new users
       if (isFirstTimeLogin) {
+        console.log("First time login!");
+
         const db = getFirestore()
         const userCollection = collection(db, 'Users')
         const customDocumentId = user.email
@@ -72,10 +84,13 @@ onBeforeMount(() => {
         } catch (error) {
           console.error('Error adding document: ', error)
         }
-      
-      // Fetching user's wishlist for existing users
       } else {
+        console.log("Returning user");
+        console.log(user)
+        console.log(user.email)
+
         userEmail.value = user.email
+        
         const db = getFirestore()
         const docRef = doc(db, 'Users', user.email)
         const docSnap = await getDoc(docRef)
@@ -85,13 +100,18 @@ onBeforeMount(() => {
           console.log(data.Wishlist)
           wishlist.value = data.Wishlist
         }
+        console.log(wishlist.value)
       }
     } else {
       isLoggedIn.value = false
     }
+  
   })
+
   return newUserUpdate;
 })
+
+
 </script>
 
 <style scoped>
@@ -103,13 +123,13 @@ onBeforeMount(() => {
 }
 
 .sidebar {
-  width: 20%;
+  width: 20%; /* Adjust this value based on your needs */
   height: 100vh;
   overflow-y: auto;
 }
 
 .right-container {
-  width: 80%;
+  width: 80%; /* Adjust this value based on your needs */
   overflow-y: auto;
   height: 100vh;
 }

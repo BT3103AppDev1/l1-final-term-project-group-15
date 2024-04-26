@@ -1,7 +1,5 @@
 <template>
     <v-sheet class="main">
-
-        <!-- Login Section -->
         <v-container class="top-row">
             <v-container>
                 <h1 class="title poppins-semibold">Have an account?</h1>
@@ -15,7 +13,6 @@
 
         <h1 class="title poppins-semibold text-center">-OR-</h1>
 
-        <!-- Create Account Section -->
         <v-container class="bottom-row">
             <v-container>
                 <h1 class="title poppins-semibold">Don't have an account?</h1>
@@ -39,7 +36,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-// To redirect login
 const login = () => {
   router.push('/LogIn1');
 };
@@ -83,5 +79,8 @@ defineExpose({
         justify-content: space-between;
         align-items: center;
     }
+
+    
+
 </style>
 

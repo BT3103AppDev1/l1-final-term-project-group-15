@@ -44,7 +44,7 @@ import firebase from '@/uifire.js'
 import 'firebase/compat/auth';
 import 'firebaseui/dist/firebaseui.css'
 import { ref } from 'vue';
-import { getFirestore, updateDoc, doc, collection } from 'firebase/firestore';
+
 
 export default {
     name:"LogIn",
