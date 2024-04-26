@@ -8,8 +8,6 @@
         </v-card-title>
         <v-spacer></v-spacer>
   
-        <v-icon icon="mdi-trophy" />
-  
         <v-card-subtitle>{{ username }} </v-card-subtitle>
   
         <v-menu>
