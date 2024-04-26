@@ -42,18 +42,52 @@
                 <p class="desc poppins-regular">These products have the most people adding to them to their Wishlist</p>
             </div>
             <div>
+<<<<<<< HEAD
                 <v-button>
                     Toggle
                 </v-button>
+=======
+                <v-menu transition="slide-y-transition">
+                    <template v-slot:activator="{ props }">
+                        <v-btn color="primary" v-bind="props" class="poppins-semibold">
+                        Toggle
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item @click="showInsight1()">
+                        <v-list-item-title>Most highly rated</v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-item @click="showInsight2()">
+                        <v-list-item-title>Most wishlisted</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+>>>>>>> parent of 006a190 (Merge branch 'main' of https://github.com/BT3103AppDev1/l1-final-term-project-group-15)
             </div>
         </div>
         <!-- Product Cards -->
         <!-- for each insight, different data from Product object is required -->
+<<<<<<< HEAD
         <v-slide-group>
             <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
                 <div class="card-container">
                     <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />
                     <!-- <h1>{{ product }}</h1> -->
+=======
+        <v-slide-group v-if="toggleOn">
+            <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
+                <div class="card-container">
+                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />                    <!-- <h1>{{ product }}</h1> -->
+                </div>
+            </v-slide-item>
+        </v-slide-group>
+
+        <v-slide-group v-else>
+            <v-slide-item v-for="(itemNumber, i) in itemNumberArr" :key="i">
+                <div class="card-container">
+                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />                    <!-- <h1>{{ product }}</h1> -->
+>>>>>>> parent of 006a190 (Merge branch 'main' of https://github.com/BT3103AppDev1/l1-final-term-project-group-15)
                 </div>
             </v-slide-item>
         </v-slide-group>
@@ -67,6 +101,8 @@
 <script setup>
 import { defineProps, watch, onMounted, ref } from 'vue'
 import ProductCard from './ProductCard.vue'
+
+const itemNumberArr = [0, 1, 2, 3, 4]
 
 const props = defineProps({
   wishlist: {
@@ -83,6 +119,21 @@ const props = defineProps({
   }
 })
 
+<<<<<<< HEAD
+=======
+let toggleOn = ref(false)
+
+function showInsight1() {
+    console.log('showing review insight')
+    toggleOn.value = true
+}
+
+function showInsight2() {
+    console.log('showing wishlist insight')
+    toggleOn.value = false
+}
+
+>>>>>>> parent of 006a190 (Merge branch 'main' of https://github.com/BT3103AppDev1/l1-final-term-project-group-15)
 // make wishlist dynamic on wishlisting (add date since wishlisted)
 
 
