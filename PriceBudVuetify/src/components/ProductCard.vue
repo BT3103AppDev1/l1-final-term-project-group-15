@@ -22,43 +22,6 @@
     </v-container>
     <v-container class="main-content" v-else>
         <!-- if in the insight row -->  
-        <div class="product-card" @click="redirectProductPage()" v-if="reviewInsight">
-            <!-- <h3 class="poppins-semibold">{{ top5ReviewedProducts[itemNumber].id }}</h3>
-            <img class="product-image" :src="top5ReviewedProducts[itemNumber].image_path" alt="product image">
-            <h1 class="poppins-semibold price-margin">{{ top5ReviewedProducts[itemNumber].Ratings }}</h1> -->
-            <div class="pricechange-container" v-if="priceChange != 0">
-                <v-icon :icon="priceChange >= 0 ? 'mdi-arrow-up' : 'mdi-arrow-down'" 
-                    :color="priceChange >= 0 ? 'red' : 'green'"/>                
-                <p class="poppins-regular">
-                    <span :style="{ color: priceChange >= 0 ? 'red' : 'green' }">${{ Math.abs(priceChange) }}</span>
-                    since wishlisting
-                </p>
-            </div>
-            <div class="pricechange-container" v-else>
-                <p class="poppins-regular">
-                    No change since wishlisting
-                </p>
-            </div>
-        </div>
-
-        <div class="product-card" @click="redirectProductPage()" v-else>
-            <!-- <h3 class="poppins-semibold">{{ top5WishlistedProducts[itemNumber].id }}</h3>
-            <img class="product-image" :src="top5WishlistedProducts[itemNumber].image_path" alt="product image">
-            <h1 class="poppins-semibold price-margin">{{ top5WishlistedProducts[itemNumber].NumWishlisted }}</h1> -->
-            <div class="pricechange-container" v-if="priceChange != 0">
-                <v-icon :icon="priceChange >= 0 ? 'mdi-arrow-up' : 'mdi-arrow-down'" 
-                    :color="priceChange >= 0 ? 'red' : 'green'"/>                
-                <p class="poppins-regular">
-                    <span :style="{ color: priceChange >= 0 ? 'red' : 'green' }">${{ Math.abs(priceChange) }}</span>
-                    since wishlisting
-                </p>
-            </div>
-            <div class="pricechange-container" v-else>
-                <p class="poppins-regular">
-                    No change since wishlisting
-                </p>
-            </div>
-        </div>
 
 
     </v-container>
@@ -66,16 +29,13 @@
 
 <script setup>
 import { defineProps, onMounted, onBeforeMount, ref } from 'vue'
-import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 
 let fullName = ref('')
 let price = ref('')
 let imageurl = ref('')
 let priceChange = ref(0)
-
-let top5ReviewedProducts = []
-let top5WishlistedProducts = []
 
 const router = useRouter()
 const props = defineProps({
@@ -84,15 +44,7 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-    wishlistedPrice: {
-        type: Number,
-        default: 0
-    },
-    itemNumber: Number,
-    reviewInsight: {
-        type: Boolean,
-        default: true
-    }
+  wishlistedPrice: Number
 })
 
 function redirectProductPage() {
@@ -107,53 +59,22 @@ onBeforeMount (() => {
 })
 
 onMounted (async () => {
-    const db = getFirestore()
-    const docRef = doc(db, 'Products', props.productName)
-    const docSnap = await getDoc(docRef)
+  const db = getFirestore()
+  const docRef = doc(db, 'Products', props.productName)
+  const docSnap = await getDoc(docRef)
 
-    const querySnapshotAllProd = await getDocs(collection(db, 'Products'))
-
-    querySnapshotAllProd.forEach((doc) => {
-        const product = doc.data();
-        product.id = doc.id; // Include the document ID in the product data
-        const entryRev = {
-            id: product.id,
-            Ratings: product.Ratings,
-            image_path: product.image_path
-        }
-        top5ReviewedProducts.push(entryRev);  
-        const entryWish = {
-            id: product.id,
-            NumWishlisted: product["Number Of Wishlists"],
-            image_path: product.image_path
-        };
-        top5WishlistedProducts.push(entryWish);
-    
-    });
-    
-    top5ReviewedProducts = top5ReviewedProducts
-        .sort((a, b) => b.Ratings - a.Ratings)
-        .slice(0, 5);
-
-    top5WishlistedProducts = top5WishlistedProducts
-        .sort((a, b) => b.NumWishlisted - a.NumWishlisted)
-        .slice(0, 5);
-
-    console.log(top5ReviewedProducts)
-    console.log(top5WishlistedProducts)
-
-    if (docSnap.exists()) {
-        const data = docSnap.data()
-        fullName.value = data.brand + ' ' + props.productName // fullName is Brand + productName
-        price.value = '$' + data["Current Price"] // edit here to make it dynamic
-        imageurl.value = data.image_path
-        priceChange.value = props.wishlistedPrice - data["Current Price"]
+if (docSnap.exists()) {
+    const data = docSnap.data()
+    fullName.value = data.brand + ' ' + props.productName // fullName is Brand + productName
+    price.value = '$' + data["Current Price"] // edit here to make it dynamic
+    imageurl.value = data.image_path
+    priceChange.value = props.wishlistedPrice - data["Current Price"]
 
 
-        console.log(fullName)
-        console.log(price)
-        console.log(imageurl)
-    }
+    console.log(fullName)
+    console.log(price)
+    console.log(imageurl)
+  }
 
 })
 

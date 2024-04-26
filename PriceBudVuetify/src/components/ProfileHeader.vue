@@ -93,7 +93,7 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
 
         const db = getFirestore();
         const userRef = doc(db, 'Users', this.userEmail);
-        await updateDoc(userRef, { Picture: url });
+        await setDoc(userRef, { Picture: url });
       });
     },
     async fetchProfileInfo() {
@@ -121,7 +121,7 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
       if (this.contact=== undefined) {
       this.contact = '';
       }
-      await updateDoc(userRef, {
+      await setDoc(userRef, {
       Preferences: this.preferences,
       Biography: this.biography,
       Contact: this.contact

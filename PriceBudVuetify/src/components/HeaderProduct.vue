@@ -5,26 +5,29 @@
             <h2 class="poppins-semibold"> Welcome Back, {{ username }} </h2>
             <p>{{ content }}</p>
 
-      <v-spacer></v-spacer>
-
-      <v-card-subtitle> {{ username }} </v-card-subtitle>
-
-      <v-menu>
-        <!-- activates the menu dropdown -->
-        <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn> 
-        </template>
-
-        <v-list>
-          <v-list-item>
-            <v-list-item-title>
-              <v-btn @click="redirectProfile">Profile</v-btn>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-toolbar>
-  </v-container>
+        </v-card-title>
+        <v-spacer></v-spacer>
+  
+        <v-icon icon="mdi-trophy" />
+  
+        <v-card-subtitle>{{ username }} </v-card-subtitle>
+  
+        <v-menu>
+          <!-- activates the menu dropdown -->
+          <template v-slot:activator="{ props }">
+            <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn> 
+          </template>
+  
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                <v-btn @click="redirectProfile">Profile</v-btn>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar>
+    </v-container>
 
     <v-container v-else>
         <v-toolbar density="compact" class="custom-toolbar">

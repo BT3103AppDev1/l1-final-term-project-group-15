@@ -6,7 +6,7 @@
         <p>Contribute to the community and input attractive prices that you know!</p>
       </div>
       <div id="buttonContainer">
-        <v-btn class = "openDialog" id="poppins-semibold" @click="dialog = true" color="rgba(105, 181, 120, 1)" rounded='xl' style="width: 18vw;">Input Details</v-btn>
+        <v-btn class = "openDialog" @click="dialog = true" color="rgba(105, 181, 120, 1)" rounded='xl' style="width: 18vw;">Input Details</v-btn>
 
         <v-dialog v-model="dialog" width="auto">
           <v-card  width="800" height="450">
@@ -172,10 +172,4 @@ onMounted(async () => {
   font-style: normal;
   font-size: 14px;
 }
-
-#poppins-semibold {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-}
-
 </style>
