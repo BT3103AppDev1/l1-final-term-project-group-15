@@ -90,8 +90,6 @@ defineProps({
 }
 
 .product-card {
-    /* width: 100%;
-    height: 100%; */
     height: fit-content;
     display: flex;
     flex-direction: column;
