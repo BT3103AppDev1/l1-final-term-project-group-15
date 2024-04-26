@@ -39,7 +39,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const router = useRouter();
 
-let username = ref(); // Replace this with the actual name from firebase
+let username = ref(); 
 
 
 const isLoggedIn = ref(false)
@@ -50,8 +50,6 @@ function redirectProfile() {
 }
 
 onMounted(() => {
-  console.log('mounted');
-
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
         isLoggedIn.value = true

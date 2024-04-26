@@ -145,7 +145,6 @@ export default {
   font-family: 'poppins';
 }
 
-/* Style for table headers */
 .v-data-table-header {
   font-weight: bold;
 }

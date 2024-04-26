@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <v-row class="mb-4"> <!-- Add margin-bottom class -->
+      <v-row class="mb-4"> 
 
         <!-- Sort Options Button -->
         <v-col>

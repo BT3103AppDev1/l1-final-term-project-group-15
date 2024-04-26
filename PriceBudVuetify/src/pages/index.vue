@@ -1,7 +1,6 @@
 <template>
   <v-sheet class="page-container">
-  <!-- for parent wrapper use vsheet as vcontainer has default margin -->
-  <!-- <router-link to="/SearchResults">Search</router-link> -->
+
   
     <SideBar class="sidebar" />
     
@@ -53,7 +52,6 @@ export default {
   data() {
     return {
       products: [
-        // your products data here...
         [
           {
               "name": "Samsung Galaxy S24",

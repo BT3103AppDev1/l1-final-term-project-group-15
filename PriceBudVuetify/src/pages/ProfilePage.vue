@@ -11,7 +11,7 @@
 
       </v-container>
 
-      <v-container v-else class="containerr">
+      <v-container v-else class="container">
         <HeaderComponent />
 
       <h2> Please Log In/Sign Up to see your profile!</h2>
@@ -74,6 +74,7 @@ export default {
     flex: 8;
     display: flex;
     flex-direction: column;
+    font-family:'Poppins';
   }
 
   .page-container {

@@ -1,6 +1,6 @@
 <template>
     <v-container class = "container">
-      <h1 class="text-h3">Help Center</h1>
+      <h3 class="text-h3">Help Center</h3>
   
       <v-card class="mb-4">
         <v-card-title>FAQs</v-card-title>
@@ -22,14 +22,7 @@
     </v-container>
   </template>
   
-  <script>
-  export default {
-    // Add your component logic here
-  };
-  </script>
-  
   <style scoped>
-  /* Add your component-specific styles here */
   .container {
     font-family: 'Poppins';
   }

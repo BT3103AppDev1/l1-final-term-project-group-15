@@ -67,7 +67,7 @@
               monthlyData[parseInt(monthYear*100 + 1)].push(parseInt(data[date]));
             });
             
-            // Calculate average for each month (or choose another aggregation method)
+            // Calculate average for each month 
             const result = {};
               Object.keys(monthlyData).forEach(month => {
                 let smallestNumber = Infinity; // Set initial smallest number to positive infinity

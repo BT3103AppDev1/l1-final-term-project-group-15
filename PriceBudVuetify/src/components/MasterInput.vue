@@ -58,13 +58,6 @@
                 v-model="selectedProduct"
               ></v-autocomplete>
 
-              <!-- <h4>Select Retailer</h4>
-              <v-autocomplete
-                label="Search retailer"
-                :items="['Lazada','Shopee','Amazon']"
-                v-model="retailer"
-              ></v-autocomplete> -->
-
               <h4>For retailer information:</h4>
               <div>
                 Map: date -> price
@@ -217,18 +210,6 @@ async function uploadAll() {
   dialog2.value = false
 }
 
- // Second dialogue functions
-// async function uploadRetailer() {
-//   if (!selectedFile2.value) return;
-//   try {
-//     const retData = await parseCSV(selectedFile2.value[0])
-//     await saveRetailersToFirestore(retData)
-//     dialog2.value = false
-//   } catch (error) {
-//     console.error('Error uploading retailer data:', error)
-//   }
-// }
-
 async function saveRetailersToFirestore(rows, retString) {
   const db = getFirestore()
   const docRef = doc(db, 'Products', selectedProduct.value)
@@ -293,13 +274,6 @@ async function saveRetailersToFirestore(rows, retString) {
       updateObj["Number Of Wishlists"] = productData["Number Of Wishlists"]
       updateObj["Ratings"] = productData["Ratings"]
     }
-
-    // Check date for price trend range
-    // const today = new Date()
-    // const year = today.getFullYear()
-    // const month = String(today.getMonth() + 1).padStart(2, '0')
-    // const day = String(today.getDate()).padStart(2, '0')
-    // const formattedDate = `${year}${month}${day}`
 
     for (const row of rows) {
       const date = row.Date;

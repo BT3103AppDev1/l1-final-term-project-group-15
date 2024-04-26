@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <h1 class="text-h3">Project Overview</h1>
+    <v-container class = "container">
+        <h3 class="text-h3">Project Overview</h3>
 
         <!-- Project Description -->
         <v-card class="mb-4">
@@ -22,11 +22,11 @@
         </v-card>
   
       <!-- Our Team -->
-        <v-card class="mb-4">
+        <v-card class="team">
         <v-card-title>Our Team</v-card-title>
         <v-card-text>
           <p>Meet the team behind our company:</p>
-          <ul>
+          <ul class = "memberlist">
             <li>Sean - CEO</li>
             <li>Ignitius - Scrum Master</li>
             <li>Beck-  Product Manager</li>
@@ -38,13 +38,16 @@
     </v-container>
   </template>
   
-  <script>
-  export default {
-    // Add any component logic here if needed
-  };
-  </script>
-  
-  <style scoped>
-  /* Add your component-specific styles here */
-  </style>
+<style scoped>
+.container {
+  font-family: 'Poppins';
+}
+.text-h3 {
+  font-family: 'Poppins';
+  margin-bottom: 20px;
+}
+.memberlist {
+  margin-left: 10px;
+}
+</style>
   

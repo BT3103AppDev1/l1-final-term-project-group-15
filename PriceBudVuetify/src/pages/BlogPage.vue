@@ -55,13 +55,13 @@
   }
   
   .sidebar {
-    width: 20%; /* Adjust this value based on your needs */
+    width: 20%; 
     height: 100vh;
     overflow-y: auto;
   }
   
   .right-container {
-    width: 80%; /* Adjust this value based on your needs */
+    width: 80%; 
     overflow-y: auto;
     height: 100vh;
   }
