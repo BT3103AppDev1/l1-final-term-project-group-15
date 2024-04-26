@@ -50,7 +50,7 @@
 </template>
   
   <script>
-import { getFirestore, doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 import DefaultProfilePic from "../assets/DefaultProfilePic.png"
   
@@ -180,7 +180,6 @@ import DefaultProfilePic from "../assets/DefaultProfilePic.png"
   height: 100%;
 }
   .container {
-    /* Add your custom styles here */
     font-family: 'Poppins';
     padding-bottom: 0;
     margin-bottom: 0;

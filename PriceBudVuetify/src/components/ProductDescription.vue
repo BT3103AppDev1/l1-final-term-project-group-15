@@ -54,7 +54,6 @@
   </script>
   
   <style scoped>
-  /* Component-specific styles */
   .description{
     font-family: 'poppins';
   }

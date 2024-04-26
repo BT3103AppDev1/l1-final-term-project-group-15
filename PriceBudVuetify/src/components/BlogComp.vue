@@ -51,27 +51,6 @@
           <v-icon style="padding-right: 3vw;" >mdi-comment-multiple-outline</v-icon>
           <span>{{ comments }}</span>
         </v-card-actions>
-
-  
-        <!-- Add comment button -->
-        <!-- <v-card-actions>
-          <v-btn class="add-comment-button" @click="dialog = true">Add Comment</v-btn>
-        </v-card-actions> -->
-  
-        <!-- Dialog for adding a comment -->
-        <!-- <v-dialog v-model="dialog" width="auto">
-            <v-card class="comment-dialog">
-            <v-card-title class="card-title">Add Comment</v-card-title>
-            <v-card-text>
-                <v-textarea label="Content" v-model="cardComment"></v-textarea>
-            </v-card-text>
-            <v-card-actions>
-                <v-btn class="post-btn" @click="commenting">Post</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn class="cancel-btn" color="red darken-1" @click="dialog = false">Cancel</v-btn>
-            </v-card-actions>
-            </v-card>
-        </v-dialog>  -->
       </v-card>
 
       <div class="spacer"></div>
@@ -96,7 +75,6 @@
 
       <!-- Comments -->
       <v-card v-for="(comment, index) in commentTexts" :key="index" class="mb-4 custom-card" variant="elevated">
-        <!-- <v-card-title class="title">{{ comment.commentUser }}</v-card-title> -->
         <v-card-item style="padding: 16px;" >
           <span class="commentUser">{{ comment.commentUser }}</span><br>
           <span class="commentDate">{{ comment.commentDate.toDate().toDateString() }}</span>
@@ -252,12 +230,6 @@
 </script>
 
 <style scoped>
-/* .blog-card {
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: lightGrey;
-} */
 .left-button {
   margin-right: 10px;
 }

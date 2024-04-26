@@ -83,8 +83,6 @@
 
     methods: {
       async fetchProductData() {
-        console.log(this.product)
-        console.log(this.userEmail)
         if (this.userEmail) {
           const db = getFirestore();
           const userDocRef = doc(db, 'Users', this.userEmail);
@@ -112,7 +110,7 @@
             console.log('No such document!');
           }
         } else {
-          console.log('Product ID is null!');
+          console.log('userEmail is null!');
         }
       },
       async deleteProduct(product) {

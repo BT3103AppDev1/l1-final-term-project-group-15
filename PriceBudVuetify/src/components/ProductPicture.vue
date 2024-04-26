@@ -84,6 +84,7 @@
       }
     },
     methods: {
+      //fetching product image from firestore
       async fetchProductImage() {
         if (this.product) {
           const db = getFirestore();
@@ -143,7 +144,7 @@
   }
   .image-container {
   width: 300px;
-  height: 300px; /* Set the width of the image container */
+  height: 300px; 
   }
 
   .image-container > .v-image {
