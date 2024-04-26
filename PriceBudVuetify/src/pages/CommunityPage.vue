@@ -69,9 +69,10 @@ export default {
 }
 
 .right-container {
-  width: 80%; /* Adjust this value based on your needs */
-  overflow-y: auto;
-  height: 100vh;
+  flex: 8;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins';
 }
 
 p {
