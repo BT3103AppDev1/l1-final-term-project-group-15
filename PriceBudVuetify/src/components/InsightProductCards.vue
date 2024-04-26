@@ -98,4 +98,8 @@ defineProps({
     cursor: pointer;
 }
 
+h3 {
+    white-space: nowrap;
+}
+
 </style>

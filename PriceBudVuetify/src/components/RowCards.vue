@@ -65,12 +65,14 @@
         <v-slide-group v-if="toggleOn" :key="toggleOn">
             <v-slide-item>
                 <div class="card-container">
-                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="5" 
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S23'" :rating="5" 
+                    :image_path="'https://m.media-amazon.com/images/I/613kyEJrNJL._AC_SX679_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="4.8" 
                     :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
-                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="5" 
-                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
-                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="4" 
-                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'iPhone 15'" :rating="4.3" 
+                    :image_path="'https://m.media-amazon.com/images/I/81fxjeu8fdL.__AC_SY445_SX342_QL70_ML2_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'iPhone 14'" :rating="4.0" 
+                    :image_path="'https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_SX679_.jpg'" :toggleOn="true" />
                 </div>
             </v-slide-item>
         </v-slide-group>
@@ -78,11 +80,13 @@
         <v-slide-group v-else>
             <v-slide-item>
                 <div class="card-container">
-                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
-                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />
-                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
-                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />
-                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S23'" :numWishlisted="1200" 
+                    :image_path="'https://m.media-amazon.com/images/I/613kyEJrNJL._AC_SX679_.jpg'" :toggleOn="false" />
+                    <InsightProductCards class="product-card" :productName="'Airpods'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/51X3q3vexdL.__AC_SX300_SY300_QL70_ML2_.jpg'" :toggleOn="false" />
+                    <InsightProductCards class="product-card" :productName="'iPhone 15'" :numWishlisted="953" 
+                    :image_path="'https://m.media-amazon.com/images/I/81fxjeu8fdL.__AC_SY445_SX342_QL70_ML2_.jpg'" :toggleOn="false" />  
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="832" 
                     :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />                
                 </div>
             </v-slide-item>
