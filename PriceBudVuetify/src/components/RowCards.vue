@@ -42,18 +42,48 @@
                 <p class="desc poppins-regular">These products have the most people adding to them to their Wishlist</p>
             </div>
             <div>
-                <v-button>
-                    Toggle
-                </v-button>
+                <v-menu transition="slide-y-transition">
+                    <template v-slot:activator="{ props }">
+                        <v-btn color="primary" v-bind="props" class="poppins-semibold">
+                        Toggle
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item @click="showReviewInsight()">
+                        <v-list-item-title>Most highly rated</v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-item @click="showWishlistInsight()">
+                        <v-list-item-title>Most wishlisted</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
             </div>
         </div>
         <!-- Product Cards -->
         <!-- for each insight, different data from Product object is required -->
-        <v-slide-group>
-            <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
+        <v-slide-group v-if="toggleOn" :key="toggleOn">
+            <v-slide-item>
                 <div class="card-container">
-                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />
-                    <!-- <h1>{{ product }}</h1> -->
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="5" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="5" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :rating="4" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="true" />
+                </div>
+            </v-slide-item>
+        </v-slide-group>
+
+        <v-slide-group v-else>
+            <v-slide-item>
+                <div class="card-container">
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />
+                    <InsightProductCards class="product-card" :productName="'Samsung Galaxy S24'" :numWishlisted="1000" 
+                    :image_path="'https://m.media-amazon.com/images/I/61fPsY4LFGL._AC_SX679_.jpg'" :toggleOn="false" />                
                 </div>
             </v-slide-item>
         </v-slide-group>
@@ -76,18 +106,32 @@ const props = defineProps({
   isLoggedIn: {
     type: Boolean,
     default: false
-  },
-  toggleOn: {
-    type: Boolean,
-    default: false
   }
 })
+
+let toggleOn = ref(true)
+
+function showReviewInsight() {
+    console.log('showing review insight')
+    toggleOn.value = true
+}
+
+function showWishlistInsight() {
+    console.log('showing wishlist insight')
+    toggleOn.value = false
+}
 
 // make wishlist dynamic on wishlisting (add date since wishlisted)
 
 
 let wishlistActual = ref([])
 let wishlistedPrices = ref([])
+
+// let top5ReviewedProductsActual = ref([])
+// let top5ReviewedProductsNumbers = ref([])
+
+// let top5WishlistedProductsActual = ref([])
+// let top5WishlistedProductsNumbers = ref([])
 
 watch(() => props.wishlist, (newWishlist) => {
   console.log('Wishlist changed')
@@ -99,9 +143,46 @@ watch(() => props.wishlist, (newWishlist) => {
   console.log(wishlistedPrices.value)
 })
 
+// watch(() => props.top5RevProd, (newTop5RevProd) => {
+//     console.log('Top 5 reviewed products changed')
+//     console.log(newTop5RevProd)
+//     Object.keys(newTop5RevProd).forEach(key => {
+//         const product = newTop5RevProd[key];
+//         top5ReviewedProductsActual.value.push(product.id);
+//     });
+//     Object.keys(newTop5RevProd).forEach(key => {
+//         const product = newTop5RevProd[key];
+//         top5ReviewedProductsNumbers.value.push(product["Ratings"]);
+//     });
+
+//   console.log(top5ReviewedProductsActual.value)
+//   console.log(top5ReviewedProductsNumbers.value)
+// })
+
+// watch(() => props.top5WishlistedProd, (newTop5WishlistedProd) => {
+//     console.log('Top 5 wishlisted products changed')
+//     console.log(newTop5WishlistedProd)
+//     Object.keys(newTop5WishlistedProd).forEach(key => {
+//         const product = newTop5WishlistedProd[key];
+//         top5WishlistedProductsActual.value.push(product.id);
+//     });    
+//     Object.keys(newTop5WishlistedProd).forEach(key => {
+//         const product = newTop5WishlistedProd[key];
+//         top5WishlistedProductsNumbers.value.push(product["Number Of Wishlists"]);
+//     });
+
+//     console.log(top5WishlistedProductsActual.value)
+//     console.log(top5WishlistedProductsActual.value
+//     .sort((a, b) => b - a)
+//     .slice(0, 5))
+//     console.log(top5WishlistedProductsNumbers.value)
+//     console.log(top5WishlistedProductsNumbers.value
+//     .sort((a, b) => b - a)
+//     .slice(0, 5))
+// })
+
 onMounted(() => {
   console.log('Mounted')
-  console.log(props.wishlist)
 })
 </script>
 
