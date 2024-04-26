@@ -73,6 +73,7 @@ export default {
   display: flex;
   flex-direction: column;
   font-family: 'Poppins';
+  overflow-y: auto;
 }
 
 p {
