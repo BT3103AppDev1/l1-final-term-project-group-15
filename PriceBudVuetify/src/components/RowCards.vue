@@ -68,13 +68,6 @@
         </div>
         <!-- Product Cards -->
         <!-- for each insight, different data from Product object is required -->
-<<<<<<< HEAD
-        <v-slide-group>
-            <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
-                <div class="card-container">
-                    <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />
-                    <!-- <h1>{{ product }}</h1> -->
-=======
         <v-slide-group v-if="toggleOn">
             <v-slide-item v-for="(product, i) in wishlistActual" :key="i">
                 <div class="card-container">
@@ -87,7 +80,6 @@
             <v-slide-item v-for="(itemNumber, i) in itemNumberArr" :key="i">
                 <div class="card-container">
                     <ProductCard class="product-card" :productName="product" :wishlistedPrice="wishlistedPrices[i]" />                    <!-- <h1>{{ product }}</h1> -->
->>>>>>> parent of 006a190 (Merge branch 'main' of https://github.com/BT3103AppDev1/l1-final-term-project-group-15)
                 </div>
             </v-slide-item>
         </v-slide-group>
@@ -119,8 +111,6 @@ const props = defineProps({
   }
 })
 
-<<<<<<< HEAD
-=======
 let toggleOn = ref(false)
 
 function showInsight1() {
